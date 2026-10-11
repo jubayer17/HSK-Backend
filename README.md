@@ -28,7 +28,7 @@ Built for Novotel & ibis budget Münster City.
 
 1. Staff upload the two daily **Opera task sheets** through the [frontend](https://github.com/jubayer17/HSK-Frontend).
 2. The backend **checks** they are valid, **reads** every room, and **assigns a cleaning colour** using the Director's rhythm rules.
-3. It draws a **coloured dot** next to each room number and returns the **marked PDF**.
+3. It returns one **PDF per hotel**: a designed report (summary, colour legend, room list per task sheet with colour, service and reason), followed by the **original Opera sheet** with a coloured dot next to each room number.
 
 ---
 
@@ -40,7 +40,7 @@ Built for Novotel & ibis budget Münster City.
 | 🗄️ Database | **Azure SQL** (SQL Server in Docker locally) with Dapper |
 | 📦 File storage | **Azure Blob Storage** (Azurite locally) |
 | 📖 PDF reading | **OpenDataLoader** (Java 17) |
-| 🖍️ PDF marking | **PDFsharp** (swappable for Syncfusion later) |
+| 🖍️ PDF report & marking | **PDFsharp** with the bundled Inter font (swappable for Syncfusion later) |
 | 🧪 Tests | xUnit + Testcontainers |
 
 ---
@@ -138,7 +138,7 @@ Each upload starts one **run**. Both files are processed side by side:
 | 3 | ✅ **Check** | Right report type, known hotel, recent, complete, one sheet per hotel, no duplicates |
 | 4 | 💾 **Save** | Stores rooms and totals; warns if the totals don't add up |
 | 5 | 🎨 **Colour** | Gives every room a colour based on the rhythm and guest stay |
-| 6 | 🖍️ **Mark** | Draws a coloured dot next to each room number |
+| 6 | 🖍️ **PDF** | Builds the report pages, then adds the original sheet with a coloured dot next to each room number |
 
 ### ⏰ Scheduled jobs (Berlin time)
 
@@ -174,7 +174,7 @@ Base URL: `http://localhost:7071/api` · Sign-in uses a secure session cookie.
 | `GET` | `/runs` | Last 100 runs |
 | `POST` | `/runs` | Start a run (upload 2 PDFs + guest requests) |
 | `GET` | `/runs/{id}` | Run progress, warnings, totals and room colours |
-| `GET` | `/runs/{id}/pdf/{hotelId}` | Marked PDF (add `?download=1` to download) |
+| `GET` | `/runs/{id}/pdf/{hotelId}` | Report + marked sheet PDF (add `?download=1` to download) |
 
 #### ❤️ Health
 | Method | Endpoint | Description |

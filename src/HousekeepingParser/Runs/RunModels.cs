@@ -20,7 +20,7 @@ public static class StepKeys
         (Check, "Check the file"),
         (Save, "Save rooms and totals"),
         (Colour, "Assign colours"),
-        (Mark, "Add coloured markers"),
+        (Mark, "Create the PDF report"),
     ];
 }
 

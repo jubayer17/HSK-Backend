@@ -73,7 +73,23 @@ public class RealReaderTests
         Assert.Equal(PdfPageSizes.Read(pdf).Count, PdfPageSizes.Read(marked).Count);
         // Optional visual check on a developer machine: HSK_MARK_OUT=/some/folder dotnet test …
         var outDir = Environment.GetEnvironmentVariable("HSK_MARK_OUT");
-        if (!string.IsNullOrEmpty(outDir)) await File.WriteAllBytesAsync(Path.Combine(outDir, "marked-" + Path.GetFileNameWithoutExtension(file) + ".pdf"), marked);
+        if (string.IsNullOrEmpty(outDir)) return;
+        await File.WriteAllBytesAsync(Path.Combine(outDir, "marked-" + Path.GetFileNameWithoutExtension(file) + ".pdf"), marked);
+
+        var rule = new HousekeepingParser.Coloring.ColorRuleService();
+        var date = report.Header!.ReportDate;
+        var rooms = report.Rooms.Select(r =>
+        {
+            var d = rule.Decide(new HousekeepingParser.Coloring.ColourInput(r.RoomNo, r.RoomStatus, r.ReservationStatus, r.Arrival, date,
+                HousekeepingParser.Core.RhythmType.TwoTages, []));
+            return new HousekeepingParser.PdfMarking.ReportRoom(r.RoomNo, r.SheetNo, r.RoomStatus, r.ReservationStatus, r.Arrival, r.Departure,
+                r.Adults, r.Children, d.Colour, d.Reason, d.Cleaned);
+        }).ToList();
+        var full = new HousekeepingParser.PdfMarking.PdfSharpReportRenderer().Compose(new HousekeepingParser.PdfMarking.RunReport(
+            report.Header.HotelId!.Value, date, report.Header.PublishedAtLocal, DateTime.Now, HousekeepingParser.Core.RhythmType.TwoTages, report.Summary,
+            report.Sheets.Select(s => new HousekeepingParser.PdfMarking.ReportSheet(s.SheetNo, s.TaskCodes, s.Instructions, s.Totals?.Rooms)).ToList(),
+            rooms, []), marked);
+        await File.WriteAllBytesAsync(Path.Combine(outDir, "report-" + Path.GetFileNameWithoutExtension(file) + ".pdf"), full);
     }
 
     private static string JavaPath()

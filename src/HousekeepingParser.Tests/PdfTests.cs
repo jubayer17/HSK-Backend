@@ -106,4 +106,31 @@ public class PdfTests
         Assert.True(PdfBytes.LooksLikePdf(original));
         Assert.False(PdfBytes.LooksLikePdf(Encoding.ASCII.GetBytes("hello world, not a pdf")));
     }
+
+    [Fact]
+    public void Report_pages_come_first_and_the_marked_sheet_follows_unchanged()
+    {
+        var marked = new PdfSharpMarker().AddDots(SyntheticPdf(), [new(1, 15, 534, 523, ColourName.Red)]);
+        var colours = new ColourName?[] { ColourName.Red, ColourName.Green, ColourName.Purple, ColourName.Blue, ColourName.Gold, null };
+        var rooms = Enumerable.Range(0, 90).Select(i => new ReportRoom(
+            (101 + i).ToString(), i < 50 ? "1" : "FLOAT", i % 3 == 0 ? "CL" : "DI", i % 4 == 0 ? "Due Out" : "Stayover",
+            new DateOnly(2026, 8, 27), new DateOnly(2026, 9, 1), 2, i % 5 == 0 ? 1 : 0,
+            colours[i % colours.Length], i % 6 == 5 ? "No booking on the sheet" : $"Night {i % 5} of stay", i % 7 != 1)).ToList();
+        var report = new RunReport(HotelId.Novotel, new DateOnly(2026, 8, 30), new DateTime(2026, 8, 30, 17, 34, 0), new DateTime(2026, 8, 31, 6, 50, 0),
+            RhythmType.TwoTages, new ReportSummary(2, 90, 23, 60, 30, 120m),
+            [new("1", "DEP, STAY", "Please check the minibar in every room on the fourth floor before noon.", 50), new("FLOAT", "", "Keine TA.", 41)],
+            rooms, ["Task sheet FLOAT: 40 rooms read, the sheet's own total says 41."]);
+
+        var pdf = new PdfSharpReportRenderer().Compose(report, marked);
+
+        using var doc = PdfReader.Open(new MemoryStream(pdf), PdfDocumentOpenMode.Import);
+        Assert.True(doc.PageCount >= 2 + 3, "summary and at least two room pages before the original");
+        var originalSizes = PdfPageSizes.Read(marked).OrderBy(p => p.Key).Select(p => p.Value).ToList();
+        var tail = PdfPageSizes.Read(pdf).OrderBy(p => p.Key).Select(p => p.Value).TakeLast(originalSizes.Count).ToList();
+        Assert.Equal(originalSizes, tail);
+
+        // Optional visual check on a developer machine: HSK_MARK_OUT=/some/folder dotnet test …
+        var outDir = Environment.GetEnvironmentVariable("HSK_MARK_OUT");
+        if (!string.IsNullOrEmpty(outDir)) File.WriteAllBytes(Path.Combine(outDir, "report-synthetic.pdf"), pdf);
+    }
 }

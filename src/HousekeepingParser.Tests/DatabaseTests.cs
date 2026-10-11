@@ -105,7 +105,7 @@ public sealed partial class DatabaseTests(SqlServerFixture sql)
             Auth = auth,
             Blobs = blobs,
             Runs = new RunService(db, blobs, rhythms, audit, clock),
-            Pipeline = new MorningRunPipeline(db, store, blobs, new FixtureExtractor(), new ColorRuleService(), rhythms, new PdfSharpMarker(),
+            Pipeline = new MorningRunPipeline(db, store, blobs, new FixtureExtractor(), new ColorRuleService(), rhythms, new PdfSharpMarker(), new PdfSharpReportRenderer(), clock,
                 Options.Create(new ValidationOptions { EnforceSheetAge = false }), NullLogger<MorningRunPipeline>.Instance),
             Director = await SignIn("director"),
             Operations = await SignIn("operations"),
@@ -303,7 +303,7 @@ public sealed partial class DatabaseTests(SqlServerFixture sql)
         // The marked PDF exists; the original went to the archive.
         var pdf = await e.Runs.OpenMarkedPdfAsync(runId, HotelId.IbisBudget, default);
         Assert.NotNull(pdf);
-        Assert.Equal("marked-ibis-budget-2026-08-30.pdf", pdf.Value.FileName);
+        Assert.Equal("housekeeping-plan-ibis-budget-2026-08-30.pdf", pdf.Value.FileName);
         Assert.DoesNotContain(e.Blobs.Blobs.Keys, k => k.Container == Containers.Incoming);
         Assert.Equal(2, e.Blobs.Blobs.Keys.Count(k => k.Container == Containers.Archive));
 

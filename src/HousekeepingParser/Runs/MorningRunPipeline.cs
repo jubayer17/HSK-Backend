@@ -25,6 +25,8 @@ public sealed class MorningRunPipeline(
     IColorRuleService colours,
     IRhythmService rhythms,
     IPdfMarker marker,
+    IRunReportRenderer reports,
+    IClock clock,
     IOptions<ValidationOptions> validation,
     ILogger<MorningRunPipeline> log)
 {
@@ -382,14 +384,64 @@ public sealed class MorningRunPipeline(
             return;
         }
 
+        // The download: designed report pages first, then the original sheet with its dots (unchanged).
+        var output = marked;
+        var withReport = false;
+        try
+        {
+            output = reports.Compose(await LoadReportAsync(fileId, file, ct), marked);
+            withReport = true;
+        }
+        catch (Exception ex) when (ex is not OperationCanceledException)
+        {
+            log.LogError("Report pages failed for file {FileId}: {Error}", fileId, ex.GetType().Name);
+            await store.WarnAsync(fileId, "REPORT_FAILED", "The summary pages could not be created. The PDF contains the marked task sheet only.");
+        }
+
         var markedName = $"{file.RunId:N}/{fileId:N}.pdf";
-        await blobs.UploadAsync(Containers.Marked, markedName, marked, ct);
+        await blobs.UploadAsync(Containers.Marked, markedName, output, ct);
         await blobs.MoveAsync(Containers.Incoming, Containers.Archive, file.BlobName, ct);
         await using (var c = await db.OpenAsync(ct))
         {
             await c.ExecuteAsync("UPDATE dbo.phase1_run_file SET marked_blob_name = @markedName WHERE file_id = @fileId", new { markedName, fileId });
         }
-        await store.StepAsync(fileId, StepKeys.Mark, "done", $"{dots.Count} markers added");
+        await store.StepAsync(fileId, StepKeys.Mark, "done",
+            withReport ? $"Report with {dots.Count} coloured rooms, followed by the marked task sheet" : $"{dots.Count} markers added (summary pages missing)");
+    }
+
+    private async Task<RunReport> LoadReportAsync(Guid fileId, RunStore.FileRow file, CancellationToken ct)
+    {
+        var hotel = (HotelId)file.HotelId!.Value;
+        await using var c = await db.OpenAsync(ct);
+
+        var summary = await c.QuerySingleOrDefaultAsync<ReportSummary>(
+            """
+            SELECT total_task_sheets AS TotalTaskSheets, total_rooms AS TotalRooms, departure_rooms AS DepartureRooms,
+                   dirty_rooms AS DirtyRooms, clean_rooms AS CleanRooms, total_credits AS TotalCredits
+            FROM dbo.report_summary WHERE file_id = @fileId
+            """, new { fileId });
+        var sheets = (await c.QueryAsync<ReportSheet>(
+            "SELECT sheet_no AS SheetNo, task_codes AS TaskCodes, instructions AS Instructions, total_rooms AS TotalRooms FROM dbo.task_sheets WHERE file_id = @fileId ORDER BY first_page, sheet_no",
+            new { fileId })).ToList();
+        var rooms = (await c.QueryAsync<ReportRoomRow>(
+            """
+            SELECT r.room_no AS RoomNo, r.sheet_no AS SheetNo, r.room_status AS RoomStatus, r.reservation_status AS ReservationStatus,
+                   r.arrival_date AS Arrival, r.departure_date AS Departure, r.adults AS Adults, r.children AS Children,
+                   s.final_colour AS Colour, s.reason AS Reason, s.cleaned AS Cleaned
+            FROM dbo.room_rows r
+            LEFT JOIN dbo.room_cleaning_status s ON s.file_id = r.file_id AND s.sheet_no = r.sheet_no AND s.room_no = r.room_no AND s.logic_version = 1
+            WHERE r.file_id = @fileId
+            ORDER BY r.page_no, r.y_top DESC
+            """, new { fileId })).Select(r => new ReportRoom(r.RoomNo, r.SheetNo, r.RoomStatus, r.ReservationStatus, r.Arrival, r.Departure,
+                r.Adults, r.Children, r.Colour is null ? null : Enum.Parse<ColourName>(r.Colour), r.Reason ?? "", r.Cleaned ?? false)).ToList();
+        var warnings = (await c.QueryAsync<string>(
+            "SELECT message FROM dbo.run_warning WHERE file_id = @fileId ORDER BY created_at_utc", new { fileId })).ToList();
+        var rhythm = await c.ExecuteScalarAsync<string?>(
+            "SELECT TOP 1 rhythm_type FROM dbo.rhythm_configuration WHERE hotel_id = @hotel AND status = 'ACTIVE' ORDER BY effective_from DESC",
+            new { hotel = (byte)hotel });
+
+        return new RunReport(hotel, file.ReportDate!.Value, file.PublishedAtLocal, Berlin.ToLocal(clock.UtcNow),
+            rhythm is null ? null : Enum.Parse<RhythmType>(rhythm), summary, sheets, rooms, warnings);
     }
 
     // ---------- finish ----------
@@ -458,6 +510,21 @@ public sealed class MorningRunPipeline(
         public string? Colour { get; set; }
         public DateOnly RequestDate { get; set; }
         public Guid RunId { get; set; }
+    }
+
+    private sealed class ReportRoomRow
+    {
+        public string RoomNo { get; set; } = "";
+        public string SheetNo { get; set; } = "";
+        public string RoomStatus { get; set; } = "";
+        public string ReservationStatus { get; set; } = "";
+        public DateOnly? Arrival { get; set; }
+        public DateOnly? Departure { get; set; }
+        public int? Adults { get; set; }
+        public int? Children { get; set; }
+        public string? Colour { get; set; }
+        public string? Reason { get; set; }
+        public bool? Cleaned { get; set; }
     }
 
     private sealed class DotRow

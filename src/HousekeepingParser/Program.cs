@@ -38,6 +38,7 @@ builder.Services.AddSingleton<IPdfProcessingAuditSink, SqlPdfProcessingAuditSink
 builder.Services.AddSingleton<ICompliantPdfExtractor, CompliantOpenDataLoaderExtractor>();
 builder.Services.AddSingleton<IColorRuleService, ColorRuleService>();
 builder.Services.AddSingleton<IPdfMarker, PdfSharpMarker>();
+builder.Services.AddSingleton<IRunReportRenderer, PdfSharpReportRenderer>();
 builder.Services.AddSingleton<IAuthService, AuthService>();
 builder.Services.AddSingleton<IRhythmService, RhythmService>();
 builder.Services.AddSingleton<IRunService, RunService>();

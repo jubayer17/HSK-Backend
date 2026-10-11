@@ -137,7 +137,7 @@ public sealed class RunService(IDbConnectionFactory db, IBlobStore blobs, IRhyth
         var stream = await blobs.OpenReadAsync(Containers.Marked, row.Blob, ct);
         if (stream is null) return null;
         var date = row.Date?.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) ?? "";
-        return (stream, $"marked-{(hotel == HotelId.Novotel ? "novotel" : "ibis-budget")}-{date}.pdf");
+        return (stream, $"housekeeping-plan-{(hotel == HotelId.Novotel ? "novotel" : "ibis-budget")}-{date}.pdf");
     }
 
     // ---------- reading a run for the screens ----------
