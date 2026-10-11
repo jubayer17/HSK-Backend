@@ -1,0 +1,11042 @@
+{
+"file name": "s1912132626.pdf",
+"number of pages": 6,
+"author": "Oracle Reports",
+"title": "task_sheet_report_fixture.PDF",
+"creation date": "D:20260830081937",
+"modification date": "D:20260830081937",
+"kids": [
+{
+"type": "header",
+"id": 1,
+"page number": 1,
+"bounding box": [
+3.73,
+702.432,
+580.028,
+792.0
+],
+"kids": [
+{
+"type": "image",
+"pdfua_tag": "Figure",
+"id": 2,
+"page number": 1,
+"bounding box": [
+13.52,
+771.52,
+71.28,
+792.0
+],
+"alt_source": "missing"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 3,
+"page number": 1,
+"bounding box": [
+240.52,
+748.641,
+580.028,
+782.002
+],
+"font": "Arial,Italic",
+"font size": 10.0,
+"text color": "[0.0]",
+"content": "Novotel Münster City 30.08.26\nTask Sheet Report 10:19"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 4,
+"page number": 1,
+"bounding box": [
+99.36,
+718.952,
+208.64,
+729.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "30.08.26/CLN,GLC,GPS,INS/1"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 5,
+"page number": 1,
+"bounding box": [
+3.73,
+702.432,
+85.968,
+728.362
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Task Sheet\nAttendant Id and Name"
+}
+]
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 132,
+"page number": 1,
+"bounding box": [
+114.53,
+682.952,
+267.842,
+713.151
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "MA90 / Mitarbeitender 10\nChris V."
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 6,
+"page number": 1,
+"bounding box": [
+3.76,
+682.952,
+81.072,
+693.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Attendant Instructions"
+},
+{
+"type": "heading",
+"pdfua_tag": "H2",
+"id": 8,
+"level": "Subtitle",
+"page number": 1,
+"bounding box": [
+3.76,
+672.185,
+50.416,
+681.122
+],
+"heading level": 2,
+"font": "Arial,Bold",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Task Details"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 135,
+"page number": 1,
+"bounding box": [
+3.73,
+653.722,
+58.818,
+664.441
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Task Sheet No."
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 9,
+"page number": 1,
+"bounding box": [
+3.76,
+640.192,
+291.016,
+664.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Completed Date\nAuto Generated"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 66,
+"page number": 1,
+"bounding box": [
+89.24,
+640.192,
+94.568,
+664.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1\nY"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 134,
+"page number": 1,
+"bounding box": [
+89.57,
+626.712,
+124.658,
+637.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Keine TA."
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 7,
+"page number": 1,
+"bounding box": [
+3.76,
+626.712,
+44.64,
+637.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Instructions"
+},
+{
+"type": "heading",
+"pdfua_tag": "H2",
+"id": 67,
+"level": "Subtitle",
+"page number": 1,
+"bounding box": [
+3.76,
+614.425,
+54.84,
+623.362
+],
+"heading level": 2,
+"font": "Arial,Bold",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Room Details"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 156,
+"page number": 1,
+"bounding box": [
+265.2,
+591.482,
+357.608,
+602.201
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Tasks / Room Instructions"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 36,
+"page number": 1,
+"bounding box": [
+14.8,
+581.752,
+36.136,
+602.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Room\nNo"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 62,
+"page number": 1,
+"bounding box": [
+39.76,
+581.752,
+62.416,
+602.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Room\nStatus"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 63,
+"page number": 1,
+"bounding box": [
+66.64,
+581.752,
+119.376,
+602.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Credits Resv\nStatus"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 68,
+"page number": 1,
+"bounding box": [
+138.52,
+591.472,
+213.48,
+602.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Arrival Departure"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 128,
+"page number": 1,
+"bounding box": [
+219.44,
+591.472,
+250.48,
+602.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Adl Chl"
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 10,
+"level": "1",
+"page number": 1,
+"bounding box": [
+14.8,
+498.472,
+28.144,
+571.071
+],
+"numbering style": "arabic numbers",
+"number of list items": 5,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 11,
+"page number": 1,
+"bounding box": [
+14.8,
+560.352,
+28.144,
+571.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "101",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 12,
+"page number": 1,
+"bounding box": [
+14.8,
+547.952,
+28.144,
+558.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "102",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 13,
+"page number": 1,
+"bounding box": [
+14.8,
+535.592,
+28.144,
+546.311
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "103",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 14,
+"page number": 1,
+"bounding box": [
+14.8,
+523.232,
+28.144,
+533.951
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "104",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 15,
+"page number": 1,
+"bounding box": [
+14.8,
+498.472,
+28.144,
+521.551
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "105\n110",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 16,
+"level": "1",
+"page number": 1,
+"bounding box": [
+14.8,
+374.712,
+28.144,
+496.791
+],
+"numbering style": "arabic numbers",
+"number of list items": 9,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 17,
+"page number": 1,
+"bounding box": [
+14.8,
+486.072,
+28.144,
+496.791
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "113",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 18,
+"page number": 1,
+"bounding box": [
+14.8,
+473.712,
+28.144,
+484.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "114",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 19,
+"page number": 1,
+"bounding box": [
+14.8,
+461.352,
+28.144,
+472.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "115",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 20,
+"page number": 1,
+"bounding box": [
+14.8,
+448.952,
+28.144,
+459.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "116",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 21,
+"page number": 1,
+"bounding box": [
+14.8,
+436.592,
+28.144,
+447.311
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "117",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 22,
+"page number": 1,
+"bounding box": [
+14.8,
+424.232,
+28.144,
+434.951
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "118",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 23,
+"page number": 1,
+"bounding box": [
+14.8,
+411.832,
+28.144,
+422.551
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "119",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 24,
+"page number": 1,
+"bounding box": [
+14.8,
+399.472,
+28.144,
+410.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "120",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 25,
+"page number": 1,
+"bounding box": [
+14.8,
+374.712,
+28.144,
+397.791
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "121\n126",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 26,
+"level": "1",
+"page number": 1,
+"bounding box": [
+14.8,
+263.352,
+28.144,
+373.071
+],
+"numbering style": "arabic numbers",
+"number of list items": 9,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 27,
+"page number": 1,
+"bounding box": [
+14.8,
+362.352,
+28.144,
+373.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "402",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 28,
+"page number": 1,
+"bounding box": [
+14.8,
+349.952,
+28.144,
+360.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "403",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 29,
+"page number": 1,
+"bounding box": [
+14.8,
+337.592,
+28.144,
+348.311
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "404",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 30,
+"page number": 1,
+"bounding box": [
+14.8,
+325.232,
+28.144,
+335.951
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "405",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 31,
+"page number": 1,
+"bounding box": [
+14.8,
+312.832,
+28.144,
+323.551
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "406",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 32,
+"page number": 1,
+"bounding box": [
+14.8,
+300.472,
+28.144,
+311.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "407",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 33,
+"page number": 1,
+"bounding box": [
+14.8,
+288.072,
+28.144,
+298.791
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "408",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 34,
+"page number": 1,
+"bounding box": [
+14.8,
+275.712,
+28.144,
+286.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "409",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 35,
+"page number": 1,
+"bounding box": [
+14.8,
+263.352,
+28.144,
+274.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "410",
+"kids": []
+}
+]
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 60,
+"page number": 1,
+"bounding box": [
+39.76,
+263.352,
+47.752,
+571.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "DI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 38,
+"page number": 1,
+"bounding box": [
+80.64,
+535.592,
+91.752,
+571.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2,5\n2,5\n2,5"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 61,
+"page number": 1,
+"bounding box": [
+96.28,
+263.352,
+129.176,
+571.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Due Out\nDue Out\nDue Out\nStayover\nStayover\nDeparted\nStayover\nStayover\nStayover\nDue Out\nStayover\nDue Out\nStayover\nDue Out\nDue Out\nDue Out\nDue Out\nStayover\nDeparted\nStayover\nDue Out\nStayover\nDeparted\nDue Out\nDue Out"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 39,
+"page number": 1,
+"bounding box": [
+87.31,
+510.832,
+91.758,
+533.951
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2\n2"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 40,
+"page number": 1,
+"bounding box": [
+80.64,
+498.472,
+91.752,
+509.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2,5"
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 41,
+"level": "1",
+"page number": 1,
+"bounding box": [
+80.64,
+424.232,
+91.752,
+496.791
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 42,
+"page number": 1,
+"bounding box": [
+80.64,
+486.072,
+91.752,
+496.791
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1,5",
+"kids": [
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 43,
+"level": "1",
+"page number": 1,
+"bounding box": [
+80.64,
+436.592,
+91.758,
+484.431
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 44,
+"page number": 1,
+"bounding box": [
+80.64,
+473.712,
+91.752,
+484.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1,5",
+"kids": [
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 45,
+"level": "1",
+"page number": 1,
+"bounding box": [
+80.64,
+448.952,
+91.752,
+472.071
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 46,
+"page number": 1,
+"bounding box": [
+80.64,
+461.352,
+91.752,
+472.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1,5",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 47,
+"page number": 1,
+"bounding box": [
+80.64,
+448.952,
+91.752,
+459.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2,5",
+"kids": []
+}
+]
+}
+]
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 48,
+"page number": 1,
+"bounding box": [
+87.31,
+436.592,
+91.758,
+447.311
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2",
+"kids": []
+}
+]
+}
+]
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 49,
+"page number": 1,
+"bounding box": [
+80.64,
+424.232,
+91.752,
+434.951
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2,5",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 50,
+"level": "1",
+"page number": 1,
+"bounding box": [
+80.64,
+362.352,
+91.752,
+422.551
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 51,
+"page number": 1,
+"bounding box": [
+80.64,
+411.832,
+91.752,
+422.551
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1,5",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 52,
+"page number": 1,
+"bounding box": [
+80.64,
+362.352,
+91.752,
+410.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2,5\n2,5\n2,5\n2,5",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 53,
+"level": "1",
+"page number": 1,
+"bounding box": [
+80.64,
+337.592,
+91.752,
+360.671
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 54,
+"page number": 1,
+"bounding box": [
+80.64,
+349.952,
+91.752,
+360.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1,5",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 55,
+"page number": 1,
+"bounding box": [
+80.64,
+337.592,
+91.752,
+348.311
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2,5",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 56,
+"level": "1",
+"page number": 1,
+"bounding box": [
+80.64,
+300.472,
+91.758,
+335.951
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 57,
+"page number": 1,
+"bounding box": [
+80.64,
+325.232,
+91.752,
+335.951
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1,5",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 58,
+"page number": 1,
+"bounding box": [
+80.64,
+300.472,
+91.758,
+323.551
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2,5\n2",
+"kids": []
+}
+]
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 59,
+"page number": 1,
+"bounding box": [
+80.64,
+263.352,
+91.752,
+298.791
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2,5\n2,5\n2,5"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 69,
+"page number": 1,
+"bounding box": [
+138.08,
+560.352,
+169.2,
+571.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "28.08.26"
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 70,
+"level": "1",
+"page number": 1,
+"bounding box": [
+138.08,
+510.832,
+169.2,
+558.671
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 71,
+"page number": 1,
+"bounding box": [
+138.08,
+547.952,
+169.2,
+558.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "28.08.26",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 72,
+"page number": 1,
+"bounding box": [
+138.08,
+510.832,
+169.2,
+546.311
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "29.08.26\n28.08.26\n28.08.26",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 73,
+"level": "1",
+"page number": 1,
+"bounding box": [
+138.08,
+486.072,
+169.2,
+509.191
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 74,
+"page number": 1,
+"bounding box": [
+138.08,
+498.472,
+169.2,
+509.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "28.08.26",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 75,
+"page number": 1,
+"bounding box": [
+138.08,
+486.072,
+169.2,
+496.791
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "29.08.26",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 76,
+"level": "1",
+"page number": 1,
+"bounding box": [
+138.08,
+362.352,
+169.2,
+484.431
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 77,
+"page number": 1,
+"bounding box": [
+138.08,
+473.712,
+169.2,
+484.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "27.08.26",
+"kids": [
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 78,
+"level": "1",
+"page number": 1,
+"bounding box": [
+138.08,
+399.472,
+169.2,
+472.071
+],
+"numbering style": "arabic numbers",
+"number of list items": 4,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 79,
+"page number": 1,
+"bounding box": [
+138.08,
+461.352,
+169.2,
+472.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "26.08.26",
+"kids": [
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 80,
+"page number": 1,
+"bounding box": [
+138.08,
+448.952,
+169.2,
+459.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "28.08.26"
+}
+]
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 81,
+"page number": 1,
+"bounding box": [
+138.08,
+436.592,
+169.2,
+447.311
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "27.08.26",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 82,
+"page number": 1,
+"bounding box": [
+138.08,
+424.232,
+169.2,
+434.951
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "28.08.26",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 83,
+"page number": 1,
+"bounding box": [
+138.08,
+399.472,
+169.2,
+422.551
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "29.08.26\n25.08.26",
+"kids": []
+}
+]
+}
+]
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 84,
+"page number": 1,
+"bounding box": [
+138.08,
+362.352,
+169.2,
+397.791
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "29.08.26\n28.08.26\n28.08.26",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 85,
+"level": "1",
+"page number": 1,
+"bounding box": [
+138.08,
+288.072,
+169.2,
+360.671
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 86,
+"page number": 1,
+"bounding box": [
+138.08,
+349.952,
+169.2,
+360.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "27.08.26",
+"kids": [
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 87,
+"level": "1",
+"page number": 1,
+"bounding box": [
+138.08,
+300.472,
+169.2,
+348.311
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 88,
+"page number": 1,
+"bounding box": [
+138.08,
+337.592,
+169.2,
+348.311
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "27.08.26",
+"kids": [
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 89,
+"level": "1",
+"page number": 1,
+"bounding box": [
+138.08,
+312.832,
+169.2,
+335.951
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 90,
+"page number": 1,
+"bounding box": [
+138.08,
+325.232,
+169.2,
+335.951
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "27.08.26",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 91,
+"page number": 1,
+"bounding box": [
+138.08,
+312.832,
+169.2,
+323.551
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "28.08.26",
+"kids": []
+}
+]
+}
+]
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 92,
+"page number": 1,
+"bounding box": [
+138.08,
+300.472,
+169.2,
+311.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "28.08.26",
+"kids": []
+}
+]
+}
+]
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 93,
+"page number": 1,
+"bounding box": [
+138.08,
+288.072,
+169.2,
+298.791
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "28.08.26",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 94,
+"level": "1",
+"page number": 1,
+"bounding box": [
+138.08,
+263.352,
+169.2,
+286.431
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"next list id": 97,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 95,
+"page number": 1,
+"bounding box": [
+138.08,
+275.712,
+169.2,
+286.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "28.08.26",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 96,
+"page number": 1,
+"bounding box": [
+138.08,
+263.352,
+169.2,
+274.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "29.08.26",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 97,
+"level": "1",
+"page number": 1,
+"bounding box": [
+177.48,
+461.352,
+208.6,
+571.071
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"previous list id": 94,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 98,
+"page number": 1,
+"bounding box": [
+177.48,
+560.352,
+208.6,
+571.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "30.08.26",
+"kids": [
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 99,
+"level": "1",
+"page number": 1,
+"bounding box": [
+177.48,
+510.832,
+208.6,
+558.671
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 100,
+"page number": 1,
+"bounding box": [
+177.48,
+547.952,
+208.6,
+558.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "30.08.26",
+"kids": [
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 101,
+"level": "1",
+"page number": 1,
+"bounding box": [
+177.48,
+523.232,
+208.6,
+546.311
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 102,
+"page number": 1,
+"bounding box": [
+177.48,
+535.592,
+208.6,
+546.311
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "30.08.26",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 103,
+"page number": 1,
+"bounding box": [
+177.48,
+523.232,
+208.6,
+533.951
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "31.08.26",
+"kids": []
+}
+]
+}
+]
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 104,
+"page number": 1,
+"bounding box": [
+177.48,
+510.832,
+208.6,
+521.551
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "31.08.26",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 105,
+"level": "1",
+"page number": 1,
+"bounding box": [
+177.48,
+486.072,
+208.6,
+509.191
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 106,
+"page number": 1,
+"bounding box": [
+177.48,
+498.472,
+208.6,
+509.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "30.08.26",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 107,
+"page number": 1,
+"bounding box": [
+177.48,
+486.072,
+208.6,
+496.791
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "31.08.26",
+"kids": []
+}
+]
+}
+]
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 108,
+"page number": 1,
+"bounding box": [
+177.48,
+461.352,
+208.6,
+484.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "31.08.26\n31.08.26",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 109,
+"level": "1",
+"page number": 1,
+"bounding box": [
+177.48,
+374.712,
+208.6,
+459.671
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 110,
+"page number": 1,
+"bounding box": [
+177.48,
+448.952,
+208.6,
+459.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "30.08.26",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 111,
+"page number": 1,
+"bounding box": [
+177.48,
+374.712,
+208.6,
+447.311
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "31.08.26\n30.08.26\n01.09.26\n30.08.26\n30.08.26\n30.08.26",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 112,
+"level": "1",
+"page number": 1,
+"bounding box": [
+177.48,
+349.952,
+208.6,
+373.071
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 113,
+"page number": 1,
+"bounding box": [
+177.48,
+362.352,
+208.6,
+373.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "30.08.26",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 114,
+"page number": 1,
+"bounding box": [
+177.48,
+349.952,
+208.6,
+360.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "31.08.26",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 115,
+"level": "1",
+"page number": 1,
+"bounding box": [
+177.48,
+325.232,
+208.6,
+348.311
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 116,
+"page number": 1,
+"bounding box": [
+177.48,
+337.592,
+208.6,
+348.311
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "30.08.26",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 117,
+"page number": 1,
+"bounding box": [
+177.48,
+325.232,
+208.6,
+335.951
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "31.08.26",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 118,
+"level": "1",
+"page number": 1,
+"bounding box": [
+177.48,
+263.352,
+208.6,
+323.551
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 119,
+"page number": 1,
+"bounding box": [
+177.48,
+312.832,
+208.6,
+323.551
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "30.08.26",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 120,
+"page number": 1,
+"bounding box": [
+177.48,
+263.352,
+208.6,
+311.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "31.08.26\n30.08.26\n30.08.26\n30.08.26",
+"kids": []
+}
+]
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 137,
+"page number": 1,
+"bounding box": [
+231.96,
+510.842,
+236.408,
+571.081
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2\n2\n2\n1\n1"
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 138,
+"level": "1",
+"page number": 1,
+"bounding box": [
+231.96,
+473.722,
+236.408,
+509.201
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 139,
+"page number": 1,
+"bounding box": [
+231.96,
+498.482,
+236.408,
+509.201
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 140,
+"page number": 1,
+"bounding box": [
+231.96,
+473.722,
+236.408,
+496.801
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2\n1",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 141,
+"level": "1",
+"page number": 1,
+"bounding box": [
+231.96,
+448.962,
+236.408,
+472.081
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 142,
+"page number": 1,
+"bounding box": [
+231.96,
+461.362,
+236.408,
+472.081
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 143,
+"page number": 1,
+"bounding box": [
+231.96,
+448.962,
+236.408,
+459.681
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 144,
+"level": "1",
+"page number": 1,
+"bounding box": [
+231.96,
+411.842,
+236.408,
+447.321
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 145,
+"page number": 1,
+"bounding box": [
+231.96,
+436.602,
+236.408,
+447.321
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 146,
+"page number": 1,
+"bounding box": [
+231.96,
+411.842,
+236.408,
+434.961
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2\n1",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 147,
+"level": "1",
+"page number": 1,
+"bounding box": [
+231.96,
+362.362,
+236.408,
+410.201
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 148,
+"page number": 1,
+"bounding box": [
+231.96,
+399.482,
+236.408,
+410.201
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 149,
+"page number": 1,
+"bounding box": [
+231.96,
+362.362,
+236.408,
+397.801
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2\n1\n1",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 150,
+"level": "1",
+"page number": 1,
+"bounding box": [
+231.96,
+288.082,
+236.408,
+360.681
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 151,
+"page number": 1,
+"bounding box": [
+231.96,
+349.962,
+236.408,
+360.681
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 152,
+"page number": 1,
+"bounding box": [
+231.96,
+288.082,
+236.408,
+348.321
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2\n1\n1\n1\n1",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 153,
+"level": "1",
+"page number": 1,
+"bounding box": [
+231.96,
+263.362,
+236.408,
+286.441
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 154,
+"page number": 1,
+"bounding box": [
+231.96,
+275.722,
+236.408,
+286.441
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 155,
+"page number": 1,
+"bounding box": [
+231.96,
+263.362,
+236.408,
+274.081
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2",
+"kids": []
+}
+]
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 37,
+"page number": 1,
+"bounding box": [
+264.8,
+263.352,
+359.472,
+571.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Tasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:GPS\nTasks:GPS\nTasks:CLN(Linen Change)\nTasks:INS\nTasks:INS\nTasks:INS\nTasks:CLN(Linen Change)\nTasks:GPS\nTasks:CLN(Linen Change)\nTasks:INS\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:INS\nTasks:CLN(Linen Change)\nTasks:INS\nTasks:CLN(Linen Change)\nTasks:GPS\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 133,
+"page number": 1,
+"bounding box": [
+114.25,
+246.552,
+297.25,
+257.271
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "MA90 - Mitarbeitender 10"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 136,
+"page number": 1,
+"bounding box": [
+8.21,
+247.035,
+79.69,
+255.972
+],
+"font": "Arial,Bold",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Total for Attendant"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 65,
+"page number": 1,
+"bounding box": [
+8.24,
+232.192,
+53.56,
+242.911
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Total Rooms"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 123,
+"page number": 1,
+"bounding box": [
+116.24,
+232.192,
+125.136,
+242.911
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "25"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 129,
+"page number": 1,
+"bounding box": [
+8.24,
+218.712,
+125.136,
+229.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Departure Rooms 12"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 122,
+"page number": 1,
+"bounding box": [
+8.24,
+205.192,
+50.44,
+215.911
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Total Adults"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 125,
+"page number": 1,
+"bounding box": [
+116.24,
+205.192,
+125.136,
+215.911
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "34"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 131,
+"page number": 1,
+"bounding box": [
+8.21,
+191.712,
+57.978,
+202.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Total Children"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 64,
+"page number": 1,
+"bounding box": [
+8.24,
+178.192,
+53.552,
+188.911
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Total Credits"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 124,
+"page number": 1,
+"bounding box": [
+116.24,
+178.192,
+131.8,
+188.911
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "54,5"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 121,
+"page number": 1,
+"bounding box": [
+8.24,
+164.712,
+24.672,
+175.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Dirty"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 126,
+"page number": 1,
+"bounding box": [
+116.24,
+164.712,
+125.136,
+175.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "25"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 130,
+"page number": 1,
+"bounding box": [
+12.73,
+141.472,
+119.41,
+152.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "@ Sleep # Skip ! Arrival"
+},
+{
+"type": "footer",
+"id": 157,
+"page number": 1,
+"bounding box": [
+9.08,
+12.209,
+580.054,
+58.562
+],
+"kids": [
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 158,
+"page number": 1,
+"bounding box": [
+333.366,
+49.625,
+580.054,
+58.562
+],
+"font": "Arial,Italic",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Page 1 of 6 hsk_tasksheet_11"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 159,
+"page number": 1,
+"bounding box": [
+9.08,
+12.209,
+208.616,
+56.392
+],
+"font": "Arial,Italic",
+"font size": 6.0,
+"text color": "[0.0]",
+"content": "Filter Task Date From 30.08.26 to 30.08.26 Attendant: ALL\nTask Code: CLN,GLC,GPS,INS\nShow Due Outs Only: N\nShow HouseUse: Y\nTask Sheet From 1 to 9999999999\nUse Priority: Y"
+}
+]
+},
+{
+"type": "header",
+"id": 160,
+"page number": 2,
+"bounding box": [
+3.73,
+702.432,
+580.028,
+792.0
+],
+"kids": [
+{
+"type": "image",
+"pdfua_tag": "Figure",
+"id": 161,
+"page number": 2,
+"bounding box": [
+13.52,
+771.52,
+71.28,
+792.0
+],
+"alt_source": "missing"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 162,
+"page number": 2,
+"bounding box": [
+240.52,
+748.641,
+580.028,
+782.002
+],
+"font": "Arial,Italic",
+"font size": 10.0,
+"text color": "[0.0]",
+"content": "Novotel Münster City 30.08.26\nTask Sheet Report 10:19"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 163,
+"page number": 2,
+"bounding box": [
+99.36,
+718.952,
+208.64,
+729.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "30.08.26/CLN,GLC,GPS,INS/2"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 164,
+"page number": 2,
+"bounding box": [
+3.73,
+702.432,
+85.968,
+728.362
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Task Sheet\nAttendant Id and Name"
+}
+]
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 272,
+"page number": 2,
+"bounding box": [
+114.53,
+682.952,
+267.842,
+713.151
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "MA91 / Mitarbeitender 11\nLee Z."
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 165,
+"page number": 2,
+"bounding box": [
+3.76,
+682.952,
+81.072,
+693.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Attendant Instructions"
+},
+{
+"type": "heading",
+"pdfua_tag": "H2",
+"id": 167,
+"level": "Subtitle",
+"page number": 2,
+"bounding box": [
+3.76,
+672.185,
+50.416,
+681.122
+],
+"heading level": 2,
+"font": "Arial,Bold",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Task Details"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 275,
+"page number": 2,
+"bounding box": [
+3.73,
+653.722,
+58.818,
+664.441
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Task Sheet No."
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 168,
+"page number": 2,
+"bounding box": [
+3.76,
+640.192,
+291.016,
+664.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Completed Date\nAuto Generated"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 220,
+"page number": 2,
+"bounding box": [
+89.24,
+640.192,
+94.568,
+664.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2\nY"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 166,
+"page number": 2,
+"bounding box": [
+3.76,
+626.712,
+44.64,
+637.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Instructions"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 274,
+"page number": 2,
+"bounding box": [
+89.57,
+626.712,
+124.658,
+637.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Keine TA."
+},
+{
+"type": "heading",
+"pdfua_tag": "H2",
+"id": 221,
+"level": "Subtitle",
+"page number": 2,
+"bounding box": [
+3.76,
+614.425,
+54.84,
+623.362
+],
+"heading level": 2,
+"font": "Arial,Bold",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Room Details"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 303,
+"page number": 2,
+"bounding box": [
+265.2,
+591.482,
+357.608,
+602.201
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Tasks / Room Instructions"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 194,
+"page number": 2,
+"bounding box": [
+14.8,
+581.752,
+36.136,
+602.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Room\nNo"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 216,
+"page number": 2,
+"bounding box": [
+39.76,
+581.752,
+62.416,
+602.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Room\nStatus"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 217,
+"page number": 2,
+"bounding box": [
+66.64,
+581.752,
+119.376,
+602.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Credits Resv\nStatus"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 222,
+"page number": 2,
+"bounding box": [
+138.52,
+591.472,
+213.48,
+602.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Arrival Departure"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 266,
+"page number": 2,
+"bounding box": [
+219.44,
+591.472,
+250.48,
+602.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Adl Chl"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 277,
+"page number": 2,
+"bounding box": [
+4.05,
+523.042,
+6.266,
+533.761
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "!"
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 169,
+"level": "1",
+"page number": 2,
+"bounding box": [
+14.8,
+535.592,
+28.144,
+571.071
+],
+"numbering style": "arabic numbers",
+"number of list items": 3,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 170,
+"page number": 2,
+"bounding box": [
+14.8,
+560.352,
+28.144,
+571.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "201",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 171,
+"page number": 2,
+"bounding box": [
+14.8,
+547.952,
+28.144,
+558.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "202",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 172,
+"page number": 2,
+"bounding box": [
+14.8,
+535.592,
+28.144,
+546.311
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "203",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 173,
+"level": "1",
+"page number": 2,
+"bounding box": [
+14.8,
+486.072,
+28.144,
+533.951
+],
+"numbering style": "arabic numbers",
+"number of list items": 4,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 174,
+"page number": 2,
+"bounding box": [
+14.8,
+523.232,
+28.144,
+533.951
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "205",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 175,
+"page number": 2,
+"bounding box": [
+14.8,
+510.832,
+28.144,
+521.551
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "206",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 176,
+"page number": 2,
+"bounding box": [
+14.8,
+498.472,
+28.144,
+509.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "207",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 177,
+"page number": 2,
+"bounding box": [
+14.8,
+486.072,
+28.144,
+496.791
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "208",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 178,
+"level": "1",
+"page number": 2,
+"bounding box": [
+14.8,
+461.352,
+28.144,
+484.431
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 179,
+"page number": 2,
+"bounding box": [
+14.8,
+473.712,
+28.144,
+484.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "211",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 180,
+"page number": 2,
+"bounding box": [
+14.8,
+461.352,
+28.144,
+472.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "212",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 181,
+"level": "1",
+"page number": 2,
+"bounding box": [
+14.8,
+312.832,
+28.144,
+459.671
+],
+"numbering style": "arabic numbers",
+"number of list items": 12,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 182,
+"page number": 2,
+"bounding box": [
+14.8,
+448.952,
+28.144,
+459.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "215",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 183,
+"page number": 2,
+"bounding box": [
+14.8,
+436.592,
+28.144,
+447.311
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "216",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 184,
+"page number": 2,
+"bounding box": [
+14.8,
+424.232,
+28.144,
+434.951
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "217",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 185,
+"page number": 2,
+"bounding box": [
+14.8,
+411.832,
+28.144,
+422.551
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "218",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 186,
+"page number": 2,
+"bounding box": [
+14.8,
+399.472,
+28.144,
+410.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "219",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 187,
+"page number": 2,
+"bounding box": [
+14.8,
+387.072,
+28.144,
+397.791
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "220",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 188,
+"page number": 2,
+"bounding box": [
+14.8,
+374.712,
+28.144,
+385.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "221",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 189,
+"page number": 2,
+"bounding box": [
+14.8,
+362.352,
+28.144,
+373.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "222",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 190,
+"page number": 2,
+"bounding box": [
+14.8,
+349.952,
+28.144,
+360.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "223",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 191,
+"page number": 2,
+"bounding box": [
+14.8,
+337.592,
+28.144,
+348.311
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "224",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 192,
+"page number": 2,
+"bounding box": [
+14.8,
+325.232,
+28.144,
+335.951
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "225",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 193,
+"page number": 2,
+"bounding box": [
+14.8,
+312.832,
+28.144,
+323.551
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "226",
+"kids": []
+}
+]
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 214,
+"page number": 2,
+"bounding box": [
+39.76,
+312.832,
+47.752,
+571.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "DI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 196,
+"page number": 2,
+"bounding box": [
+80.64,
+510.832,
+91.752,
+571.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2,5\n2,5\n2,5\n2,5\n2,5"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 215,
+"page number": 2,
+"bounding box": [
+96.28,
+312.832,
+129.176,
+571.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Arrival\nDue Out\nDeparted\nDue Out\nDeparted\nStayover\nStayover\nStayover\nStayover\nDue Out\nDue Out\nDeparted\nDeparted\nDeparted\nDeparted\nStayover\nDue Out\nDue Out\nStayover\nDue Out\nDue Out"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 197,
+"page number": 2,
+"bounding box": [
+87.31,
+498.472,
+91.758,
+509.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2"
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 198,
+"level": "1",
+"page number": 2,
+"bounding box": [
+80.64,
+387.072,
+91.752,
+496.791
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 199,
+"page number": 2,
+"bounding box": [
+80.64,
+486.072,
+91.752,
+496.791
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1,5",
+"kids": [
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 200,
+"level": "1",
+"page number": 2,
+"bounding box": [
+80.64,
+436.592,
+91.752,
+484.431
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 201,
+"page number": 2,
+"bounding box": [
+80.64,
+473.712,
+91.752,
+484.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1,5",
+"kids": [
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 202,
+"level": "1",
+"page number": 2,
+"bounding box": [
+80.64,
+448.952,
+91.752,
+472.071
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 203,
+"page number": 2,
+"bounding box": [
+80.64,
+461.352,
+91.752,
+472.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1,5",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 204,
+"page number": 2,
+"bounding box": [
+80.64,
+448.952,
+91.752,
+459.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2,5",
+"kids": []
+}
+]
+}
+]
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 205,
+"page number": 2,
+"bounding box": [
+80.64,
+436.592,
+91.752,
+447.311
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2,5",
+"kids": []
+}
+]
+}
+]
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 206,
+"page number": 2,
+"bounding box": [
+80.64,
+387.072,
+91.752,
+434.951
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2,5\n2,5\n2,5\n2,5",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 207,
+"level": "1",
+"page number": 2,
+"bounding box": [
+80.64,
+349.952,
+91.752,
+385.431
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 208,
+"page number": 2,
+"bounding box": [
+80.64,
+374.712,
+91.752,
+385.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1,5",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 209,
+"page number": 2,
+"bounding box": [
+80.64,
+349.952,
+91.752,
+373.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2,5\n2,5",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 210,
+"level": "1",
+"page number": 2,
+"bounding box": [
+87.31,
+325.232,
+91.758,
+348.311
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 211,
+"page number": 2,
+"bounding box": [
+87.31,
+337.592,
+91.758,
+348.311
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 212,
+"page number": 2,
+"bounding box": [
+87.31,
+325.232,
+91.758,
+335.951
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "3",
+"kids": []
+}
+]
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 213,
+"page number": 2,
+"bounding box": [
+80.64,
+312.832,
+91.752,
+323.551
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2,5"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 223,
+"page number": 2,
+"bounding box": [
+138.08,
+547.952,
+169.2,
+571.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "30.08.26\n29.08.26"
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 224,
+"level": "1",
+"page number": 2,
+"bounding box": [
+138.08,
+510.832,
+169.2,
+546.311
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 225,
+"page number": 2,
+"bounding box": [
+138.08,
+535.592,
+169.2,
+546.311
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "28.08.26",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 226,
+"page number": 2,
+"bounding box": [
+138.08,
+510.832,
+169.2,
+533.951
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "29.08.26\n28.08.26",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 227,
+"level": "1",
+"page number": 2,
+"bounding box": [
+138.08,
+498.472,
+169.2,
+509.191
+],
+"numbering style": "arabic numbers",
+"number of list items": 1,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 228,
+"page number": 2,
+"bounding box": [
+138.08,
+498.472,
+169.2,
+509.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "28.08.26",
+"kids": [
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 229,
+"level": "1",
+"page number": 2,
+"bounding box": [
+138.08,
+349.952,
+169.2,
+496.791
+],
+"numbering style": "arabic numbers",
+"number of list items": 3,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 230,
+"page number": 2,
+"bounding box": [
+138.08,
+486.072,
+169.2,
+496.791
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "27.08.26",
+"kids": [
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 231,
+"level": "1",
+"page number": 2,
+"bounding box": [
+138.08,
+436.592,
+169.2,
+484.431
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 232,
+"page number": 2,
+"bounding box": [
+138.08,
+461.352,
+169.2,
+484.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "27.08.26\n01.08.26",
+"kids": [
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 233,
+"page number": 2,
+"bounding box": [
+138.08,
+448.952,
+169.2,
+459.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "29.08.26"
+}
+]
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 234,
+"page number": 2,
+"bounding box": [
+138.08,
+436.592,
+169.2,
+447.311
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "28.08.26",
+"kids": []
+}
+]
+}
+]
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 235,
+"page number": 2,
+"bounding box": [
+138.08,
+424.232,
+169.2,
+434.951
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "28.08.26",
+"kids": [
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 236,
+"level": "1",
+"page number": 2,
+"bounding box": [
+138.08,
+399.472,
+169.2,
+422.551
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 237,
+"page number": 2,
+"bounding box": [
+138.08,
+411.832,
+169.2,
+422.551
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "28.08.26",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 238,
+"page number": 2,
+"bounding box": [
+138.08,
+399.472,
+169.2,
+410.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "29.08.26",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 239,
+"level": "1",
+"page number": 2,
+"bounding box": [
+138.08,
+374.712,
+169.2,
+397.791
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 240,
+"page number": 2,
+"bounding box": [
+138.08,
+387.072,
+169.2,
+397.791
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "28.08.26",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 241,
+"page number": 2,
+"bounding box": [
+138.08,
+374.712,
+169.2,
+385.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "29.08.26",
+"kids": []
+}
+]
+}
+]
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 242,
+"page number": 2,
+"bounding box": [
+138.08,
+349.952,
+169.2,
+373.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "29.08.26\n28.08.26",
+"kids": []
+}
+]
+}
+]
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 243,
+"level": "1",
+"page number": 2,
+"bounding box": [
+138.08,
+312.832,
+169.2,
+348.311
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"next list id": 247,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 244,
+"page number": 2,
+"bounding box": [
+138.08,
+337.592,
+169.2,
+348.311
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "28.08.26",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 245,
+"page number": 2,
+"bounding box": [
+138.08,
+312.832,
+169.2,
+335.951
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "29.08.26\n28.08.26",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 247,
+"level": "1",
+"page number": 2,
+"bounding box": [
+177.48,
+362.352,
+208.6,
+571.071
+],
+"numbering style": "arabic numbers",
+"number of list items": 3,
+"previous list id": 243,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 246,
+"page number": 2,
+"bounding box": [
+177.48,
+560.352,
+208.6,
+571.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "02.09.26",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 248,
+"page number": 2,
+"bounding box": [
+177.48,
+547.952,
+208.6,
+558.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "30.08.26",
+"kids": [
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 249,
+"level": "1",
+"page number": 2,
+"bounding box": [
+177.48,
+473.712,
+208.6,
+546.311
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 250,
+"page number": 2,
+"bounding box": [
+177.48,
+535.592,
+208.6,
+546.311
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "30.08.26",
+"kids": [
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 251,
+"level": "1",
+"page number": 2,
+"bounding box": [
+177.48,
+486.072,
+208.6,
+533.951
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 252,
+"page number": 2,
+"bounding box": [
+177.48,
+498.472,
+208.6,
+533.951
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "30.08.26\n30.08.26\n31.08.26",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 253,
+"page number": 2,
+"bounding box": [
+177.48,
+486.072,
+208.6,
+496.791
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "31.08.26",
+"kids": []
+}
+]
+}
+]
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 254,
+"page number": 2,
+"bounding box": [
+177.48,
+473.712,
+208.6,
+484.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "31.08.26",
+"kids": []
+}
+]
+}
+]
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 255,
+"page number": 2,
+"bounding box": [
+177.48,
+362.352,
+208.6,
+472.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "31.08.26\n30.08.26\n30.08.26\n30.08.26\n30.08.26\n30.08.26\n30.08.26\n01.09.26\n30.08.26",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 256,
+"level": "1",
+"page number": 2,
+"bounding box": [
+177.48,
+312.832,
+208.6,
+360.671
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 257,
+"page number": 2,
+"bounding box": [
+177.48,
+349.952,
+208.6,
+360.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "30.08.26",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 258,
+"page number": 2,
+"bounding box": [
+177.48,
+312.832,
+208.6,
+348.311
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "31.08.26\n30.08.26\n30.08.26",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 278,
+"level": "1",
+"page number": 2,
+"bounding box": [
+231.96,
+498.482,
+236.408,
+571.081
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 279,
+"page number": 2,
+"bounding box": [
+231.96,
+560.362,
+236.408,
+571.081
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 280,
+"page number": 2,
+"bounding box": [
+231.96,
+498.482,
+236.408,
+558.681
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2\n1\n1\n1\n1",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 281,
+"level": "1",
+"page number": 2,
+"bounding box": [
+231.96,
+448.962,
+236.408,
+496.801
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 282,
+"page number": 2,
+"bounding box": [
+231.96,
+486.082,
+236.408,
+496.801
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1",
+"kids": [
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 283,
+"level": "1",
+"page number": 2,
+"bounding box": [
+231.96,
+461.362,
+236.408,
+484.441
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 284,
+"page number": 2,
+"bounding box": [
+231.96,
+473.722,
+236.408,
+484.441
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 285,
+"page number": 2,
+"bounding box": [
+231.96,
+461.362,
+236.408,
+472.081
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2",
+"kids": []
+}
+]
+}
+]
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 286,
+"page number": 2,
+"bounding box": [
+231.96,
+448.962,
+236.408,
+459.681
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 287,
+"level": "1",
+"page number": 2,
+"bounding box": [
+231.96,
+349.962,
+236.408,
+447.321
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 288,
+"page number": 2,
+"bounding box": [
+231.96,
+436.602,
+236.408,
+447.321
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1",
+"kids": [
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 289,
+"level": "1",
+"page number": 2,
+"bounding box": [
+231.96,
+387.082,
+236.408,
+434.961
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 290,
+"page number": 2,
+"bounding box": [
+231.96,
+424.242,
+236.408,
+434.961
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1",
+"kids": [
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 291,
+"level": "1",
+"page number": 2,
+"bounding box": [
+231.96,
+399.482,
+236.408,
+422.561
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 292,
+"page number": 2,
+"bounding box": [
+231.96,
+411.842,
+236.408,
+422.561
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 293,
+"page number": 2,
+"bounding box": [
+231.96,
+399.482,
+236.408,
+410.201
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2",
+"kids": []
+}
+]
+}
+]
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 294,
+"page number": 2,
+"bounding box": [
+231.96,
+387.082,
+236.408,
+397.801
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 295,
+"level": "1",
+"page number": 2,
+"bounding box": [
+231.96,
+362.362,
+236.408,
+385.441
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 296,
+"page number": 2,
+"bounding box": [
+231.96,
+374.722,
+236.408,
+385.441
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 297,
+"page number": 2,
+"bounding box": [
+231.96,
+362.362,
+236.408,
+373.081
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2",
+"kids": []
+}
+]
+}
+]
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 298,
+"page number": 2,
+"bounding box": [
+231.96,
+349.962,
+236.408,
+360.681
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2",
+"kids": [
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 299,
+"level": "1",
+"page number": 2,
+"bounding box": [
+231.96,
+312.842,
+236.408,
+348.321
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 300,
+"page number": 2,
+"bounding box": [
+231.96,
+337.602,
+236.408,
+348.321
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1",
+"kids": [
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 301,
+"page number": 2,
+"bounding box": [
+231.96,
+325.242,
+236.408,
+335.961
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "3"
+}
+]
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 302,
+"page number": 2,
+"bounding box": [
+231.96,
+312.842,
+236.408,
+323.561
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2",
+"kids": []
+}
+]
+}
+]
+}
+]
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 268,
+"page number": 2,
+"bounding box": [
+250.866,
+523.232,
+255.314,
+533.951
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 269,
+"page number": 2,
+"bounding box": [
+250.866,
+325.232,
+255.314,
+335.951
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 195,
+"page number": 2,
+"bounding box": [
+264.8,
+312.832,
+359.912,
+571.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Tasks:GLC(Linen Change)\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:GPS\nTasks:INS\nTasks:INS\nTasks:INS\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:INS\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:GPS\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 273,
+"page number": 2,
+"bounding box": [
+114.25,
+296.072,
+297.25,
+306.791
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "MA91 - Mitarbeitender 11"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 276,
+"page number": 2,
+"bounding box": [
+8.21,
+296.555,
+79.69,
+305.492
+],
+"font": "Arial,Bold",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Total for Attendant"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 219,
+"page number": 2,
+"bounding box": [
+8.24,
+281.712,
+53.56,
+292.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Total Rooms"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 261,
+"page number": 2,
+"bounding box": [
+116.24,
+281.712,
+125.136,
+292.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "21"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 267,
+"page number": 2,
+"bounding box": [
+8.24,
+268.192,
+120.688,
+278.911
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Departure Rooms 8"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 260,
+"page number": 2,
+"bounding box": [
+8.24,
+254.712,
+50.44,
+265.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Total Adults"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 263,
+"page number": 2,
+"bounding box": [
+116.24,
+254.712,
+125.136,
+265.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "31"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 271,
+"page number": 2,
+"bounding box": [
+8.21,
+241.192,
+120.658,
+251.911
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Total Children 3"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 218,
+"page number": 2,
+"bounding box": [
+8.24,
+227.712,
+53.552,
+238.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Total Credits"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 262,
+"page number": 2,
+"bounding box": [
+116.24,
+227.712,
+125.136,
+238.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "48"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 259,
+"page number": 2,
+"bounding box": [
+8.24,
+214.192,
+24.672,
+224.911
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Dirty"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 264,
+"page number": 2,
+"bounding box": [
+116.24,
+214.192,
+125.136,
+224.911
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "21"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 270,
+"page number": 2,
+"bounding box": [
+12.73,
+190.992,
+119.41,
+201.711
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "@ Sleep # Skip ! Arrival"
+},
+{
+"type": "footer",
+"id": 304,
+"page number": 2,
+"bounding box": [
+9.08,
+12.209,
+580.054,
+58.562
+],
+"kids": [
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 305,
+"page number": 2,
+"bounding box": [
+333.366,
+49.625,
+580.054,
+58.562
+],
+"font": "Arial,Italic",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Page 2 of 6 hsk_tasksheet_11"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 306,
+"page number": 2,
+"bounding box": [
+9.08,
+12.209,
+208.616,
+56.392
+],
+"font": "Arial,Italic",
+"font size": 6.0,
+"text color": "[0.0]",
+"content": "Filter Task Date From 30.08.26 to 30.08.26 Attendant: ALL\nTask Code: CLN,GLC,GPS,INS\nShow Due Outs Only: N\nShow HouseUse: Y\nTask Sheet From 1 to 9999999999\nUse Priority: Y"
+}
+]
+},
+{
+"type": "header",
+"id": 307,
+"page number": 3,
+"bounding box": [
+3.73,
+702.432,
+580.028,
+792.0
+],
+"kids": [
+{
+"type": "image",
+"pdfua_tag": "Figure",
+"id": 308,
+"page number": 3,
+"bounding box": [
+13.52,
+771.52,
+71.28,
+792.0
+],
+"alt_source": "missing"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 309,
+"page number": 3,
+"bounding box": [
+240.52,
+748.641,
+580.028,
+782.002
+],
+"font": "Arial,Italic",
+"font size": 10.0,
+"text color": "[0.0]",
+"content": "Novotel Münster City 30.08.26\nTask Sheet Report 10:19"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 310,
+"page number": 3,
+"bounding box": [
+99.36,
+718.952,
+208.64,
+729.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "30.08.26/CLN,GLC,GPS,INS/3"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 311,
+"page number": 3,
+"bounding box": [
+3.73,
+702.432,
+85.968,
+728.362
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Task Sheet\nAttendant Id and Name"
+}
+]
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 423,
+"page number": 3,
+"bounding box": [
+114.53,
+682.952,
+267.842,
+713.151
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "MA92 / Mitarbeitender 12\nKim W."
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 312,
+"page number": 3,
+"bounding box": [
+3.76,
+682.952,
+81.072,
+693.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Attendant Instructions"
+},
+{
+"type": "heading",
+"pdfua_tag": "H2",
+"id": 314,
+"level": "Subtitle",
+"page number": 3,
+"bounding box": [
+3.76,
+672.185,
+50.416,
+681.122
+],
+"heading level": 2,
+"font": "Arial,Bold",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Task Details"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 426,
+"page number": 3,
+"bounding box": [
+3.73,
+653.722,
+58.818,
+664.441
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Task Sheet No."
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 359,
+"page number": 3,
+"bounding box": [
+89.24,
+640.192,
+94.568,
+664.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "3\nY"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 315,
+"page number": 3,
+"bounding box": [
+3.76,
+640.192,
+291.016,
+664.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Completed Date\nAuto Generated"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 313,
+"page number": 3,
+"bounding box": [
+3.76,
+626.712,
+44.64,
+637.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Instructions"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 425,
+"page number": 3,
+"bounding box": [
+89.57,
+626.712,
+124.658,
+637.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Keine TA."
+},
+{
+"type": "heading",
+"pdfua_tag": "H2",
+"id": 360,
+"level": "Subtitle",
+"page number": 3,
+"bounding box": [
+3.76,
+614.425,
+54.84,
+623.362
+],
+"heading level": 2,
+"font": "Arial,Bold",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Room Details"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 449,
+"page number": 3,
+"bounding box": [
+265.2,
+591.492,
+357.608,
+602.211
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Tasks / Room Instructions"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 361,
+"page number": 3,
+"bounding box": [
+138.52,
+591.472,
+213.48,
+602.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Arrival Departure"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 341,
+"page number": 3,
+"bounding box": [
+14.8,
+581.752,
+36.136,
+602.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Room\nNo"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 355,
+"page number": 3,
+"bounding box": [
+39.76,
+581.752,
+62.416,
+602.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Room\nStatus"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 356,
+"page number": 3,
+"bounding box": [
+66.64,
+581.752,
+119.376,
+602.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Credits Resv\nStatus"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 416,
+"page number": 3,
+"bounding box": [
+219.44,
+591.472,
+250.48,
+602.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Adl Chl"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 428,
+"page number": 3,
+"bounding box": [
+4.05,
+374.522,
+6.266,
+397.641
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "!\n!"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 429,
+"page number": 3,
+"bounding box": [
+4.05,
+275.532,
+6.266,
+311.011
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "!\n!\n!"
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 316,
+"level": "1",
+"page number": 3,
+"bounding box": [
+14.8,
+436.592,
+28.144,
+571.071
+],
+"numbering style": "arabic numbers",
+"number of list items": 10,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 317,
+"page number": 3,
+"bounding box": [
+14.8,
+560.352,
+28.144,
+571.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "301",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 318,
+"page number": 3,
+"bounding box": [
+14.8,
+547.952,
+28.144,
+558.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "302",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 319,
+"page number": 3,
+"bounding box": [
+14.8,
+535.592,
+28.144,
+546.311
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "303",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 320,
+"page number": 3,
+"bounding box": [
+14.8,
+523.232,
+28.144,
+533.951
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "304",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 321,
+"page number": 3,
+"bounding box": [
+14.8,
+510.832,
+28.144,
+521.551
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "305",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 322,
+"page number": 3,
+"bounding box": [
+14.8,
+498.472,
+28.144,
+509.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "306",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 323,
+"page number": 3,
+"bounding box": [
+14.8,
+486.072,
+28.144,
+496.791
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "307",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 324,
+"page number": 3,
+"bounding box": [
+14.8,
+473.712,
+28.144,
+484.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "308",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 325,
+"page number": 3,
+"bounding box": [
+14.8,
+461.352,
+28.144,
+472.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "309",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 326,
+"page number": 3,
+"bounding box": [
+14.8,
+436.592,
+28.144,
+459.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "310\n312",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 327,
+"level": "1",
+"page number": 3,
+"bounding box": [
+14.8,
+275.712,
+28.144,
+434.951
+],
+"numbering style": "arabic numbers",
+"number of list items": 13,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 328,
+"page number": 3,
+"bounding box": [
+14.8,
+424.232,
+28.144,
+434.951
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "314",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 329,
+"page number": 3,
+"bounding box": [
+14.8,
+411.832,
+28.144,
+422.551
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "315",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 330,
+"page number": 3,
+"bounding box": [
+14.8,
+399.472,
+28.144,
+410.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "316",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 331,
+"page number": 3,
+"bounding box": [
+14.8,
+387.072,
+28.144,
+397.791
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "317",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 332,
+"page number": 3,
+"bounding box": [
+14.8,
+374.712,
+28.144,
+385.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "318",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 333,
+"page number": 3,
+"bounding box": [
+14.8,
+362.352,
+28.144,
+373.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "319",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 334,
+"page number": 3,
+"bounding box": [
+14.8,
+349.952,
+28.144,
+360.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "320",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 335,
+"page number": 3,
+"bounding box": [
+14.8,
+337.592,
+28.144,
+348.311
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "321",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 336,
+"page number": 3,
+"bounding box": [
+14.8,
+325.232,
+28.144,
+335.951
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "322",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 337,
+"page number": 3,
+"bounding box": [
+14.8,
+312.832,
+28.144,
+323.551
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "323",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 338,
+"page number": 3,
+"bounding box": [
+14.8,
+300.472,
+28.144,
+311.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "324",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 339,
+"page number": 3,
+"bounding box": [
+14.8,
+288.072,
+28.144,
+298.791
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "325",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 340,
+"page number": 3,
+"bounding box": [
+14.8,
+275.712,
+28.144,
+286.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "326",
+"kids": []
+}
+]
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 353,
+"page number": 3,
+"bounding box": [
+39.76,
+275.712,
+47.752,
+571.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "DI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 343,
+"page number": 3,
+"bounding box": [
+80.64,
+523.232,
+91.752,
+571.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2,5\n2,5\n2,5\n2,5"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 354,
+"page number": 3,
+"bounding box": [
+96.28,
+275.712,
+129.176,
+571.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Due Out\nDue Out\nDeparted\nDue Out\nStayover\nDue Out\nDue Out\nStayover\nStayover\nStayover\nStayover\nStayover\nStayover\nDeparted\nDeparted\nDue Out\nDeparted\nStayover\nDue Out\nStayover\nDue Out\nDeparted\nDue Out\nDeparted"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 344,
+"page number": 3,
+"bounding box": [
+80.64,
+486.072,
+91.758,
+521.551
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2\n2,5\n2,5"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 345,
+"page number": 3,
+"bounding box": [
+87.31,
+448.952,
+91.758,
+484.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2\n2\n2"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 346,
+"page number": 3,
+"bounding box": [
+80.64,
+436.592,
+91.752,
+447.311
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1,5"
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 347,
+"level": "1",
+"page number": 3,
+"bounding box": [
+80.64,
+275.712,
+91.758,
+434.951
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 348,
+"page number": 3,
+"bounding box": [
+80.64,
+362.352,
+91.758,
+434.951
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2\n1,5\n2,5\n2,5\n2,5\n2,5",
+"kids": [
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 349,
+"level": "1",
+"page number": 3,
+"bounding box": [
+80.64,
+300.472,
+91.752,
+360.671
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 350,
+"page number": 3,
+"bounding box": [
+80.64,
+349.952,
+91.752,
+360.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1,5",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 351,
+"page number": 3,
+"bounding box": [
+80.64,
+300.472,
+91.752,
+348.311
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2,5\n1,5\n2,5\n2,5",
+"kids": []
+}
+]
+}
+]
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 352,
+"page number": 3,
+"bounding box": [
+80.64,
+275.712,
+91.758,
+298.791
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "3\n2,5",
+"kids": []
+}
+]
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 362,
+"page number": 3,
+"bounding box": [
+138.08,
+547.952,
+169.2,
+571.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "29.08.26\n28.08.26"
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 363,
+"level": "1",
+"page number": 3,
+"bounding box": [
+138.08,
+523.232,
+169.2,
+546.311
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 364,
+"page number": 3,
+"bounding box": [
+138.08,
+535.592,
+169.2,
+546.311
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "27.08.26",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 365,
+"page number": 3,
+"bounding box": [
+138.08,
+523.232,
+169.2,
+533.951
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "28.08.26",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 366,
+"level": "1",
+"page number": 3,
+"bounding box": [
+138.08,
+275.712,
+169.2,
+521.551
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"next list id": 394,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 367,
+"page number": 3,
+"bounding box": [
+138.08,
+510.832,
+169.2,
+521.551
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "28.08.26",
+"kids": [
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 368,
+"level": "1",
+"page number": 3,
+"bounding box": [
+138.08,
+288.072,
+169.2,
+509.191
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 369,
+"page number": 3,
+"bounding box": [
+138.08,
+498.472,
+169.2,
+509.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "28.08.26",
+"kids": [
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 370,
+"level": "1",
+"page number": 3,
+"bounding box": [
+138.08,
+312.832,
+169.2,
+496.791
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 371,
+"page number": 3,
+"bounding box": [
+138.08,
+486.072,
+169.2,
+496.791
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "28.08.26",
+"kids": [
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 372,
+"level": "1",
+"page number": 3,
+"bounding box": [
+138.08,
+349.952,
+169.2,
+484.431
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 373,
+"page number": 3,
+"bounding box": [
+138.08,
+473.712,
+169.2,
+484.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "28.08.26",
+"kids": [
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 374,
+"level": "1",
+"page number": 3,
+"bounding box": [
+138.08,
+387.072,
+169.2,
+472.071
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 375,
+"page number": 3,
+"bounding box": [
+138.08,
+461.352,
+169.2,
+472.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "28.08.26",
+"kids": [
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 376,
+"level": "1",
+"page number": 3,
+"bounding box": [
+138.08,
+436.592,
+169.2,
+459.671
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 377,
+"page number": 3,
+"bounding box": [
+138.08,
+448.952,
+169.2,
+459.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "28.08.26",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 378,
+"page number": 3,
+"bounding box": [
+138.08,
+436.592,
+169.2,
+447.311
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "29.08.26",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 379,
+"level": "1",
+"page number": 3,
+"bounding box": [
+138.08,
+399.472,
+169.2,
+434.951
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 380,
+"page number": 3,
+"bounding box": [
+138.08,
+411.832,
+169.2,
+434.951
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "28.08.26\n23.08.26",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 381,
+"page number": 3,
+"bounding box": [
+138.08,
+399.472,
+169.2,
+410.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "29.08.26",
+"kids": []
+}
+]
+}
+]
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 382,
+"page number": 3,
+"bounding box": [
+138.08,
+387.072,
+169.2,
+397.791
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "29.08.26",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 383,
+"level": "1",
+"page number": 3,
+"bounding box": [
+138.08,
+362.352,
+169.2,
+385.431
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 384,
+"page number": 3,
+"bounding box": [
+138.08,
+374.712,
+169.2,
+385.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "28.08.26",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 385,
+"page number": 3,
+"bounding box": [
+138.08,
+362.352,
+169.2,
+373.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "29.08.26",
+"kids": []
+}
+]
+}
+]
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 386,
+"page number": 3,
+"bounding box": [
+138.08,
+349.952,
+169.2,
+360.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "29.08.26",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 387,
+"level": "1",
+"page number": 3,
+"bounding box": [
+138.08,
+325.232,
+169.2,
+348.311
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 388,
+"page number": 3,
+"bounding box": [
+138.08,
+337.592,
+169.2,
+348.311
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "28.08.26",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 389,
+"page number": 3,
+"bounding box": [
+138.08,
+325.232,
+169.2,
+335.951
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "29.08.26",
+"kids": []
+}
+]
+}
+]
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 390,
+"page number": 3,
+"bounding box": [
+138.08,
+312.832,
+169.2,
+323.551
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "29.08.26",
+"kids": []
+}
+]
+}
+]
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 391,
+"page number": 3,
+"bounding box": [
+138.08,
+288.072,
+169.2,
+311.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "29.08.26\n27.08.26",
+"kids": []
+}
+]
+}
+]
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 392,
+"page number": 3,
+"bounding box": [
+138.08,
+275.712,
+169.2,
+286.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "29.08.26",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 394,
+"level": "1",
+"page number": 3,
+"bounding box": [
+177.48,
+275.712,
+208.6,
+571.071
+],
+"numbering style": "arabic numbers",
+"number of list items": 3,
+"previous list id": 366,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 393,
+"page number": 3,
+"bounding box": [
+177.48,
+560.352,
+208.6,
+571.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "30.08.26",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 395,
+"page number": 3,
+"bounding box": [
+177.48,
+547.952,
+208.6,
+558.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "30.08.26",
+"kids": [
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 396,
+"level": "1",
+"page number": 3,
+"bounding box": [
+177.48,
+436.592,
+208.6,
+546.311
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 397,
+"page number": 3,
+"bounding box": [
+177.48,
+535.592,
+208.6,
+546.311
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "30.08.26",
+"kids": [
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 398,
+"level": "1",
+"page number": 3,
+"bounding box": [
+177.48,
+510.832,
+208.6,
+533.951
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 399,
+"page number": 3,
+"bounding box": [
+177.48,
+523.232,
+208.6,
+533.951
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "30.08.26",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 400,
+"page number": 3,
+"bounding box": [
+177.48,
+510.832,
+208.6,
+521.551
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "31.08.26",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 401,
+"level": "1",
+"page number": 3,
+"bounding box": [
+177.48,
+461.352,
+208.6,
+509.191
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 402,
+"page number": 3,
+"bounding box": [
+177.48,
+498.472,
+208.6,
+509.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "30.08.26",
+"kids": [
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 403,
+"level": "1",
+"page number": 3,
+"bounding box": [
+177.48,
+473.712,
+208.6,
+496.791
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 404,
+"page number": 3,
+"bounding box": [
+177.48,
+486.072,
+208.6,
+496.791
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "30.08.26",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 405,
+"page number": 3,
+"bounding box": [
+177.48,
+473.712,
+208.6,
+484.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "31.08.26",
+"kids": []
+}
+]
+}
+]
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 406,
+"page number": 3,
+"bounding box": [
+177.48,
+461.352,
+208.6,
+472.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "31.08.26",
+"kids": []
+}
+]
+}
+]
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 407,
+"page number": 3,
+"bounding box": [
+177.48,
+436.592,
+208.6,
+459.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "31.08.26\n04.09.26",
+"kids": []
+}
+]
+}
+]
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 408,
+"page number": 3,
+"bounding box": [
+177.48,
+275.712,
+208.6,
+434.951
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "31.08.26\n03.09.26\n30.08.26\n30.08.26\n30.08.26\n30.08.26\n02.09.26\n30.08.26\n02.09.26\n30.08.26\n30.08.26\n30.08.26\n30.08.26",
+"kids": []
+}
+]
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 430,
+"page number": 3,
+"bounding box": [
+231.96,
+560.372,
+236.408,
+571.091
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2"
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 431,
+"level": "1",
+"page number": 3,
+"bounding box": [
+231.96,
+424.252,
+236.408,
+558.691
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 432,
+"page number": 3,
+"bounding box": [
+231.96,
+547.972,
+236.408,
+558.691
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1",
+"kids": [
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 433,
+"level": "1",
+"page number": 3,
+"bounding box": [
+231.96,
+523.252,
+236.408,
+546.331
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 434,
+"page number": 3,
+"bounding box": [
+231.96,
+535.612,
+236.408,
+546.331
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 435,
+"page number": 3,
+"bounding box": [
+231.96,
+523.252,
+236.408,
+533.971
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 436,
+"level": "1",
+"page number": 3,
+"bounding box": [
+231.96,
+498.492,
+236.408,
+521.571
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 437,
+"page number": 3,
+"bounding box": [
+231.96,
+510.852,
+236.408,
+521.571
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 438,
+"page number": 3,
+"bounding box": [
+231.96,
+498.492,
+236.408,
+509.211
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2",
+"kids": []
+}
+]
+}
+]
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 439,
+"page number": 3,
+"bounding box": [
+231.96,
+424.252,
+236.408,
+496.811
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2\n1\n1\n1\n1\n1",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 440,
+"level": "1",
+"page number": 3,
+"bounding box": [
+231.96,
+337.612,
+236.408,
+422.571
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 441,
+"page number": 3,
+"bounding box": [
+231.96,
+411.852,
+236.408,
+422.571
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 442,
+"page number": 3,
+"bounding box": [
+231.96,
+337.612,
+236.408,
+410.211
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2\n1\n1\n1\n1\n1",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 443,
+"level": "1",
+"page number": 3,
+"bounding box": [
+231.96,
+312.852,
+236.408,
+335.971
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 444,
+"page number": 3,
+"bounding box": [
+231.96,
+325.252,
+236.408,
+335.971
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 445,
+"page number": 3,
+"bounding box": [
+231.96,
+312.852,
+236.408,
+323.571
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 446,
+"level": "1",
+"page number": 3,
+"bounding box": [
+231.96,
+275.732,
+236.408,
+311.211
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 447,
+"page number": 3,
+"bounding box": [
+231.96,
+300.492,
+236.408,
+311.211
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 448,
+"page number": 3,
+"bounding box": [
+231.96,
+275.732,
+236.408,
+298.811
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2\n1",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 418,
+"level": "1",
+"page number": 3,
+"bounding box": [
+250.866,
+288.072,
+255.314,
+533.951
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 419,
+"page number": 3,
+"bounding box": [
+250.866,
+523.232,
+255.314,
+533.951
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 420,
+"page number": 3,
+"bounding box": [
+250.866,
+288.072,
+255.314,
+298.791
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2",
+"kids": []
+}
+]
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 342,
+"page number": 3,
+"bounding box": [
+264.8,
+275.712,
+359.472,
+571.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Tasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:GPS\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:GPS\nTasks:GPS\nTasks:GPS\nTasks:INS\nTasks:GPS\nTasks:INS\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:INS\nTasks:CLN(Linen Change)\nTasks:INS\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 424,
+"page number": 3,
+"bounding box": [
+114.25,
+258.952,
+297.25,
+269.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "MA92 - Mitarbeitender 12"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 427,
+"page number": 3,
+"bounding box": [
+8.21,
+259.435,
+79.69,
+268.372
+],
+"font": "Arial,Bold",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Total for Attendant"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 358,
+"page number": 3,
+"bounding box": [
+8.24,
+244.552,
+53.56,
+255.271
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Total Rooms"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 411,
+"page number": 3,
+"bounding box": [
+116.24,
+244.552,
+125.136,
+255.271
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "24"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 417,
+"page number": 3,
+"bounding box": [
+8.24,
+231.072,
+120.688,
+241.791
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Departure Rooms 9"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 410,
+"page number": 3,
+"bounding box": [
+8.24,
+217.552,
+50.44,
+228.271
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Total Adults"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 413,
+"page number": 3,
+"bounding box": [
+116.24,
+217.552,
+125.136,
+228.271
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "31"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 422,
+"page number": 3,
+"bounding box": [
+8.21,
+204.072,
+120.658,
+214.791
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Total Children 3"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 357,
+"page number": 3,
+"bounding box": [
+8.24,
+190.552,
+53.552,
+201.271
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Total Credits"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 412,
+"page number": 3,
+"bounding box": [
+116.24,
+190.552,
+125.136,
+201.271
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "54"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 409,
+"page number": 3,
+"bounding box": [
+8.24,
+177.072,
+24.672,
+187.791
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Dirty"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 414,
+"page number": 3,
+"bounding box": [
+116.24,
+177.072,
+125.136,
+187.791
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "24"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 421,
+"page number": 3,
+"bounding box": [
+12.73,
+153.872,
+119.41,
+164.591
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "@ Sleep # Skip ! Arrival"
+},
+{
+"type": "footer",
+"id": 450,
+"page number": 3,
+"bounding box": [
+9.08,
+12.209,
+580.054,
+58.562
+],
+"kids": [
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 451,
+"page number": 3,
+"bounding box": [
+333.366,
+49.625,
+580.054,
+58.562
+],
+"font": "Arial,Italic",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Page 3 of 6 hsk_tasksheet_11"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 452,
+"page number": 3,
+"bounding box": [
+9.08,
+12.209,
+208.616,
+56.392
+],
+"font": "Arial,Italic",
+"font size": 6.0,
+"text color": "[0.0]",
+"content": "Filter Task Date From 30.08.26 to 30.08.26 Attendant: ALL\nTask Code: CLN,GLC,GPS,INS\nShow Due Outs Only: N\nShow HouseUse: Y\nTask Sheet From 1 to 9999999999\nUse Priority: Y"
+}
+]
+},
+{
+"type": "header",
+"id": 453,
+"page number": 4,
+"bounding box": [
+3.73,
+702.432,
+580.028,
+792.0
+],
+"kids": [
+{
+"type": "image",
+"pdfua_tag": "Figure",
+"id": 454,
+"page number": 4,
+"bounding box": [
+13.52,
+771.52,
+71.28,
+792.0
+],
+"alt_source": "missing"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 455,
+"page number": 4,
+"bounding box": [
+240.52,
+748.641,
+580.028,
+782.002
+],
+"font": "Arial,Italic",
+"font size": 10.0,
+"text color": "[0.0]",
+"content": "Novotel Münster City 30.08.26\nTask Sheet Report 10:19"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 456,
+"page number": 4,
+"bounding box": [
+99.36,
+718.952,
+208.64,
+729.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "30.08.26/CLN,GLC,GPS,INS/4"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 457,
+"page number": 4,
+"bounding box": [
+3.73,
+702.432,
+85.968,
+728.362
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Task Sheet\nAttendant Id and Name"
+}
+]
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 535,
+"page number": 4,
+"bounding box": [
+114.53,
+682.952,
+267.842,
+713.151
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "MA93 / Mitarbeitender 13\nJo E."
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 458,
+"page number": 4,
+"bounding box": [
+3.76,
+682.952,
+81.072,
+693.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Attendant Instructions"
+},
+{
+"type": "heading",
+"pdfua_tag": "H2",
+"id": 460,
+"level": "Subtitle",
+"page number": 4,
+"bounding box": [
+3.76,
+672.185,
+50.416,
+681.122
+],
+"heading level": 2,
+"font": "Arial,Bold",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Task Details"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 538,
+"page number": 4,
+"bounding box": [
+3.73,
+653.722,
+58.818,
+664.441
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Task Sheet No."
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 461,
+"page number": 4,
+"bounding box": [
+3.76,
+640.192,
+291.016,
+664.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Completed Date\nAuto Generated"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 510,
+"page number": 4,
+"bounding box": [
+89.24,
+640.192,
+94.568,
+664.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "4\nY"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 537,
+"page number": 4,
+"bounding box": [
+89.57,
+626.712,
+124.658,
+637.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Keine TA."
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 459,
+"page number": 4,
+"bounding box": [
+3.76,
+626.712,
+44.64,
+637.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Instructions"
+},
+{
+"type": "heading",
+"pdfua_tag": "H2",
+"id": 511,
+"level": "Subtitle",
+"page number": 4,
+"bounding box": [
+3.76,
+614.425,
+54.84,
+623.362
+],
+"heading level": 2,
+"font": "Arial,Bold",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Room Details"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 556,
+"page number": 4,
+"bounding box": [
+265.2,
+591.492,
+357.608,
+602.211
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Tasks / Room Instructions"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 486,
+"page number": 4,
+"bounding box": [
+14.8,
+581.752,
+36.136,
+602.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Room\nNo"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 506,
+"page number": 4,
+"bounding box": [
+39.75,
+581.752,
+62.406,
+602.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Room\nStatus"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 507,
+"page number": 4,
+"bounding box": [
+66.63,
+581.752,
+119.366,
+602.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Credits Resv\nStatus"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 512,
+"page number": 4,
+"bounding box": [
+138.52,
+591.472,
+213.48,
+602.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Arrival Departure"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 530,
+"page number": 4,
+"bounding box": [
+219.44,
+591.472,
+250.48,
+602.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Adl Chl"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 540,
+"page number": 4,
+"bounding box": [
+4.05,
+523.042,
+6.266,
+533.761
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "!"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 541,
+"page number": 4,
+"bounding box": [
+4.05,
+498.282,
+6.266,
+509.001
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "!"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 542,
+"page number": 4,
+"bounding box": [
+4.05,
+461.162,
+6.266,
+484.241
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "!\n!"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 543,
+"page number": 4,
+"bounding box": [
+4.05,
+436.402,
+6.266,
+447.121
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "!"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 544,
+"page number": 4,
+"bounding box": [
+4.05,
+325.052,
+6.266,
+372.891
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "!\n!\n!\n!"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 462,
+"page number": 4,
+"bounding box": [
+14.8,
+560.352,
+28.144,
+571.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "415"
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 463,
+"level": "1",
+"page number": 4,
+"bounding box": [
+14.8,
+436.592,
+28.144,
+558.671
+],
+"numbering style": "arabic numbers",
+"number of list items": 10,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 464,
+"page number": 4,
+"bounding box": [
+14.8,
+547.952,
+28.144,
+558.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "417",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 465,
+"page number": 4,
+"bounding box": [
+14.8,
+535.592,
+28.144,
+546.311
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "418",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 466,
+"page number": 4,
+"bounding box": [
+14.8,
+523.232,
+28.144,
+533.951
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "419",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 467,
+"page number": 4,
+"bounding box": [
+14.8,
+510.832,
+28.144,
+521.551
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "420",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 468,
+"page number": 4,
+"bounding box": [
+14.8,
+498.472,
+28.144,
+509.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "421",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 469,
+"page number": 4,
+"bounding box": [
+14.8,
+486.072,
+28.144,
+496.791
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "422",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 470,
+"page number": 4,
+"bounding box": [
+14.8,
+473.712,
+28.144,
+484.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "423",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 471,
+"page number": 4,
+"bounding box": [
+14.8,
+461.352,
+28.144,
+472.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "424",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 472,
+"page number": 4,
+"bounding box": [
+14.8,
+448.952,
+28.144,
+459.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "425",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 473,
+"page number": 4,
+"bounding box": [
+14.8,
+436.592,
+28.144,
+447.311
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "426",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 474,
+"level": "1",
+"page number": 4,
+"bounding box": [
+14.8,
+337.592,
+28.144,
+434.951
+],
+"numbering style": "arabic numbers",
+"number of list items": 8,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 475,
+"page number": 4,
+"bounding box": [
+14.8,
+424.232,
+28.144,
+434.951
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "501",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 476,
+"page number": 4,
+"bounding box": [
+14.8,
+411.832,
+28.144,
+422.551
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "502",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 477,
+"page number": 4,
+"bounding box": [
+14.8,
+399.472,
+28.144,
+410.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "503",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 478,
+"page number": 4,
+"bounding box": [
+14.8,
+387.072,
+28.144,
+397.791
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "504",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 479,
+"page number": 4,
+"bounding box": [
+14.8,
+374.712,
+28.144,
+385.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "505",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 480,
+"page number": 4,
+"bounding box": [
+14.8,
+362.352,
+28.144,
+373.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "506",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 481,
+"page number": 4,
+"bounding box": [
+14.8,
+349.952,
+28.144,
+360.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "507",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 482,
+"page number": 4,
+"bounding box": [
+14.8,
+337.592,
+28.144,
+348.311
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "508",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 483,
+"level": "1",
+"page number": 4,
+"bounding box": [
+14.8,
+300.472,
+28.144,
+335.951
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 484,
+"page number": 4,
+"bounding box": [
+14.8,
+325.232,
+28.144,
+335.951
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "510",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 485,
+"page number": 4,
+"bounding box": [
+14.8,
+300.472,
+28.144,
+323.551
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "511\n513",
+"kids": []
+}
+]
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 503,
+"page number": 4,
+"bounding box": [
+39.75,
+300.472,
+47.742,
+571.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "DI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 488,
+"page number": 4,
+"bounding box": [
+80.64,
+560.352,
+91.752,
+571.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2,5"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 504,
+"page number": 4,
+"bounding box": [
+96.27,
+325.232,
+129.166,
+571.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Departed\nStayover\nStayover\nDue Out\nStayover\nDue Out\nStayover\nDue Out\nDeparted\nStayover\nDeparted\nDue Out\nDue Out\nDue Out\nDue Out\nStayover\nDeparted\nDue Out\nDue Out\nDue Out"
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 489,
+"level": "1",
+"page number": 4,
+"bounding box": [
+80.64,
+461.352,
+91.752,
+558.671
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 490,
+"page number": 4,
+"bounding box": [
+80.64,
+547.952,
+91.752,
+558.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1,5",
+"kids": [
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 491,
+"level": "1",
+"page number": 4,
+"bounding box": [
+80.64,
+523.232,
+91.752,
+546.311
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 492,
+"page number": 4,
+"bounding box": [
+80.64,
+535.592,
+91.752,
+546.311
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1,5",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 493,
+"page number": 4,
+"bounding box": [
+80.64,
+523.232,
+91.752,
+533.951
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2,5",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 494,
+"level": "1",
+"page number": 4,
+"bounding box": [
+80.64,
+473.712,
+91.752,
+521.551
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 495,
+"page number": 4,
+"bounding box": [
+80.64,
+510.832,
+91.752,
+521.551
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1,5",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 496,
+"page number": 4,
+"bounding box": [
+80.64,
+473.712,
+91.752,
+509.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2,5\n1,5\n2,5",
+"kids": []
+}
+]
+}
+]
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 497,
+"page number": 4,
+"bounding box": [
+80.64,
+461.352,
+91.752,
+472.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2,5",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 498,
+"level": "1",
+"page number": 4,
+"bounding box": [
+80.64,
+387.072,
+91.752,
+459.671
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 499,
+"page number": 4,
+"bounding box": [
+80.64,
+448.952,
+91.752,
+459.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1,5",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 500,
+"page number": 4,
+"bounding box": [
+80.64,
+387.072,
+91.752,
+447.311
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2,5\n2,5\n2,5\n2,5\n2,5",
+"kids": []
+}
+]
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 501,
+"page number": 4,
+"bounding box": [
+80.64,
+312.832,
+91.758,
+385.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2\n2,5\n2,5\n2,5\n2,5\n2,5"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 502,
+"page number": 4,
+"bounding box": [
+87.31,
+300.472,
+91.758,
+311.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 505,
+"page number": 4,
+"bounding box": [
+96.27,
+300.472,
+127.822,
+311.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Stayover"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 513,
+"page number": 4,
+"bounding box": [
+138.08,
+560.352,
+169.2,
+571.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "29.08.26"
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 514,
+"level": "1",
+"page number": 4,
+"bounding box": [
+138.08,
+325.232,
+169.2,
+558.671
+],
+"numbering style": "arabic numbers",
+"number of list items": 3,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 515,
+"page number": 4,
+"bounding box": [
+138.08,
+510.832,
+169.2,
+558.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "27.08.26\n29.08.26\n29.08.26\n29.08.26",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 516,
+"page number": 4,
+"bounding box": [
+138.08,
+498.472,
+169.2,
+509.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "28.08.26",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 517,
+"page number": 4,
+"bounding box": [
+138.08,
+325.232,
+169.2,
+496.791
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "29.08.26\n29.08.26\n29.08.26\n29.08.26\n29.08.26\n29.08.26\n28.08.26\n28.08.26\n28.08.26\n28.08.26\n28.08.26\n28.08.26\n28.08.26\n28.08.26",
+"kids": []
+}
+]
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 518,
+"page number": 4,
+"bounding box": [
+138.08,
+300.472,
+169.2,
+311.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "28.08.26"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 519,
+"page number": 4,
+"bounding box": [
+177.48,
+337.592,
+208.6,
+571.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "30.08.26\n31.08.26\n02.09.26\n30.08.26\n02.09.26\n30.08.26\n02.09.26\n30.08.26\n30.08.26\n02.09.26\n30.08.26\n30.08.26\n30.08.26\n30.08.26\n30.08.26\n01.09.26\n30.08.26\n30.08.26\n30.08.26"
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 520,
+"level": "1",
+"page number": 4,
+"bounding box": [
+177.48,
+300.472,
+208.6,
+335.951
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 521,
+"page number": 4,
+"bounding box": [
+177.48,
+325.232,
+208.6,
+335.951
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "30.08.26",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 522,
+"page number": 4,
+"bounding box": [
+177.48,
+300.472,
+208.6,
+311.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "31.08.26",
+"kids": []
+}
+]
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 545,
+"page number": 4,
+"bounding box": [
+231.96,
+498.492,
+236.408,
+571.091
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2\n1\n1\n1\n1\n2"
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 546,
+"level": "1",
+"page number": 4,
+"bounding box": [
+231.96,
+374.732,
+236.408,
+496.811
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 547,
+"page number": 4,
+"bounding box": [
+231.96,
+486.092,
+236.408,
+496.811
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 548,
+"page number": 4,
+"bounding box": [
+231.96,
+374.732,
+236.408,
+484.451
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2\n1\n1\n1\n1\n1\n1\n1\n1",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 549,
+"level": "1",
+"page number": 4,
+"bounding box": [
+231.96,
+325.252,
+236.408,
+373.091
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 550,
+"page number": 4,
+"bounding box": [
+231.96,
+362.372,
+236.408,
+373.091
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1",
+"kids": [
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 551,
+"level": "1",
+"page number": 4,
+"bounding box": [
+231.96,
+337.612,
+236.408,
+360.691
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 552,
+"page number": 4,
+"bounding box": [
+231.96,
+349.972,
+236.408,
+360.691
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 553,
+"page number": 4,
+"bounding box": [
+231.96,
+337.612,
+236.408,
+348.331
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2",
+"kids": []
+}
+]
+}
+]
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 554,
+"page number": 4,
+"bounding box": [
+231.96,
+325.252,
+236.408,
+335.971
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2",
+"kids": []
+}
+]
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 555,
+"page number": 4,
+"bounding box": [
+231.96,
+300.492,
+236.408,
+311.211
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 532,
+"page number": 4,
+"bounding box": [
+250.866,
+498.472,
+255.314,
+509.191
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 487,
+"page number": 4,
+"bounding box": [
+264.8,
+300.472,
+359.472,
+571.071
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Tasks:CLN(Linen Change)\nTasks:INS\nTasks:INS\nTasks:CLN(Linen Change)\nTasks:INS\nTasks:CLN(Linen Change)\nTasks:INS\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:INS\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:GPS\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:GPS"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 536,
+"page number": 4,
+"bounding box": [
+114.25,
+283.672,
+297.25,
+294.391
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "MA93 - Mitarbeitender 13"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 539,
+"page number": 4,
+"bounding box": [
+8.21,
+284.155,
+79.69,
+293.092
+],
+"font": "Arial,Bold",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Total for Attendant"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 509,
+"page number": 4,
+"bounding box": [
+8.24,
+269.312,
+53.56,
+280.031
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Total Rooms"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 525,
+"page number": 4,
+"bounding box": [
+116.24,
+269.312,
+125.136,
+280.031
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "22"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 531,
+"page number": 4,
+"bounding box": [
+8.24,
+255.832,
+125.136,
+266.551
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Departure Rooms 10"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 524,
+"page number": 4,
+"bounding box": [
+8.24,
+242.312,
+50.44,
+253.031
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Total Adults"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 527,
+"page number": 4,
+"bounding box": [
+116.24,
+242.312,
+125.136,
+253.031
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "26"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 534,
+"page number": 4,
+"bounding box": [
+8.21,
+228.832,
+120.658,
+239.551
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Total Children 1"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 508,
+"page number": 4,
+"bounding box": [
+8.24,
+215.312,
+53.552,
+226.031
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Total Credits"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 526,
+"page number": 4,
+"bounding box": [
+116.24,
+215.312,
+125.136,
+226.031
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "49"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 523,
+"page number": 4,
+"bounding box": [
+8.24,
+201.832,
+24.672,
+212.551
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Dirty"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 528,
+"page number": 4,
+"bounding box": [
+116.24,
+201.832,
+125.136,
+212.551
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "22"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 533,
+"page number": 4,
+"bounding box": [
+12.73,
+178.592,
+119.41,
+189.311
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "@ Sleep # Skip ! Arrival"
+},
+{
+"type": "footer",
+"id": 557,
+"page number": 4,
+"bounding box": [
+9.08,
+12.209,
+580.054,
+58.562
+],
+"kids": [
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 558,
+"page number": 4,
+"bounding box": [
+333.366,
+49.625,
+580.054,
+58.562
+],
+"font": "Arial,Italic",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Page 4 of 6 hsk_tasksheet_11"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 559,
+"page number": 4,
+"bounding box": [
+9.08,
+12.209,
+208.616,
+56.392
+],
+"font": "Arial,Italic",
+"font size": 6.0,
+"text color": "[0.0]",
+"content": "Filter Task Date From 30.08.26 to 30.08.26 Attendant: ALL\nTask Code: CLN,GLC,GPS,INS\nShow Due Outs Only: N\nShow HouseUse: Y\nTask Sheet From 1 to 9999999999\nUse Priority: Y"
+}
+]
+},
+{
+"type": "header",
+"id": 560,
+"page number": 5,
+"bounding box": [
+13.52,
+748.641,
+580.028,
+792.0
+],
+"kids": [
+{
+"type": "image",
+"pdfua_tag": "Figure",
+"id": 561,
+"page number": 5,
+"bounding box": [
+13.52,
+771.52,
+71.28,
+792.0
+],
+"alt_source": "missing"
+},
+{
+"type": "heading",
+"pdfua_tag": "H1",
+"id": 562,
+"page number": 5,
+"bounding box": [
+240.52,
+748.641,
+580.028,
+782.002
+],
+"heading level": 1,
+"font": "Arial,Italic",
+"font size": 10.0,
+"text color": "[0.0]",
+"content": "Novotel Münster City 30.08.26\nTask Sheet Report 10:19"
+}
+]
+},
+{
+"type": "heading",
+"pdfua_tag": "H2",
+"id": 633,
+"level": "Subtitle",
+"page number": 5,
+"bounding box": [
+3.72,
+719.425,
+45.928,
+728.362
+],
+"heading level": 2,
+"font": "Arial,Bold",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Task Sheet"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 563,
+"page number": 5,
+"bounding box": [
+3.76,
+702.432,
+85.968,
+713.151
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Attendant Id and Name"
+},
+{
+"type": "heading",
+"pdfua_tag": "H2",
+"id": 565,
+"level": "Subtitle",
+"page number": 5,
+"bounding box": [
+3.76,
+687.905,
+50.416,
+696.842
+],
+"heading level": 2,
+"font": "Arial,Bold",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Task Details"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 594,
+"page number": 5,
+"bounding box": [
+99.36,
+718.952,
+229.944,
+729.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "30.08.26/CLN,GLC,GPS,INS/FLOAT"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 630,
+"page number": 5,
+"bounding box": [
+198.2,
+702.432,
+200.416,
+713.151
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "/"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 634,
+"page number": 5,
+"bounding box": [
+3.72,
+669.432,
+58.808,
+680.151
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Task Sheet No."
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 566,
+"page number": 5,
+"bounding box": [
+3.76,
+655.952,
+291.016,
+680.151
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Completed Date\nAuto Generated"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 597,
+"page number": 5,
+"bounding box": [
+89.24,
+655.952,
+114.992,
+680.151
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "FLOAT\nY"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 564,
+"page number": 5,
+"bounding box": [
+3.76,
+642.432,
+44.64,
+653.151
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Instructions"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 632,
+"page number": 5,
+"bounding box": [
+89.56,
+642.432,
+398.888,
+653.151
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Cleaning Cleaning and Linen Change Inhouse (Opt In Cleaning) Clean Departures First"
+},
+{
+"type": "heading",
+"pdfua_tag": "H2",
+"id": 598,
+"level": "Subtitle",
+"page number": 5,
+"bounding box": [
+3.76,
+630.185,
+54.84,
+639.122
+],
+"heading level": 2,
+"font": "Arial,Bold",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Room Details"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 587,
+"page number": 5,
+"bounding box": [
+14.8,
+597.472,
+36.136,
+617.911
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Room\nNo"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 592,
+"page number": 5,
+"bounding box": [
+39.76,
+597.472,
+62.416,
+617.911
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Room\nStatus"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 593,
+"page number": 5,
+"bounding box": [
+66.64,
+597.472,
+119.376,
+617.911
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Credits Resv\nStatus"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 624,
+"page number": 5,
+"bounding box": [
+219.44,
+607.192,
+250.48,
+617.911
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Adl Chl"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 652,
+"page number": 5,
+"bounding box": [
+265.19,
+607.192,
+357.598,
+617.911
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Tasks / Room Instructions"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 599,
+"page number": 5,
+"bounding box": [
+138.52,
+607.192,
+213.48,
+617.911
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Arrival Departure"
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 567,
+"level": "1",
+"page number": 5,
+"bounding box": [
+14.8,
+538.952,
+28.144,
+586.791
+],
+"numbering style": "arabic numbers",
+"number of list items": 4,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 568,
+"page number": 5,
+"bounding box": [
+14.8,
+576.072,
+28.144,
+586.791
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "106",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 569,
+"page number": 5,
+"bounding box": [
+14.8,
+563.712,
+28.144,
+574.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "107",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 570,
+"page number": 5,
+"bounding box": [
+14.8,
+551.312,
+28.144,
+562.031
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "108",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 571,
+"page number": 5,
+"bounding box": [
+14.8,
+538.952,
+28.144,
+549.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "109",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 572,
+"level": "1",
+"page number": 5,
+"bounding box": [
+14.8,
+514.192,
+28.144,
+537.311
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 573,
+"page number": 5,
+"bounding box": [
+14.8,
+526.592,
+28.144,
+537.311
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "111",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 574,
+"page number": 5,
+"bounding box": [
+14.8,
+514.192,
+28.144,
+524.911
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "112",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 575,
+"level": "1",
+"page number": 5,
+"bounding box": [
+14.8,
+489.432,
+28.144,
+512.551
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 576,
+"page number": 5,
+"bounding box": [
+14.8,
+501.832,
+28.144,
+512.551
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "124",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 577,
+"page number": 5,
+"bounding box": [
+14.8,
+489.432,
+28.144,
+500.151
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "125",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 578,
+"level": "1",
+"page number": 5,
+"bounding box": [
+14.8,
+464.712,
+28.144,
+487.791
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 579,
+"page number": 5,
+"bounding box": [
+14.8,
+477.072,
+28.144,
+487.791
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "209",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 580,
+"page number": 5,
+"bounding box": [
+14.8,
+464.712,
+28.144,
+475.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "210",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 581,
+"level": "1",
+"page number": 5,
+"bounding box": [
+14.8,
+415.192,
+28.144,
+463.031
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 582,
+"page number": 5,
+"bounding box": [
+14.8,
+452.312,
+28.144,
+463.031
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "213",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 583,
+"page number": 5,
+"bounding box": [
+14.8,
+415.192,
+28.144,
+450.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "214\n311\n313",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 584,
+"level": "1",
+"page number": 5,
+"bounding box": [
+14.8,
+340.952,
+28.144,
+413.551
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 585,
+"page number": 5,
+"bounding box": [
+14.8,
+402.832,
+28.144,
+413.551
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "411",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 586,
+"page number": 5,
+"bounding box": [
+14.8,
+340.952,
+28.144,
+401.151
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "412\n414\n416\n509\n512",
+"kids": []
+}
+]
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 590,
+"page number": 5,
+"bounding box": [
+39.76,
+340.952,
+47.752,
+586.791
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "DI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI\nDI"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 589,
+"page number": 5,
+"bounding box": [
+80.64,
+340.952,
+91.752,
+586.791
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2,5\n2,5\n2,5\n2,5\n2,5\n2,5\n2,5\n2,5\n2,5\n2,5\n2,5\n2,5\n2,5\n2,5\n2,5\n2,5\n2,5\n2,5\n2,5\n2,5"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 591,
+"page number": 5,
+"bounding box": [
+96.28,
+340.952,
+129.176,
+586.791
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Due Out\nDue Out\nDue Out\nDue Out\nDue Out\nDue Out\nDeparted\nDue Out\nDue Out\nDue Out\nDeparted\nDeparted\nDue Out\nDeparted\nDue Out\nDue Out\nDeparted\nDeparted\nDeparted\nDue Out"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 600,
+"page number": 5,
+"bounding box": [
+138.08,
+563.712,
+169.2,
+586.791
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "29.08.26\n28.08.26"
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 601,
+"level": "1",
+"page number": 5,
+"bounding box": [
+138.08,
+477.072,
+169.2,
+562.031
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 602,
+"page number": 5,
+"bounding box": [
+138.08,
+551.312,
+169.2,
+562.031
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "28.08.26",
+"kids": [
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 603,
+"level": "1",
+"page number": 5,
+"bounding box": [
+138.08,
+526.592,
+169.2,
+549.671
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 604,
+"page number": 5,
+"bounding box": [
+138.08,
+538.952,
+169.2,
+549.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "28.08.26",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 605,
+"page number": 5,
+"bounding box": [
+138.08,
+526.592,
+169.2,
+537.311
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "29.08.26",
+"kids": []
+}
+]
+}
+]
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 606,
+"page number": 5,
+"bounding box": [
+138.08,
+477.072,
+169.2,
+524.911
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "29.08.26\n28.08.26\n28.08.26\n28.08.26",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 607,
+"level": "1",
+"page number": 5,
+"bounding box": [
+138.08,
+452.312,
+169.2,
+475.431
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 608,
+"page number": 5,
+"bounding box": [
+138.08,
+464.712,
+169.2,
+475.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "28.08.26",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 609,
+"page number": 5,
+"bounding box": [
+138.08,
+452.312,
+169.2,
+463.031
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "29.08.26",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 610,
+"level": "1",
+"page number": 5,
+"bounding box": [
+138.08,
+427.592,
+169.2,
+450.671
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 611,
+"page number": 5,
+"bounding box": [
+138.08,
+439.952,
+169.2,
+450.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "28.08.26",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 612,
+"page number": 5,
+"bounding box": [
+138.08,
+427.592,
+169.2,
+438.311
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "29.08.26",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 613,
+"level": "1",
+"page number": 5,
+"bounding box": [
+138.08,
+340.952,
+169.2,
+425.911
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 614,
+"page number": 5,
+"bounding box": [
+138.08,
+415.192,
+169.2,
+425.911
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "28.08.26",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 615,
+"page number": 5,
+"bounding box": [
+138.08,
+340.952,
+169.2,
+413.551
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "29.08.26\n28.08.26\n28.08.26\n28.08.26\n28.08.26\n28.08.26",
+"kids": []
+}
+]
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 616,
+"page number": 5,
+"bounding box": [
+177.48,
+340.952,
+208.6,
+586.791
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "30.08.26\n30.08.26\n30.08.26\n30.08.26\n30.08.26\n30.08.26\n30.08.26\n30.08.26\n30.08.26\n30.08.26\n30.08.26\n30.08.26\n30.08.26\n30.08.26\n30.08.26\n30.08.26\n30.08.26\n30.08.26\n30.08.26\n30.08.26"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 636,
+"page number": 5,
+"bounding box": [
+231.95,
+563.712,
+236.398,
+586.791
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2\n1"
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 637,
+"level": "1",
+"page number": 5,
+"bounding box": [
+231.95,
+452.312,
+236.398,
+562.031
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 638,
+"page number": 5,
+"bounding box": [
+231.95,
+551.312,
+236.398,
+562.031
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1",
+"kids": [
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 639,
+"level": "1",
+"page number": 5,
+"bounding box": [
+231.95,
+526.592,
+236.398,
+549.671
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 640,
+"page number": 5,
+"bounding box": [
+231.95,
+538.952,
+236.398,
+549.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 641,
+"page number": 5,
+"bounding box": [
+231.95,
+526.592,
+236.398,
+537.311
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2",
+"kids": []
+}
+]
+}
+]
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 642,
+"page number": 5,
+"bounding box": [
+231.95,
+452.312,
+236.398,
+524.911
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2\n1\n1\n1\n1\n1",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 643,
+"level": "1",
+"page number": 5,
+"bounding box": [
+231.95,
+390.432,
+236.398,
+450.671
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 644,
+"page number": 5,
+"bounding box": [
+231.95,
+439.952,
+236.398,
+450.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 645,
+"page number": 5,
+"bounding box": [
+231.95,
+390.432,
+236.398,
+438.311
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2\n1\n1\n1",
+"kids": []
+}
+]
+},
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 646,
+"level": "1",
+"page number": 5,
+"bounding box": [
+231.95,
+340.952,
+236.398,
+388.791
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 647,
+"page number": 5,
+"bounding box": [
+231.95,
+378.072,
+236.398,
+388.791
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1",
+"kids": [
+{
+"type": "list",
+"pdfua_tag": "L",
+"id": 648,
+"level": "1",
+"page number": 5,
+"bounding box": [
+231.95,
+353.312,
+236.398,
+376.431
+],
+"numbering style": "arabic numbers",
+"number of list items": 2,
+"list items": [
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 649,
+"page number": 5,
+"bounding box": [
+231.95,
+365.712,
+236.398,
+376.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1",
+"kids": []
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 650,
+"page number": 5,
+"bounding box": [
+231.95,
+353.312,
+236.398,
+364.031
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2",
+"kids": []
+}
+]
+}
+]
+},
+{
+"type": "list item",
+"pdfua_tag": "LI",
+"id": 651,
+"page number": 5,
+"bounding box": [
+231.95,
+340.952,
+236.398,
+351.671
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "2",
+"kids": []
+}
+]
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 626,
+"page number": 5,
+"bounding box": [
+250.856,
+576.072,
+255.304,
+586.791
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 627,
+"page number": 5,
+"bounding box": [
+250.856,
+514.192,
+255.304,
+537.311
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "1\n1"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 588,
+"page number": 5,
+"bounding box": [
+264.8,
+340.952,
+359.472,
+586.791
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Tasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)\nTasks:CLN(Linen Change)"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 635,
+"page number": 5,
+"bounding box": [
+8.2,
+324.625,
+79.68,
+333.562
+],
+"font": "Arial,Bold",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Total for Attendant"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 596,
+"page number": 5,
+"bounding box": [
+8.24,
+309.792,
+53.56,
+320.511
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Total Rooms"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 619,
+"page number": 5,
+"bounding box": [
+116.24,
+309.782,
+125.136,
+320.501
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "20"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 625,
+"page number": 5,
+"bounding box": [
+8.24,
+296.312,
+125.136,
+307.031
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Departure Rooms 13"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 618,
+"page number": 5,
+"bounding box": [
+8.24,
+282.782,
+50.44,
+293.501
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Total Adults"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 621,
+"page number": 5,
+"bounding box": [
+116.24,
+282.782,
+125.136,
+293.501
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "26"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 629,
+"page number": 5,
+"bounding box": [
+8.2,
+269.312,
+120.648,
+280.031
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Total Children 3"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 595,
+"page number": 5,
+"bounding box": [
+8.24,
+255.792,
+53.552,
+266.511
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Total Credits"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 620,
+"page number": 5,
+"bounding box": [
+116.24,
+255.782,
+125.136,
+266.501
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "50"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 617,
+"page number": 5,
+"bounding box": [
+8.24,
+242.312,
+24.672,
+253.031
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Dirty"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 622,
+"page number": 5,
+"bounding box": [
+116.24,
+242.312,
+125.136,
+253.031
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "20"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 631,
+"level": "2",
+"page number": 5,
+"bounding box": [
+227.92,
+324.625,
+230.584,
+333.562
+],
+"font": "Arial,Bold",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "-"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 628,
+"page number": 5,
+"bounding box": [
+12.72,
+219.072,
+119.4,
+229.791
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "@ Sleep # Skip ! Arrival"
+},
+{
+"type": "footer",
+"id": 653,
+"page number": 5,
+"bounding box": [
+9.08,
+12.209,
+580.054,
+58.562
+],
+"kids": [
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 654,
+"page number": 5,
+"bounding box": [
+333.366,
+49.625,
+580.054,
+58.562
+],
+"font": "Arial,Italic",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Page 5 of 6 hsk_tasksheet_11"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 655,
+"page number": 5,
+"bounding box": [
+9.08,
+12.209,
+208.616,
+56.392
+],
+"font": "Arial,Italic",
+"font size": 6.0,
+"text color": "[0.0]",
+"content": "Filter Task Date From 30.08.26 to 30.08.26 Attendant: ALL\nTask Code: CLN,GLC,GPS,INS\nShow Due Outs Only: N\nShow HouseUse: Y\nTask Sheet From 1 to 9999999999\nUse Priority: Y"
+}
+]
+},
+{
+"type": "header",
+"id": 656,
+"page number": 6,
+"bounding box": [
+13.52,
+748.641,
+580.01,
+792.0
+],
+"kids": [
+{
+"type": "image",
+"pdfua_tag": "Figure",
+"id": 657,
+"page number": 6,
+"bounding box": [
+13.52,
+771.52,
+71.28,
+792.0
+],
+"alt_source": "missing"
+},
+{
+"type": "heading",
+"pdfua_tag": "H1",
+"id": 658,
+"page number": 6,
+"bounding box": [
+240.52,
+748.641,
+580.01,
+782.002
+],
+"heading level": 1,
+"font": "Arial,Italic",
+"font size": 10.0,
+"text color": "[0.0]",
+"content": "Novotel Münster City 30.08.26\nTask Sheet Report 10:19"
+}
+]
+},
+{
+"type": "heading",
+"pdfua_tag": "H2",
+"id": 659,
+"level": "Subtitle",
+"page number": 6,
+"bounding box": [
+7.87,
+720.545,
+72.286,
+729.482
+],
+"heading level": 2,
+"font": "Arial,Bold",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Report Summary"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 663,
+"page number": 6,
+"bounding box": [
+7.87,
+702.072,
+115.798,
+712.791
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Total Task Sheets 5"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 661,
+"page number": 6,
+"bounding box": [
+7.87,
+688.592,
+124.694,
+699.311
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Total Rooms 112"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 665,
+"page number": 6,
+"bounding box": [
+7.87,
+674.712,
+120.246,
+685.431
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Departure Rooms 52"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 664,
+"page number": 6,
+"bounding box": [
+7.87,
+648.072,
+124.694,
+672.311
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Dirty Rooms 112\nClean Rooms 0"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 660,
+"page number": 6,
+"bounding box": [
+7.87,
+634.232,
+53.182,
+644.951
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Total Credits"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 662,
+"page number": 6,
+"bounding box": [
+111.35,
+634.232,
+131.358,
+644.951
+],
+"font": "Arial,Unicode MS",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "255,5"
+},
+{
+"type": "footer",
+"id": 666,
+"page number": 6,
+"bounding box": [
+9.08,
+12.209,
+580.054,
+58.562
+],
+"kids": [
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 667,
+"page number": 6,
+"bounding box": [
+333.366,
+49.625,
+580.054,
+58.562
+],
+"font": "Arial,Italic",
+"font size": 8.0,
+"text color": "[0.0]",
+"content": "Page 6 of 6 hsk_tasksheet_11"
+},
+{
+"type": "paragraph",
+"pdfua_tag": "P",
+"id": 668,
+"page number": 6,
+"bounding box": [
+9.08,
+12.209,
+208.616,
+56.392
+],
+"font": "Arial,Italic",
+"font size": 6.0,
+"text color": "[0.0]",
+"content": "Filter Task Date From 30.08.26 to 30.08.26 Attendant: ALL\nTask Code: CLN,GLC,GPS,INS\nShow Due Outs Only: N\nShow HouseUse: Y\nTask Sheet From 1 to 9999999999\nUse Priority: Y"
+}
+]
+}
+]
+}

@@ -1,0 +1,25 @@
+# Local development only: SQL Server and Azurite (Blob/Queue/Table emulator).
+# Azure SQL and Azure Storage replace these in dev/staging/prod.
+services:
+  sql:
+    image: mcr.microsoft.com/mssql/server:2022-CU14-ubuntu-22.04
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "${HSK_SQL_SA_PASSWORD:?run tools/setup-local.sh first}"
+      MSSQL_PID: Developer
+    ports:
+      - "1433:1433"
+    volumes:
+      - hsk-sql:/var/opt/mssql
+  azurite:
+    image: mcr.microsoft.com/azure-storage/azurite:3.31.0
+    command: azurite --blobHost 0.0.0.0 --queueHost 0.0.0.0 --tableHost 0.0.0.0 --skipApiVersionCheck --loose
+    ports:
+      - "10000:10000"
+      - "10001:10001"
+      - "10002:10002"
+    volumes:
+      - hsk-azurite:/data
+volumes:
+  hsk-sql:
+  hsk-azurite:

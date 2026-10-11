@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2439C458-DD13-4CFB-8A35-929F68FA1519}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HousekeepingParser", "src\HousekeepingParser\HousekeepingParser.csproj", "{3CDDB0C7-F1B6-4691-98FC-E57D3A4D94B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HousekeepingParser.Tests", "src\HousekeepingParser.Tests\HousekeepingParser.Tests.csproj", "{8C5D6CCD-680D-4718-BE82-A4526D3F01D3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3CDDB0C7-F1B6-4691-98FC-E57D3A4D94B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CDDB0C7-F1B6-4691-98FC-E57D3A4D94B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CDDB0C7-F1B6-4691-98FC-E57D3A4D94B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CDDB0C7-F1B6-4691-98FC-E57D3A4D94B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C5D6CCD-680D-4718-BE82-A4526D3F01D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C5D6CCD-680D-4718-BE82-A4526D3F01D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C5D6CCD-680D-4718-BE82-A4526D3F01D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C5D6CCD-680D-4718-BE82-A4526D3F01D3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3CDDB0C7-F1B6-4691-98FC-E57D3A4D94B8} = {2439C458-DD13-4CFB-8A35-929F68FA1519}
+		{8C5D6CCD-680D-4718-BE82-A4526D3F01D3} = {2439C458-DD13-4CFB-8A35-929F68FA1519}
+	EndGlobalSection
+EndGlobal
