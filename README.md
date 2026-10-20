@@ -145,7 +145,8 @@ Each upload starts one **run**. Both files are processed side by side:
 | When | Job |
 |---|---|
 | 00:05 on the 1st of each month | Activates planned rhythm changes |
-| 03:30 every day | Deletes old files, logs and expired sessions |
+| 06:00 on the 1st of each month | Emails the Leistungsnachweis of the month before (once) |
+| 03:30 every day | Deletes old files, logs and expired sessions; clears room-move employee names after 30 days |
 
 ---
 
@@ -172,9 +173,23 @@ Base URL: `http://localhost:7071/api` · Sign-in uses a secure session cookie.
 | Method | Endpoint | Description |
 |---|---|---|
 | `GET` | `/runs` | Last 100 runs |
-| `POST` | `/runs` | Start a run (upload 2 PDFs + guest requests) |
+| `POST` | `/runs` | Start a run (2 PDFs, guest requests, `cleanerAvailability`, `roomMoves`) |
 | `GET` | `/runs/{id}` | Run progress, warnings, totals and room colours |
 | `GET` | `/runs/{id}/pdf/{hotelId}` | Report + marked sheet PDF (add `?download=1` to download) |
+
+#### 🌙 Stage 2: day operations and reports
+| Method | Endpoint | Who | Description |
+|---|---|---|---|
+| `GET` | `/dashboard?timeframe=daily\|weekly\|monthly&hotel=all\|1\|2` | All | Financial, workload, check-limit and logic-comparison figures |
+| `GET` `POST` | `/room-moves` | All | List / add a room move (confirmed) |
+| `GET` `POST` | `/checks` · `DELETE /checks/{id}` | All | Room checks by PM, APM, Selbstcheck and the month's usage |
+| `GET` `POST` `PUT` | `/staff` · `/staff/{id}` | Director writes | Staff list with monthly check limits |
+| `GET` | `/daily-close?month=` · `/daily-close/{date}` | All | Days of a month / one day (pre-filled when new) |
+| `PUT` `POST` | `/daily-close/{date}` · `/confirm` · `/reopen` | All · Director reopens | Save draft, confirm and email, reopen |
+| `GET` | `/reports/daily/{date}/{hotelId}/task-sheet.pdf` · `handover.pdf` | All | Daily PDFs |
+| `GET` | `/reports/monthly/{yyyy-MM}` · `{yyyy-MM}.pdf` | All | Leistungsnachweis data / PDF |
+| `POST` | `/reports/daily/{date}/send` · `/reports/monthly/{yyyy-MM}/send` | All | Send again |
+| `GET` `PUT` | `/settings` | Director writes | Prices, Kostenstelle, flat-rate checks, recipients |
 
 #### ❤️ Health
 | Method | Endpoint | Description |
@@ -236,5 +251,7 @@ The image contains .NET 8, Java 17 and the PDF reader. In Azure, **Azure SQL** a
 
 ## 🔒 Privacy
 
-Real task sheets contain **staff names**. Never commit them.
+Real task sheets contain **staff names**. Never commit them. Names are still never read from the Opera PDF.
+Since Stage 2 the Director's staff list, the daily close and the room-check log hold names to print the reports
+(client sign-off pending, see the Next Stage workflow page); a hotel employee's name on a room move is cleared after 30 days.
 PDF files, `.env`, `local.settings.json` and the reader JAR are ignored by git. Test data uses fake names only.
