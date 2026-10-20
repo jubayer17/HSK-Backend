@@ -14,7 +14,10 @@ public static class Containers
     public const string Archive = "processed-archive";
     public const string Failed = "failed-pdf";
 
-    public static readonly string[] All = [Incoming, Marked, Archive, Failed];
+    /// <summary>Report emails as .eml files (Email:Mode = Outbox).</summary>
+    public const string Outbox = "email-outbox";
+
+    public static readonly string[] All = [Incoming, Marked, Archive, Failed, Outbox];
 }
 
 public sealed class StorageOptions
