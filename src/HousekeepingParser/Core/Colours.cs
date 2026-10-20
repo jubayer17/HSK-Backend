@@ -13,6 +13,24 @@ public enum RhythmType
 {
     TwoTages,
     ThreeTages,
+    /// <summary>Logic 3: Green daily; cleaned on request if a cleaner is free.</summary>
+    OneNight,
+}
+
+/// <summary>logic_version: 1 = 2-Tages, 2 = 3-Tages, 3 = 1-Night.</summary>
+public static class Logics
+{
+    public static readonly RhythmType[] All = [RhythmType.TwoTages, RhythmType.ThreeTages, RhythmType.OneNight];
+
+    public static byte Version(RhythmType rhythm) => rhythm switch
+    {
+        RhythmType.TwoTages => 1,
+        RhythmType.ThreeTages => 2,
+        RhythmType.OneNight => 3,
+        _ => throw new ArgumentOutOfRangeException(nameof(rhythm)),
+    };
+
+    public static RhythmType FromVersion(int version) => All[version - 1];
 }
 
 public static class Colours

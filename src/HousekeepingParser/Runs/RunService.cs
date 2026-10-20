@@ -7,6 +7,7 @@ using HousekeepingParser.Coloring;
 using HousekeepingParser.Core;
 using HousekeepingParser.Data;
 using HousekeepingParser.Functions;
+using HousekeepingParser.Operations;
 using HousekeepingParser.Rhythm;
 using HousekeepingParser.Storage;
 using Microsoft.Data.SqlClient;
@@ -16,19 +17,20 @@ namespace HousekeepingParser.Runs;
 public interface IRunService
 {
     /// <summary>Checks, stores and records a confirmed upload. The caller then starts the orchestration.</summary>
-    Task<Guid> CreateAsync(CurrentUser user, IReadOnlyList<UploadedFile> files, IReadOnlyList<NewRequest> requests, CancellationToken ct);
+    Task<Guid> CreateAsync(CurrentUser user, IReadOnlyList<UploadedFile> files, IReadOnlyList<NewRequest> requests, CancellationToken ct, RunExtras? extras = null);
     Task SetInstanceAsync(Guid runId, string instanceId, CancellationToken ct);
     Task<RunDto?> GetAsync(Guid runId, CancellationToken ct);
     Task<IReadOnlyList<RunDto>> ListAsync(int take, CancellationToken ct);
     Task<(Stream Pdf, string FileName)?> OpenMarkedPdfAsync(Guid runId, HotelId hotel, CancellationToken ct);
 }
 
-public sealed class RunService(IDbConnectionFactory db, IBlobStore blobs, IRhythmService rhythms, IAuditLog audit, IClock clock) : IRunService
+public sealed class RunService(IDbConnectionFactory db, IBlobStore blobs, IRhythmService rhythms, IAuditLog audit, IClock clock, IRoomMoveService moves) : IRunService
 {
     public const int MaxPdfBytes = 20 * 1024 * 1024;
 
-    public async Task<Guid> CreateAsync(CurrentUser user, IReadOnlyList<UploadedFile> files, IReadOnlyList<NewRequest> requests, CancellationToken ct)
+    public async Task<Guid> CreateAsync(CurrentUser user, IReadOnlyList<UploadedFile> files, IReadOnlyList<NewRequest> requests, CancellationToken ct, RunExtras? extras = null)
     {
+        extras ??= RunExtras.None;
         // Step 0: no run without an active rhythm for both hotels.
         var missing = (await rhythms.GetAllAsync(ct)).Where(r => r.Active is null).Select(r => Hotels.ShortName(r.HotelId)).ToList();
         if (missing.Count > 0)
@@ -41,6 +43,9 @@ public sealed class RunService(IDbConnectionFactory db, IBlobStore blobs, IRhyth
             if (f.Bytes.Length > MaxPdfBytes) throw BusinessRuleException.BadRequest($"\"{f.FileName}\" is larger than 20 MB.");
         }
         ValidateRequests(requests);
+        var roomMoves = extras.RoomMoves.Select(RoomMoveService.Validate).ToList();
+        if (roomMoves.GroupBy(m => (m.HotelId, m.RoomNo)).Any(g => g.Count() > 1))
+            throw BusinessRuleException.BadRequest("A room move was entered twice for the same room.");
 
         var runId = Guid.NewGuid();
         var today = clock.Today();
@@ -85,10 +90,21 @@ public sealed class RunService(IDbConnectionFactory db, IBlobStore blobs, IRhyth
                 new { runId, hotel = (byte)r.HotelId, r.RoomNo, type = r.Type.ToString(), colour = r.Colour?.ToString(), note = RunStore.Trim(r.Note, 200), today, userId = user.User.UserId }, tx);
         }
 
+        foreach (var (hotel, available) in extras.CleanerAvailable)
+        {
+            await c.ExecuteAsync(
+                """
+                DELETE FROM dbo.cleaner_availability WHERE hotel_id = @hotel AND report_date = @today;
+                INSERT INTO dbo.cleaner_availability (hotel_id, report_date, available, run_id, created_by) VALUES (@hotel, @today, @available, @runId, @userId);
+                """, new { hotel = (byte)hotel, today, available, runId, userId = user.User.UserId }, tx);
+        }
+        foreach (var m in roomMoves) await moves.InsertAsync(c, tx, user, m, today, runId);
+
         await audit.ConfirmationAsync(c, tx, user, "RUN_START", "phase1_run", runId, new
         {
             files = stored.Select(s => new { s.File.FileName, bytes = s.File.Bytes.Length }),
             requests = requests.Select(r => new { hotelId = (int)r.HotelId, r.RoomNo, type = r.Type.ToString(), colour = r.Colour?.ToString(), r.Note }),
+            cleanerAvailable = extras.CleanerAvailable.ToDictionary(k => (int)k.Key, k => k.Value),
         });
         await tx.CommitAsync(ct);
         return runId;
@@ -176,7 +192,7 @@ public sealed class RunService(IDbConnectionFactory db, IBlobStore blobs, IRhyth
                        r.arrival_date AS Arrival, r.departure_date AS Departure, r.adults AS Adults, r.children AS Children,
                        s.nights AS Nights, s.final_colour AS Colour, s.service_code AS ServiceCode, s.reason AS Reason, s.cleaned AS Cleaned
                 FROM dbo.room_rows r JOIN dbo.phase1_run_file f ON f.file_id = r.file_id
-                LEFT JOIN dbo.room_cleaning_status s ON s.file_id = r.file_id AND s.sheet_no = r.sheet_no AND s.room_no = r.room_no AND s.logic_version = 1
+                LEFT JOIN dbo.room_cleaning_status s ON s.file_id = r.file_id AND s.sheet_no = r.sheet_no AND s.room_no = r.room_no AND s.printed = 1
                 WHERE f.run_id IN @ids
                 ORDER BY TRY_CAST(r.room_no AS INT), r.sheet_no
                 """, p)).ToLookup(r => r.FileId)

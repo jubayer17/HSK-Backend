@@ -240,6 +240,17 @@ public sealed class MorningRunPipeline(
         var run = await c.QuerySingleAsync<Guid>("SELECT run_id FROM dbo.phase1_run_file WHERE file_id = @fileId", new { fileId }, tx);
         await c.ExecuteAsync("UPDATE dbo.pre_phase_requests SET request_date = @date WHERE run_id = @run AND hotel_id = @hotel",
             new { date = header.ReportDate, run, hotel = (byte)hotel }, tx);
+        // Same for cleaner answer and room moves (latest answer wins).
+        await c.ExecuteAsync(
+            """
+            IF EXISTS (SELECT 1 FROM dbo.cleaner_availability WHERE run_id = @run AND hotel_id = @hotel AND report_date <> @date)
+            BEGIN
+                DELETE FROM dbo.cleaner_availability WHERE hotel_id = @hotel AND report_date = @date;
+                UPDATE dbo.cleaner_availability SET report_date = @date WHERE run_id = @run AND hotel_id = @hotel;
+            END;
+            UPDATE dbo.room_move SET clean_date = DATEADD(DAY, DATEDIFF(DAY, move_date, clean_date), @date), move_date = @date
+            WHERE run_id = @run AND hotel_id = @hotel AND move_date <> @date;
+            """, new { date = header.ReportDate, run, hotel = (byte)hotel }, tx);
 
         var warnings = TotalsWarnings(report).Concat(report.Warnings.Select(w => (w.Code, w.Message))).ToList();
         foreach (var (code, message) in warnings) await store.WarnAsync(fileId, code, message, c, tx);
@@ -282,6 +293,7 @@ public sealed class MorningRunPipeline(
         var file = await store.GetFileAsync(fileId, ct);
         var hotel = (HotelId)file.HotelId!.Value;
         var reportDate = file.ReportDate!.Value;
+        var h = (byte)hotel;
 
         await using var c = await db.OpenAsync(ct);
         var rooms = (await c.QueryAsync<RoomRow>(
@@ -298,7 +310,9 @@ public sealed class MorningRunPipeline(
             FROM dbo.pre_phase_requests q JOIN dbo.phase1_run r ON r.run_id = q.run_id
             WHERE q.hotel_id = @hotel AND r.status <> 'failed'
               AND (q.run_id = @runId OR (q.request_type = 'DAILY_FULL' AND q.request_date < @reportDate))
-            """, new { hotel = (byte)hotel, runId = file.RunId, reportDate })).ToList();
+            """, new { hotel = h, runId = file.RunId, reportDate })).ToList();
+
+        var context = await LoadColourContextAsync(c, hotel, reportDate);
 
         await c.ExecuteAsync("DELETE FROM dbo.room_cleaning_status WHERE file_id = @fileId", new { fileId });
         await c.ExecuteAsync("DELETE FROM dbo.run_warning WHERE file_id = @fileId AND code LIKE 'COLOUR[_]%'", new { fileId });
@@ -306,6 +320,8 @@ public sealed class MorningRunPipeline(
         var onSheet = rooms.Select(r => r.RoomNo).ToHashSet();
         foreach (var missing in requests.Where(q => q.RunId == file.RunId && !onSheet.Contains(q.RoomNo)).Select(q => q.RoomNo).Distinct())
             await store.WarnAsync(fileId, "COLOUR_REQUEST_ROOM", $"A guest request was entered for room {missing}, but the room is not on this task sheet.", c);
+        foreach (var missing in context.Moves.Keys.Where(r => !onSheet.Contains(r)))
+            await store.WarnAsync(fileId, "COLOUR_MOVE_ROOM", $"A room move was entered for room {missing}, but the room is not on this task sheet.", c);
 
         var rows = new List<object>();
         var coloured = 0;
@@ -317,35 +333,119 @@ public sealed class MorningRunPipeline(
                 .Select(q => new GuestRequest(Enum.Parse<RequestType>(q.RequestType), q.Colour is null ? null : Enum.Parse<ColourName>(q.Colour)))
                 .ToList();
 
-            RhythmType? guestRhythm = null;
+            // Printed logic: stayover keeps its frozen one, else the hotel's active one.
+            var printedLogic = context.ActiveLogic;
             if (string.Equals(room.ReservationStatus.Trim(), "Stayover", StringComparison.OrdinalIgnoreCase)
                 && room.Arrival is { } arrival && arrival < reportDate)
             {
-                guestRhythm = await rhythms.GuestRhythmAsync(c, hotel, room.RoomNo, arrival, room.Departure);
+                printedLogic = await rhythms.GuestRhythmAsync(c, hotel, room.RoomNo, arrival, room.Departure);
             }
 
-            var decision = colours.Decide(new ColourInput(room.RoomNo, room.RoomStatus, room.ReservationStatus, room.Arrival, reportDate, guestRhythm, mine));
-            if (decision.Warning is not null) await store.WarnAsync(fileId, "COLOUR_STATUS", decision.Warning, c);
-            if (decision.Colour is not null) coloured++;
-
-            rows.Add(new
+            // All three logics, for the cost comparison.
+            foreach (var logic in Logics.All)
             {
-                fileId, hotel = (byte)hotel, reportDate, room.SheetNo, room.RoomNo,
-                baseColour = decision.BaseColour?.ToString(), finalColour = decision.Colour?.ToString(), decision.ServiceCode,
-                reason = RunStore.Trim(decision.Reason, 200), decision.OverrideReason, rhythm = decision.Rhythm?.ToString(),
-                cycle = (byte?)decision.CyclePosition, nights = (short?)decision.Nights, decision.Cleaned,
-            });
+                var input = new ColourInput(room.RoomNo, room.RoomStatus, room.ReservationStatus, room.Arrival, reportDate, logic, mine)
+                {
+                    CleanerAvailable = context.CleanerAvailable,
+                    PendingService = logic == RhythmType.OneNight && context.IsPending(room.RoomNo, room.Arrival),
+                    RoomMove = context.Moves.GetValueOrDefault(room.RoomNo),
+                };
+                var decision = colours.Decide(input);
+                var printed = logic == printedLogic;
+                if (printed)
+                {
+                    if (decision.Warning is not null) await store.WarnAsync(fileId, "COLOUR_STATUS", decision.Warning, c);
+                    if (decision.Colour is not null) coloured++;
+                }
+
+                rows.Add(new
+                {
+                    fileId, hotel = h, reportDate, room.SheetNo, room.RoomNo,
+                    baseColour = decision.BaseColour?.ToString(), finalColour = decision.Colour?.ToString(), decision.ServiceCode,
+                    reason = RunStore.Trim(decision.Reason, 200), decision.OverrideReason, rhythm = decision.Rhythm?.ToString(),
+                    cycle = (byte?)decision.CyclePosition, nights = (short?)decision.Nights, decision.Cleaned,
+                    version = Logics.Version(logic), printed,
+                    cleanedBy = decision.CleanedByType ?? (decision.Cleaned ? "External" : null),
+                });
+            }
         }
 
         await c.ExecuteAsync(
             """
             INSERT INTO dbo.room_cleaning_status (file_id, hotel_id, report_date, sheet_no, room_no, base_colour, final_colour, service_code,
-                reason, override_reason, assigned_rhythm, cycle_position, nights, cleaned, logic_version)
+                reason, override_reason, assigned_rhythm, cycle_position, nights, cleaned, logic_version, printed, cleaned_by_type)
             VALUES (@fileId, @hotel, @reportDate, @SheetNo, @RoomNo, @baseColour, @finalColour, @ServiceCode,
-                @reason, @OverrideReason, @rhythm, @cycle, @nights, @Cleaned, 1)
+                @reason, @OverrideReason, @rhythm, @cycle, @nights, @Cleaned, @version, @printed, @cleanedBy)
             """, rows);
 
-        await store.StepAsync(fileId, StepKeys.Colour, "done", $"{coloured} rooms get a marker, {rooms.Count - coloured} without");
+        var extra = context.CleanerAvailable ? "" : context.AnyOneNight ? " · no cleaner today (1-Night)" : "";
+        await store.StepAsync(fileId, StepKeys.Colour, "done", $"{coloured} rooms get a marker, {rooms.Count - coloured} without{extra}");
+    }
+
+    /// <summary>Colour-rule context besides the room, read once per sheet.</summary>
+    private static async Task<ColourContext> LoadColourContextAsync(SqlConnection c, HotelId hotel, DateOnly reportDate)
+    {
+        var p = new { hotel = (byte)hotel, reportDate, yesterday = reportDate.AddDays(-1) };
+        var active = await c.ExecuteScalarAsync<string?>(
+            "SELECT TOP 1 rhythm_type FROM dbo.rhythm_configuration WHERE hotel_id = @hotel AND status = 'ACTIVE' ORDER BY effective_from DESC", p)
+            ?? throw new InvalidOperationException("No active rhythm.");
+        var anyOneNight = active == nameof(RhythmType.OneNight) || await c.ExecuteScalarAsync<int>(
+            "SELECT COUNT(*) FROM dbo.guest_rhythm_assignment WHERE hotel_id = @hotel AND rhythm_type = 'OneNight' AND (departure_date IS NULL OR departure_date >= @reportDate)", p) > 0;
+
+        var available = await c.ExecuteScalarAsync<bool?>(
+            "SELECT available FROM dbo.cleaner_availability WHERE hotel_id = @hotel AND report_date = @reportDate", p) ?? false;
+
+        // Room moves: today's, plus yesterday's without a cleaner.
+        var moves = new Dictionary<string, RoomMoveMark>();
+        var moveRows = (await c.QueryAsync<MoveRow>(
+            """
+            SELECT room_no AS RoomNo, to_room_no AS ToRoomNo, move_date AS MoveDate, cleaner_available AS CleanerAvailable, cleaned_by_type AS CleanedByType
+            FROM dbo.room_move WHERE hotel_id = @hotel AND (move_date = @reportDate OR clean_date = @reportDate)
+            ORDER BY move_date DESC, created_at_utc
+            """, p)).ToList();
+        foreach (var m in moveRows)
+        {
+            var today = m.MoveDate == reportDate;
+            moves.TryAdd(m.RoomNo, new RoomMoveMark(RoomMoveSide.MovedOut, !today || m.CleanerAvailable, m.CleanedByType, !today));
+            if (today && m.ToRoomNo is { Length: > 0 } to)
+                moves.TryAdd(to, new RoomMoveMark(RoomMoveSide.MovedIn, false, m.CleanedByType, false));
+        }
+
+        // 1-Night: last 1-Night row per room (completed runs) and yesterday's Liegezimmer.
+        var last = (await c.QueryAsync<LastRow>(
+            """
+            SELECT x.RoomNo, x.ReportDate, x.Colour, x.Cleaned FROM (
+                SELECT s.room_no AS RoomNo, s.report_date AS ReportDate, s.final_colour AS Colour, s.cleaned AS Cleaned,
+                       ROW_NUMBER() OVER (PARTITION BY s.room_no ORDER BY s.report_date DESC) AS rn
+                FROM dbo.room_cleaning_status s JOIN dbo.phase1_run_file f ON f.file_id = s.file_id
+                WHERE s.hotel_id = @hotel AND s.logic_version = 3 AND s.report_date < @reportDate
+                  AND s.report_date >= DATEADD(DAY, -31, @reportDate) AND f.status = 'completed') x
+            WHERE x.rn = 1
+            """, p)).ToDictionary(r => r.RoomNo);
+        var liegezimmer = (await c.QueryAsync<string>(
+            """
+            SELECT r.room_no FROM dbo.daily_close_room r JOIN dbo.daily_close d ON d.close_id = r.close_id
+            WHERE d.report_date = @yesterday AND d.status = 'confirmed' AND r.hotel_id = @hotel AND r.category = 'LIEGEZIMMER'
+            """, p)).ToHashSet();
+
+        return new ColourContext(Enum.Parse<RhythmType>(active), available, anyOneNight, moves, last, liegezimmer);
+    }
+
+    private sealed record ColourContext(
+        RhythmType ActiveLogic,
+        bool CleanerAvailable,
+        bool AnyOneNight,
+        IReadOnlyDictionary<string, RoomMoveMark> Moves,
+        IReadOnlyDictionary<string, LastRow> LastOneNight,
+        IReadOnlySet<string> Liegezimmer)
+    {
+        /// <summary>Last 1-Night day was Blue and not cleaned, or Liegezimmer yesterday.</summary>
+        public bool IsPending(string roomNo, DateOnly? arrival)
+        {
+            if (arrival is null) return false;
+            if (Liegezimmer.Contains(roomNo)) return true;
+            return LastOneNight.TryGetValue(roomNo, out var l) && l.ReportDate >= arrival && l.Colour == nameof(ColourName.Blue) && !l.Cleaned;
+        }
     }
 
     // ---------- mark ----------
@@ -362,7 +462,7 @@ public sealed class MorningRunPipeline(
                 """
                 SELECT r.page_no AS Page, r.x_left AS XLeft, r.y_top AS YTop, r.y_bottom AS YBottom, s.final_colour AS Colour
                 FROM dbo.room_rows r
-                JOIN dbo.room_cleaning_status s ON s.file_id = r.file_id AND s.sheet_no = r.sheet_no AND s.room_no = r.room_no AND s.logic_version = 1
+                JOIN dbo.room_cleaning_status s ON s.file_id = r.file_id AND s.sheet_no = r.sheet_no AND s.room_no = r.room_no AND s.printed = 1
                 WHERE r.file_id = @fileId AND s.final_colour IS NOT NULL
                 """, new { fileId })).ToList();
         }
@@ -429,7 +529,7 @@ public sealed class MorningRunPipeline(
                    r.arrival_date AS Arrival, r.departure_date AS Departure, r.adults AS Adults, r.children AS Children,
                    s.final_colour AS Colour, s.reason AS Reason, s.cleaned AS Cleaned
             FROM dbo.room_rows r
-            LEFT JOIN dbo.room_cleaning_status s ON s.file_id = r.file_id AND s.sheet_no = r.sheet_no AND s.room_no = r.room_no AND s.logic_version = 1
+            LEFT JOIN dbo.room_cleaning_status s ON s.file_id = r.file_id AND s.sheet_no = r.sheet_no AND s.room_no = r.room_no AND s.printed = 1
             WHERE r.file_id = @fileId
             ORDER BY r.page_no, r.y_top DESC
             """, new { fileId })).Select(r => new ReportRoom(r.RoomNo, r.SheetNo, r.RoomStatus, r.ReservationStatus, r.Arrival, r.Departure,
@@ -501,6 +601,23 @@ public sealed class MorningRunPipeline(
         public string ReservationStatus { get; set; } = "";
         public DateOnly? Arrival { get; set; }
         public DateOnly? Departure { get; set; }
+    }
+
+    private sealed class MoveRow
+    {
+        public string RoomNo { get; set; } = "";
+        public string? ToRoomNo { get; set; }
+        public DateOnly MoveDate { get; set; }
+        public bool CleanerAvailable { get; set; }
+        public string CleanedByType { get; set; } = "";
+    }
+
+    private sealed class LastRow
+    {
+        public string RoomNo { get; set; } = "";
+        public DateOnly ReportDate { get; set; }
+        public string? Colour { get; set; }
+        public bool Cleaned { get; set; }
     }
 
     private sealed class RequestRow

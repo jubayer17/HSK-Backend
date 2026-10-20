@@ -104,7 +104,7 @@ public sealed partial class DatabaseTests(SqlServerFixture sql)
             Rhythms = rhythms,
             Auth = auth,
             Blobs = blobs,
-            Runs = new RunService(db, blobs, rhythms, audit, clock),
+            Runs = new RunService(db, blobs, rhythms, audit, clock, new HousekeepingParser.Operations.RoomMoveService(db, audit, clock)),
             Pipeline = new MorningRunPipeline(db, store, blobs, new FixtureExtractor(), new ColorRuleService(), rhythms, new PdfSharpMarker(), new PdfSharpReportRenderer(), clock,
                 Options.Create(new ValidationOptions { EnforceSheetAge = false }), NullLogger<MorningRunPipeline>.Instance),
             Director = await SignIn("director"),

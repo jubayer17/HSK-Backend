@@ -73,7 +73,16 @@ public sealed class PdfSharpReportRenderer : IRunReportRenderer
 /// <summary>Colour meanings as the housekeeping team reads them (core workflow, step 5).</summary>
 public static class ColourMeaning
 {
-    public static string Service(ColourName? colour, bool cleaned) => colour switch
+    public static string Service(ColourName? colour, bool cleaned, RhythmType? logic = null) => logic == RhythmType.OneNight
+        ? colour switch
+        {
+            ColourName.Red => cleaned ? "Full clean" : "Room ready",
+            ColourName.Blue => "Waiting for a cleaner",
+            ColourName.Green => cleaned ? "Full stayover clean" : "No service",
+            ColourName.Gold => "Special request",
+            _ => cleaned ? "Special request" : "No service",
+        }
+        : colour switch
     {
         ColourName.Red => "Full clean",
         ColourName.Blue => "Standard + towels & linen",
@@ -83,7 +92,18 @@ public static class ColourMeaning
         _ => "No service",
     };
 
-    public static string Legend(ColourName? colour) => colour switch
+    /// <summary>In 1-Night, Blue means "waiting", not "full service".</summary>
+    public static string Legend(ColourName? colour, RhythmType? logic = null) => logic == RhythmType.OneNight
+        ? colour switch
+        {
+            ColourName.Red => "Arrival (room ready), departure, due out or room move (full clean)",
+            ColourName.Blue => "Waiting: service asked for, no cleaner yet – clean on the next day with a cleaner",
+            ColourName.Green => "Stayover – full clean only when the guest asked and a cleaner is available",
+            ColourName.Purple => "Standard clean + new towels",
+            ColourName.Gold => "Special request from the guest",
+            _ => "No dot – empty clean room or nothing to do",
+        }
+        : colour switch
     {
         ColourName.Red => "Full clean – arrival, departure or due out",
         ColourName.Blue => "Standard clean + fresh towels and bed linen",
@@ -160,7 +180,7 @@ internal sealed class ReportWriter(PdfDocument doc, RunReport report)
             var meta = new List<string>();
             if (report.PublishedAtLocal is { } p) meta.Add($"Printed by Opera {p.ToString("dd.MM.yyyy HH:mm", German)}");
             meta.Add($"Created {report.GeneratedAtLocal.ToString("dd.MM.yyyy HH:mm", German)}");
-            if (report.Rhythm is { } r) meta.Add($"Cleaning rhythm: {(r == RhythmType.TwoTages ? "2-Tages" : "3-Tages")}");
+            if (report.Rhythm is { } r) meta.Add($"Cleaning logic: {r switch { RhythmType.TwoTages => "2-Tages", RhythmType.ThreeTages => "3-Tages", _ => "1-Night" }}");
             gfx.DrawString(string.Join("   ·   ", meta), Small, new XSolidBrush(XColor.FromArgb(235, 255, 255, 255)), Margin, 80, XStringFormats.TopLeft);
             y = 124;
         }
@@ -273,7 +293,7 @@ internal sealed class ReportWriter(PdfDocument doc, RunReport report)
 
             Swatch(colour, Margin + 12, y + 7, 10);
             gfx.DrawString(ColourWord(colour), BodyBold, new XSolidBrush(Ink), Margin + 30, y + 7, XStringFormats.TopLeft);
-            var meaning = ColourMeaning.Legend(colour);
+            var meaning = ColourMeaning.Legend(colour, report.Rhythm);
             if (colour == ColourName.Green && rooms.Count > 0)
                 meaning += $" · {rooms.Count(r => r.Cleaned)} cleaned today";
             gfx.DrawString(meaning, Body, new XSolidBrush(Muted), Margin + 96, y + 7, XStringFormats.TopLeft);
@@ -394,7 +414,7 @@ internal sealed class ReportWriter(PdfDocument doc, RunReport report)
         ColourPill(room.Colour, room.Cleaned, x + 2, y + 4, RoomWidths[1] - 10, h - 8);
         x += RoomWidths[1];
 
-        gfx.DrawString(Fit(ColourMeaning.Service(room.Colour, room.Cleaned), muted ? Body : BodyBold, RoomWidths[2] - 10), muted ? Body : BodyBold,
+        gfx.DrawString(Fit(ColourMeaning.Service(room.Colour, room.Cleaned, report.Rhythm), muted ? Body : BodyBold, RoomWidths[2] - 10), muted ? Body : BodyBold,
             new XSolidBrush(muted ? Muted : Ink), x + 6, ty, XStringFormats.TopLeft);
         x += RoomWidths[2];
 

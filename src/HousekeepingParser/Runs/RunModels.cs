@@ -37,6 +37,12 @@ public sealed record UploadedFile(string FileName, byte[] Bytes);
 
 public sealed record NewRequest(HotelId HotelId, string RoomNo, RequestType Type, ColourName? Colour, string? Note);
 
+/// <summary>Morning upload extras: cleaner availability and room moves.</summary>
+public sealed record RunExtras(IReadOnlyDictionary<HotelId, bool> CleanerAvailable, IReadOnlyList<HousekeepingParser.Operations.NewRoomMove> RoomMoves)
+{
+    public static readonly RunExtras None = new(new Dictionary<HotelId, bool>(), []);
+}
+
 /// <summary>Output of the read step, passed through the orchestration to the save step. Contains no names.</summary>
 public sealed record ReadOutcome(
     Guid FileId,
