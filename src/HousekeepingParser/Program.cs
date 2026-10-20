@@ -4,8 +4,10 @@ using HousekeepingParser.Coloring;
 using HousekeepingParser.Core;
 using HousekeepingParser.Data;
 using HousekeepingParser.Functions;
+using HousekeepingParser.Operations;
 using HousekeepingParser.Parsing;
 using HousekeepingParser.PdfMarking;
+using HousekeepingParser.Reports;
 using HousekeepingParser.Rhythm;
 using HousekeepingParser.Runs;
 using HousekeepingParser.Storage;
@@ -28,6 +30,7 @@ builder.Services.Configure<StorageOptions>(config.GetSection(StorageOptions.Sect
 builder.Services.Configure<OpenDataLoaderOptions>(config.GetSection(OpenDataLoaderOptions.SectionName));
 builder.Services.Configure<AuthOptions>(config.GetSection(AuthOptions.SectionName));
 builder.Services.Configure<ValidationOptions>(config.GetSection(ValidationOptions.SectionName));
+builder.Services.Configure<EmailOptions>(config.GetSection(EmailOptions.SectionName));
 
 builder.Services.AddSingleton<IClock, SystemClock>();
 builder.Services.AddSingleton<IDbConnectionFactory, SqlConnectionFactory>();
@@ -44,6 +47,15 @@ builder.Services.AddSingleton<IRhythmService, RhythmService>();
 builder.Services.AddSingleton<IRunService, RunService>();
 builder.Services.AddSingleton<RunStore>();
 builder.Services.AddSingleton<MorningRunPipeline>();
+builder.Services.AddSingleton<ISettingsService, SettingsService>();
+builder.Services.AddSingleton<IStaffService, StaffService>();
+builder.Services.AddSingleton<IRoomMoveService, RoomMoveService>();
+builder.Services.AddSingleton<IRoomCheckService, RoomCheckService>();
+builder.Services.AddSingleton<IDailyCloseService, DailyCloseService>();
+builder.Services.AddSingleton<IDashboardService, DashboardService>();
+builder.Services.AddSingleton<IBusinessReportRenderer, PdfSharpBusinessReportRenderer>();
+builder.Services.AddSingleton<IEmailSender, EmailSender>();
+builder.Services.AddSingleton<IReportService, ReportService>();
 builder.Services.AddSingleton<Api>();
 builder.Services.AddHostedService<StartupTasks>();
 

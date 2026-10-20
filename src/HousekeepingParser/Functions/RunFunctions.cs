@@ -34,7 +34,8 @@ public sealed class RunFunctions(Api api, IRunService runs, ILogger<RunFunctions
             }
 
             var requests = ParseRequests(form["requests"].ToString());
-            var runId = await runs.CreateAsync(user, files, requests, req.HttpContext.RequestAborted);
+            var extras = ParseExtras(form["cleanerAvailability"].ToString(), form["roomMoves"].ToString());
+            var runId = await runs.CreateAsync(user, files, requests, req.HttpContext.RequestAborted, extras);
             var instanceId = await durable.ScheduleNewOrchestrationInstanceAsync(
                 nameof(MorningRunOrchestration.MorningRun), runId, new StartOrchestrationOptions(runId.ToString("N")), req.HttpContext.RequestAborted);
             await runs.SetInstanceAsync(runId, instanceId, req.HttpContext.RequestAborted);
@@ -68,6 +69,25 @@ public sealed class RunFunctions(Api api, IRunService runs, ILogger<RunFunctions
             req.HttpContext.Response.Headers["X-Content-Type-Options"] = "nosniff";
             return new FileStreamResult(pdf.Value.Pdf, "application/pdf");
         });
+
+    private static RunExtras ParseExtras(string availabilityJson, string movesJson)
+    {
+        try
+        {
+            var availability = string.IsNullOrWhiteSpace(availabilityJson)
+                ? []
+                : JsonSerializer.Deserialize<List<CleanerAvailabilityDto>>(availabilityJson, Api.Json) ?? [];
+            var moves = string.IsNullOrWhiteSpace(movesJson) ? [] : JsonSerializer.Deserialize<List<NewRoomMoveDto>>(movesJson, Api.Json) ?? [];
+            if (moves.Count > 50) throw BusinessRuleException.BadRequest("Too many room moves.");
+            return new RunExtras(
+                availability.GroupBy(a => RhythmFunctions.ParseHotel(a.HotelId)).ToDictionary(g => g.Key, g => g.Last().Available),
+                moves.Select(OperationsFunctions.ToModel).ToList());
+        }
+        catch (JsonException)
+        {
+            throw BusinessRuleException.BadRequest("The cleaner availability or room moves could not be read.");
+        }
+    }
 
     private static List<NewRequest> ParseRequests(string json)
     {
