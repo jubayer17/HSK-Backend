@@ -63,4 +63,6 @@ public sealed record TaskSheetReport(
     IReadOnlyList<ParsedSheet> Sheets,
     IReadOnlyList<ParsedRoom> Rooms,
     ReportSummary? Summary,
-    IReadOnlyList<ParseWarning> Warnings);
+    IReadOnlyList<ParseWarning> Warnings,
+    /// <summary>Pages with room rows but without "Room Details" and the "Resv Status" column: not the known Opera layout.</summary>
+    IReadOnlyList<int> PagesWithoutLayout);

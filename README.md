@@ -135,8 +135,8 @@ Each upload starts one **run**. Both files are processed side by side:
 |:---:|---|---|
 | 1 | 📅 **Rhythm** | Makes sure the Director has set a cleaning rhythm |
 | 2 | 📖 **Read** | Extracts the text and positions from the PDF |
-| 3 | ✅ **Check** | Right report type, known hotel, recent, complete, one sheet per hotel, no duplicates |
-| 4 | 💾 **Save** | Stores rooms and totals; warns if the totals don't add up |
+| 3 | ✅ **Check** | Right report type and page layout ("Room Details", "Resv Status"), known hotel, recent, complete, one sheet per hotel, no duplicates |
+| 4 | 💾 **Save** | Stores rooms and totals; warns if rooms, Due Out departures, dirty / clean or credits don't match the totals page |
 | 5 | 🎨 **Colour** | Gives every room a colour based on the rhythm and guest stay |
 | 6 | 🖍️ **PDF** | Builds the report pages, then adds the original sheet with a coloured dot next to each room number |
 

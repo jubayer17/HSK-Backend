@@ -143,12 +143,12 @@ public sealed partial class DatabaseTests(SqlServerFixture sql)
         await new DbMigrator(Options.Create(new DatabaseOptions { ConnectionString = e.ConnectionString }), NullLogger<DbMigrator>.Instance).MigrateAsync();
 
         await using var c = await e.Db.OpenAsync();
-        Assert.Equal(3, await c.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM dbo.SchemaVersions"));
+        Assert.Equal(4, await c.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM dbo.SchemaVersions"));
         Assert.Equal(117, await c.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM dbo.room_inventory WHERE hotel_id = 2"));
         Assert.Equal(123, await c.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM dbo.room_inventory WHERE hotel_id = 1"));
     }
 
-    /// <summary>Plan 5.4 schema guard: no column for a person's name outside the staff list.</summary>
+    /// <summary>Plan 5.4 schema guard: no column for a person's name outside the Stage 2 staff list and report tables.</summary>
     [DockerFact]
     public async Task No_table_has_a_name_attendant_employee_or_guest_column()
     {
@@ -157,7 +157,17 @@ public sealed partial class DatabaseTests(SqlServerFixture sql)
         var columns = (await c.QueryAsync<string>(
             "SELECT TABLE_NAME + '.' + COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'dbo' AND TABLE_NAME <> 'AttendantMaster'")).ToList();
 
-        var allowed = new HashSet<string> { "phase1_run_file.blob_name", "phase1_run_file.marked_blob_name", "SchemaVersions.script_name", "PdfProcessingLog.SourceBlobName", "app_user.username" };
+        var allowed = new HashSet<string>
+        {
+            "phase1_run_file.blob_name", "phase1_run_file.marked_blob_name", "SchemaVersions.script_name", "PdfProcessingLog.SourceBlobName", "app_user.username",
+            // Stage 2: names entered by staff for the reports (README "Privacy"), never read from the Opera PDF.
+            "staff_member.staff_id", "staff_member.display_name",
+            "room_move.employee_name",
+            "room_check_log.staff_id", "room_check_log.checked_by_name",
+            "daily_close_hotel.richter_staff_name",
+            "daily_close_cleaner.staff_id", "daily_close_cleaner.cleaner_name",
+            "daily_close_supervisor.staff_id", "daily_close_supervisor.person_name",
+        };
         var bad = columns.Where(col => ForbiddenColumn().IsMatch(col.Split('.')[1]) && !allowed.Contains(col)).ToList();
         Assert.Empty(bad);
     }

@@ -82,6 +82,10 @@ public sealed class MorningRunPipeline(
         if (!report.IsTaskSheetReport)
             return await RejectAsync(file, StepKeys.Check, "NOT_TASK_SHEET",
                 "This file is not an Opera task sheet: the title \"Task Sheet Report\" is missing.", ct);
+        if (report.PagesWithoutLayout.Count > 0)
+            return await RejectAsync(file, StepKeys.Check, "LAYOUT",
+                $"Page {string.Join(", ", report.PagesWithoutLayout)} does not have the Opera task sheet layout (\"Room Details\" and \"Resv Status\" are missing). " +
+                "Please export the task sheet from Opera again.", ct);
         if (report.Header is not { } header)
             return await RejectAsync(file, StepKeys.Check, "NO_HEADER",
                 "The hotel name and print date at the top of the sheet could not be read.", ct);
@@ -276,6 +280,15 @@ public sealed class MorningRunPipeline(
         var clean = report.Rooms.Count(r => r.RoomStatus == "CL");
         if (dirty != s.DirtyRooms || clean != s.CleanRooms)
             yield return ("DIRTY_CLEAN", $"Dirty / clean rooms read: {dirty} / {clean}; the totals page says {s.DirtyRooms} / {s.CleanRooms}.");
+
+        // Opera's "Departure Rooms" counts Due Out rooms only; Departed rooms are not in it (all real samples).
+        var dueOut = report.Rooms.Count(r => r.ReservationStatus == "Due Out");
+        if (dueOut != s.DepartureRooms)
+            yield return ("DEPARTURES", $"{dueOut} Due Out rooms were read, but the totals page says {s.DepartureRooms} departure rooms.");
+
+        var credits = report.Rooms.Sum(r => r.Credits ?? 0);
+        if (credits != s.TotalCredits)
+            yield return ("CREDITS", $"The room credits add up to {credits.ToString("0.0", German)}, but the totals page says {s.TotalCredits.ToString("0.0", German)}.");
 
         foreach (var sheet in report.Sheets.Where(x => x.Totals?.Rooms is not null))
         {
