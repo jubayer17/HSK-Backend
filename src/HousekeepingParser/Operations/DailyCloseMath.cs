@@ -91,8 +91,16 @@ public static class DailyCloseMath
         [RoomCategory.LIEGEZIMMER] = "Liegezimmer für Folgetag",
     };
 
+    /// <summary>"Pauschale Checks 5T/W": flat-rate days allowed per Monday–Sunday week.</summary>
+    public const int FlatRateDaysPerWeek = 5;
+
+    /// <summary>Monday of the week that contains the date.</summary>
+    public static DateOnly WeekStart(DateOnly date) => date.AddDays(-(((int)date.DayOfWeek + 6) % 7));
+
     /// <summary>Errors stop the confirmation; warnings are shown but allowed.</summary>
-    public static IReadOnlyList<CloseIssue> Issues(CloseInput input, IReadOnlyList<(HotelId Hotel, int? TotalRooms, CloseTotals Totals)> context)
+    /// <param name="otherFlatRateDays">Per hotel: flat-rate days saved for the other days of the same week.</param>
+    public static IReadOnlyList<CloseIssue> Issues(CloseInput input, IReadOnlyList<(HotelId Hotel, int? TotalRooms, CloseTotals Totals)> context,
+        IReadOnlyDictionary<HotelId, int>? otherFlatRateDays = null)
     {
         var issues = new List<CloseIssue>();
         void Err(HotelId? h, string m) => issues.Add(new CloseIssue("error", h, m));
@@ -152,6 +160,9 @@ public static class DailyCloseMath
                 Warn(h.Hotel, $"{shortName}: more than 30 Liegezimmer. The extra rooms go on a second page of the handover form.");
             if (string.IsNullOrWhiteSpace(h.RichterStaffName)) Warn(h.Hotel, $"{shortName}: \"Name MA Richter\" for the handover form is empty.");
             if (h.FlatRateDay && h.PauschaleChecks <= 0) Warn(h.Hotel, $"{shortName}: flat-rate day without flat-rate checks.");
+            var flatDays = (otherFlatRateDays?.GetValueOrDefault(h.Hotel) ?? 0) + (h.FlatRateDay ? 1 : 0);
+            if (h.FlatRateDay && flatDays > FlatRateDaysPerWeek)
+                Warn(h.Hotel, $"{shortName}: this is flat-rate day {flatDays} of this week (Monday–Sunday), but the agreement is {FlatRateDaysPerWeek} per week (5T/W).");
         }
         return issues;
     }

@@ -213,7 +213,7 @@ public sealed class OperationsFunctions(
                     : null,
                 new CloseChecksDto(h.Checks.Pm, h.Checks.Apm, h.Checks.Selbst), h.RoomMoves,
                 new CloseTotalsDto(h.Totals.Gereinigt, h.Totals.Ns, h.Totals.Rk, h.Totals.Ks, h.Totals.Sauber, h.Totals.Liegezimmer, h.Totals.Summe,
-                    h.Totals.ChecksActual, h.Totals.ZuBerechnen))).ToList(),
+                    h.Totals.ChecksActual, h.Totals.ZuBerechnen), h.OtherFlatRateDays)).ToList(),
             v.Issues.Select(i => new CloseIssueDto(i.Level, (int?)i.Hotel, i.Message)).ToList(),
             v.UpdatedBy, v.UpdatedAtUtc is { } u ? Iso(u) : null, v.ConfirmedBy, v.ConfirmedAtUtc is { } c ? Iso(c) : null,
             emails.Select(ToDto).ToList());

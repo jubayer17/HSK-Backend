@@ -391,6 +391,43 @@ public sealed partial class DatabaseTests(SqlServerFixture sql)
         }
     }
 
+    [DockerFact]
+    public async Task Room_move_without_a_cleaner_is_prefilled_as_liegezimmer_for_the_next_day()
+    {
+        var e = await CreateAsync();
+        var audit = new SqlAuditLog();
+        var moves = new HousekeepingParser.Operations.RoomMoveService(e.Db, audit, e.Clock);
+        await moves.AddAsync(e.Operations, new HousekeepingParser.Operations.NewRoomMove(HotelId.Novotel, "214", "215", false, "External", null, null), default);
+        await moves.AddAsync(e.Operations, new HousekeepingParser.Operations.NewRoomMove(HotelId.Novotel, "216", "217", true, "External", null, null), default);
+
+        var closes = new HousekeepingParser.Operations.DailyCloseService(e.Db, new HousekeepingParser.Operations.RoomCheckService(e.Db, audit, e.Clock), audit, e.Clock);
+        var view = await closes.GetAsync(new DateOnly(2026, 10, 10), default);
+        var novotel = view.Input.Hotels.Single(h => h.Hotel == HotelId.Novotel);
+        Assert.Equal(["214"], novotel.RoomsOf(HousekeepingParser.Operations.RoomCategory.LIEGEZIMMER));
+        Assert.Empty(view.Input.Hotels.Single(h => h.Hotel == HotelId.IbisBudget).RoomsOf(HousekeepingParser.Operations.RoomCategory.LIEGEZIMMER));
+    }
+
+    [DockerFact]
+    public async Task Sixth_flat_rate_day_of_the_week_is_counted_from_saved_closes()
+    {
+        var e = await CreateAsync();
+        var audit = new SqlAuditLog();
+        var closes = new HousekeepingParser.Operations.DailyCloseService(e.Db, new HousekeepingParser.Operations.RoomCheckService(e.Db, audit, e.Clock), audit, e.Clock);
+
+        // Monday 5.10. to Friday 9.10.2026: flat-rate days by default.
+        for (var d = new DateOnly(2026, 10, 5); d <= new DateOnly(2026, 10, 9); d = d.AddDays(1))
+            await closes.SaveAsync(e.Operations, d, (await closes.GetAsync(d, default)).Input, default);
+
+        var saturday = new DateOnly(2026, 10, 10);
+        var input = (await closes.GetAsync(saturday, default)).Input;
+        Assert.All(input.Hotels, h => Assert.False(h.FlatRateDay));
+        var flat = input with { Hotels = input.Hotels.Select(h => h with { FlatRateDay = true }).ToList() };
+        var view = await closes.SaveAsync(e.Operations, saturday, flat, default);
+
+        Assert.All(view.Hotels, h => Assert.Equal(5, h.OtherFlatRateDays));
+        Assert.Contains(view.Issues, i => i.Level == "warning" && i.Hotel == HotelId.Novotel && i.Message.Contains("flat-rate day 6"));
+    }
+
     private static (string? Colour, string Code) Colour(Functions.HotelRunResultDto hotel, string room)
     {
         var r = hotel.Rooms.Single(x => x.RoomNo == room);

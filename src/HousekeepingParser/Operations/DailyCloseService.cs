@@ -14,6 +14,9 @@ public sealed record CloseSheet(Guid FileId, ReportSummary Summary, DateTime? Pu
 public sealed record CloseHotelView(CloseHotel Input, CloseSheet? Sheet, CloseChecks Checks, int RoomMoves, CloseTotals Totals)
 {
     public int? TotalRooms { get; init; }
+
+    /// <summary>Flat-rate days saved for the other days of this Monday–Sunday week.</summary>
+    public int OtherFlatRateDays { get; init; }
 }
 
 public sealed record DailyCloseView(
@@ -274,8 +277,18 @@ public sealed class DailyCloseService(IDbConnectionFactory db, IRoomCheckService
                         "SELECT room_no FROM dbo.room_cleaning_status WHERE file_id = @file AND printed = 1 AND final_colour = 'Green' AND cleaned = 0",
                         new { file = s.FileId }, tx)).Distinct().OrderBy(r => int.TryParse(r, out var n) ? n : 0).ToList()
                     : [];
+                // Liegezimmer für Folgetag pre-filled: rooms moved out today without a cleaner (cleaned tomorrow).
+                var liegezimmer = (await c.QueryAsync<string>(
+                        "SELECT room_no FROM dbo.room_move WHERE hotel_id = @hotel AND move_date = @date AND clean_date > @date",
+                        new { hotel = (byte)h, date }, tx))
+                    .Distinct().Where(r => !ns.Contains(r)).OrderBy(r => int.TryParse(r, out var n) ? n : 0).ToList();
                 hotels.Add(new CloseHotel(h, "", flat, settings.PauschaleChecks, 0, 0, "", [],
-                    Enum.GetValues<RoomCategory>().ToDictionary(cat => cat, cat => (IReadOnlyList<string>)(cat == RoomCategory.NS ? ns : []))));
+                    Enum.GetValues<RoomCategory>().ToDictionary(cat => cat, cat => (IReadOnlyList<string>)(cat switch
+                    {
+                        RoomCategory.NS => ns,
+                        RoomCategory.LIEGEZIMMER => liegezimmer,
+                        _ => [],
+                    }))));
             }
             input = new CloseInput("", 0, SupervisorRoles.All.Select(r => new CloseSupervisor(r.Role, null, "", null, null, 0.5m)).ToList(), hotels);
         }
@@ -324,12 +337,20 @@ public sealed class DailyCloseService(IDbConnectionFactory db, IRoomCheckService
             var counts = snap.Checks ?? await checks.CountAsync(c, tx, h.Hotel, date);
             var moves = await c.ExecuteScalarAsync<int>(
                 "SELECT COUNT(*) FROM dbo.room_move WHERE hotel_id = @hotel AND (move_date = @date OR clean_date = @date)", new { hotel = (byte)h.Hotel, date }, tx);
+            var weekStart = DailyCloseMath.WeekStart(date);
+            var otherFlat = await c.ExecuteScalarAsync<int>(
+                """
+                SELECT COUNT(*) FROM dbo.daily_close d JOIN dbo.daily_close_hotel h ON h.close_id = d.close_id
+                WHERE h.hotel_id = @hotel AND h.flat_rate_day = 1 AND d.report_date BETWEEN @from AND @to AND d.report_date <> @date
+                """, new { hotel = (byte)h.Hotel, from = weekStart, to = weekStart.AddDays(6), date }, tx);
             views.Add(new CloseHotelView(h, sheets[h.Hotel], counts, moves, DailyCloseMath.Totals(h, counts))
             {
                 TotalRooms = confirmed ? snap.Total : sheets[h.Hotel]?.Summary.TotalRooms,
+                OtherFlatRateDays = otherFlat,
             });
         }
-        var issues = DailyCloseMath.Issues(input, views.Select(v => (v.Input.Hotel, v.TotalRooms, v.Totals)).ToList());
+        var issues = DailyCloseMath.Issues(input, views.Select(v => (v.Input.Hotel, v.TotalRooms, v.Totals)).ToList(),
+            views.ToDictionary(v => v.Input.Hotel, v => v.OtherFlatRateDays));
 
         return new DailyCloseView(date, head?.Status ?? "new", input, views, issues, head?.UpdatedBy, head?.UpdatedAtUtc, head?.ConfirmedBy, head?.ConfirmedAtUtc);
     }

@@ -170,6 +170,27 @@ public class DailyCloseMathTests
     }
 
     [Fact]
+    public void A_sixth_flat_rate_day_in_one_week_is_a_warning()
+    {
+        var input = new CloseInput("", 0, [], [Novotel0109()]);
+        var fifth = DailyCloseMath.Issues(input, [], new Dictionary<HotelId, int> { [HotelId.Novotel] = 4 });
+        Assert.DoesNotContain(fifth, i => i.Message.Contains("5T/W"));
+
+        var sixth = DailyCloseMath.Issues(input, [], new Dictionary<HotelId, int> { [HotelId.Novotel] = 5 });
+        Assert.Contains(sixth, i => i.Level == "warning" && i.Message.Contains("flat-rate day 6"));
+
+        var notFlat = new CloseInput("", 0, [], [Novotel0109(flat: false)]);
+        Assert.DoesNotContain(DailyCloseMath.Issues(notFlat, [], new Dictionary<HotelId, int> { [HotelId.Novotel] = 5 }), i => i.Message.Contains("5T/W"));
+    }
+
+    [Theory]
+    [InlineData("2026-09-07", "2026-09-07")] // Monday
+    [InlineData("2026-09-10", "2026-09-07")]
+    [InlineData("2026-09-13", "2026-09-07")] // Sunday
+    public void Week_runs_monday_to_sunday(string date, string monday) =>
+        Assert.Equal(DateOnly.Parse(monday), DailyCloseMath.WeekStart(DateOnly.Parse(date)));
+
+    [Fact]
     public void Zeitraum_is_written_like_the_paper_form() => Assert.Equal("Sep. 26", ReportService.Zeitraum(new DateOnly(2026, 9, 1)));
 
     [Fact]

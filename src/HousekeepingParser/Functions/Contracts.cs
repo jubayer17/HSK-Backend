@@ -117,7 +117,8 @@ public sealed record CloseTotalsDto(int Gereinigt, int Ns, int Rk, int Ks, int S
 
 public sealed record CloseHotelDto(
     int HotelId, string RichterStaffName, bool FlatRateDay, int PauschaleChecks, int Sauber, int Abzuege, string Informationen,
-    IReadOnlyList<CloseCleanerDto> Cleaners, CloseRoomsDto Rooms, CloseSheetDto? Sheet, CloseChecksDto Checks, int RoomMoves, CloseTotalsDto Totals);
+    IReadOnlyList<CloseCleanerDto> Cleaners, CloseRoomsDto Rooms, CloseSheetDto? Sheet, CloseChecksDto Checks, int RoomMoves, CloseTotalsDto Totals,
+    int OtherFlatRateDays);
 
 public sealed record CloseIssueDto(string Level, int? HotelId, string Message);
 
