@@ -1,0 +1,2320 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "HSK Automation API",
+    "version": "1.0.0",
+    "description": "Housekeeping automation API for Novotel and ibis budget Münster City.\n\n**Authentication:** sign in via `POST /auth/login`. The session cookie is then sent automatically with each request.\n\n**Conventions:** hotel `1` = Novotel, `2` = ibis budget · dates `YYYY-MM-DD` · times in UTC · errors return `{ \"error\": \"…\" }`."
+  },
+  "servers": [
+    {
+      "url": "/api"
+    }
+  ],
+  "tags": [
+    {
+      "name": "System",
+      "description": "Service status"
+    },
+    {
+      "name": "Auth",
+      "description": "Sign-in and session"
+    },
+    {
+      "name": "Runs",
+      "description": "Task-sheet upload, processing and marked PDFs"
+    },
+    {
+      "name": "Rhythm",
+      "description": "Cleaning rhythm per hotel"
+    },
+    {
+      "name": "Dashboard",
+      "description": "Key figures and trends"
+    },
+    {
+      "name": "Staff",
+      "description": "Cleaners and supervisors"
+    },
+    {
+      "name": "Room moves",
+      "description": "Guests changing rooms"
+    },
+    {
+      "name": "Room checks",
+      "description": "Room quality inspections"
+    },
+    {
+      "name": "Daily close",
+      "description": "End-of-day record and confirmation"
+    },
+    {
+      "name": "Reports",
+      "description": "Daily and monthly reports and email delivery"
+    },
+    {
+      "name": "Settings",
+      "description": "Property details, prices and recipients"
+    }
+  ],
+  "security": [
+    {
+      "sessionCookie": []
+    }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "tags": [
+          "System"
+        ],
+        "summary": "Health check",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Healthy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "ok"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Database unavailable"
+          }
+        },
+        "description": "Returns `ok` when the API and database are reachable, otherwise `unavailable` (503)."
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Sign in",
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              },
+              "example": {
+                "username": "director",
+                "password": "demo"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/User"
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "description": "Verifies the username and password and starts a session by setting the `hsk_session` cookie."
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Sign out",
+        "security": [],
+        "responses": {
+          "204": {
+            "description": "Signed out"
+          }
+        },
+        "description": "Ends the current session and clears the session cookie."
+      }
+    },
+    "/auth/me": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Get current user",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/User"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "description": "Returns the signed-in user and role. Use it to check whether the session is still valid."
+      }
+    },
+    "/runs": {
+      "get": {
+        "tags": [
+          "Runs"
+        ],
+        "summary": "List runs",
+        "responses": {
+          "200": {
+            "description": "Runs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Run"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "description": "Returns the 100 most recent task-sheet runs with their status and per-hotel results."
+      },
+      "post": {
+        "tags": [
+          "Runs"
+        ],
+        "summary": "Upload task sheets",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "files",
+                  "confirmed"
+                ],
+                "properties": {
+                  "files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    },
+                    "description": "The Novotel and ibis task sheet PDFs (max 20 MB each)"
+                  },
+                  "confirmed": {
+                    "type": "string",
+                    "enum": [
+                      "true"
+                    ]
+                  },
+                  "requests": {
+                    "type": "string",
+                    "description": "JSON array of PrePhaseRequest",
+                    "example": "[]"
+                  },
+                  "cleanerAvailability": {
+                    "type": "string",
+                    "description": "JSON array of CleanerAvailability",
+                    "example": "[]"
+                  },
+                  "roomMoves": {
+                    "type": "string",
+                    "description": "JSON array of NewRoomMove (max 50)",
+                    "example": "[]"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Run started",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "description": "Uploads the daily Novotel and ibis task-sheet PDFs and starts processing in the background. Track progress with `GET /runs/{id}`."
+      }
+    },
+    "/runs/{id}": {
+      "get": {
+        "tags": [
+          "Runs"
+        ],
+        "summary": "Get run",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Run",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Run"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "description": "Returns a run's progress, validation warnings and the assigned colour of every room."
+      }
+    },
+    "/runs/{id}/pdf/{hotelId}": {
+      "get": {
+        "tags": [
+          "Runs"
+        ],
+        "summary": "Download marked PDF",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Id"
+          },
+          {
+            "$ref": "#/components/parameters/HotelIdPath"
+          },
+          {
+            "$ref": "#/components/parameters/Download"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Pdf"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "description": "Returns the hotel's report followed by the original task sheet with a coloured marker next to each room."
+      }
+    },
+    "/rhythm": {
+      "get": {
+        "tags": [
+          "Rhythm"
+        ],
+        "summary": "Get cleaning rhythm",
+        "responses": {
+          "200": {
+            "description": "Rhythms",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/HotelRhythm"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Returns the active cleaning rhythm and any scheduled change for each hotel."
+      },
+      "post": {
+        "tags": [
+          "Rhythm"
+        ],
+        "summary": "Change cleaning rhythm",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetRhythmRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HotelRhythm"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "description": "Sets or schedules a hotel's cleaning rhythm from a given date. Director only."
+      }
+    },
+    "/rhythm/{hotelId}/scheduled": {
+      "delete": {
+        "tags": [
+          "Rhythm"
+        ],
+        "summary": "Cancel scheduled rhythm",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/HotelIdPath"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "confirmed"
+                ],
+                "properties": {
+                  "reason": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "confirmed": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HotelRhythm"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "description": "Cancels a planned rhythm change before it takes effect. Director only."
+      }
+    },
+    "/rhythm/history": {
+      "get": {
+        "tags": [
+          "Rhythm"
+        ],
+        "summary": "Get rhythm history",
+        "responses": {
+          "200": {
+            "description": "History",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RhythmHistoryEntry"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Lists all rhythm changes and cancellations, with who made them and when."
+      }
+    },
+    "/dashboard": {
+      "get": {
+        "tags": [
+          "Dashboard"
+        ],
+        "summary": "Get dashboard",
+        "parameters": [
+          {
+            "name": "timeframe",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "daily",
+                "weekly",
+                "monthly"
+              ],
+              "default": "daily"
+            }
+          },
+          {
+            "name": "hotel",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "all",
+                "1",
+                "2"
+              ],
+              "default": "all"
+            }
+          },
+          {
+            "name": "date",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Metrics",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "description": "Returns billing, workload, room-check and daily-close figures for a day, week or month, for one or both hotels."
+      }
+    },
+    "/staff": {
+      "get": {
+        "tags": [
+          "Staff"
+        ],
+        "summary": "List staff",
+        "responses": {
+          "200": {
+            "description": "Staff",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/StaffMember"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Returns all staff members with their hotel, company, role and monthly check limit."
+      },
+      "post": {
+        "tags": [
+          "Staff"
+        ],
+        "summary": "Add staff member",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaveStaffRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffMember"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "description": "Adds a cleaner or supervisor. Director only."
+      }
+    },
+    "/staff/{id}": {
+      "put": {
+        "tags": [
+          "Staff"
+        ],
+        "summary": "Update staff member",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Id"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaveStaffRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffMember"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "description": "Edits or deactivates a staff member. Director only."
+      }
+    },
+    "/room-moves": {
+      "get": {
+        "tags": [
+          "Room moves"
+        ],
+        "summary": "List room moves",
+        "parameters": [
+          {
+            "name": "date",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "description": "Only moves with this move or cleaning date. Omit for all."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Room moves",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RoomMove"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Returns guest room moves (latest 500), optionally only those moved or cleaned on a given date."
+      },
+      "post": {
+        "tags": [
+          "Room moves"
+        ],
+        "summary": "Record room move",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "move",
+                  "confirmed"
+                ],
+                "properties": {
+                  "move": {
+                    "$ref": "#/components/schemas/NewRoomMove"
+                  },
+                  "confirmed": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoomMove"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "description": "Records a guest moving to another room. The vacated room is cleaned today, or the next morning if no cleaner is available."
+      }
+    },
+    "/checks": {
+      "get": {
+        "tags": [
+          "Room checks"
+        ],
+        "summary": "Get room checks",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/DateQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/ChecksOverview"
+          }
+        },
+        "description": "Returns the room checks of a day, daily totals per hotel and the month's usage against the check limits."
+      },
+      "post": {
+        "tags": [
+          "Room checks"
+        ],
+        "summary": "Record room checks",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewRoomChecksRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/ChecksOverview"
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "description": "Records rooms inspected by a supervisor, either as a list of rooms or as a count."
+      }
+    },
+    "/checks/{id}": {
+      "delete": {
+        "tags": [
+          "Room checks"
+        ],
+        "summary": "Delete room check",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/ChecksOverview"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "description": "Removes a room-check entry and returns the updated overview."
+      }
+    },
+    "/daily-close": {
+      "get": {
+        "tags": [
+          "Daily close"
+        ],
+        "summary": "List daily closes",
+        "parameters": [
+          {
+            "name": "month",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "example": "2026-11"
+            },
+            "description": "Defaults to the current month"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Days",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DailyCloseListItem"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Returns every day of a month with its close status, room totals and whether reports were emailed."
+      }
+    },
+    "/daily-close/{date}": {
+      "get": {
+        "tags": [
+          "Daily close"
+        ],
+        "summary": "Get daily close",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/DatePath"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/DailyClose"
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "description": "Returns the end-of-day record for a date: staff hours, cleaned rooms, calculated totals and open issues."
+      },
+      "put": {
+        "tags": [
+          "Daily close"
+        ],
+        "summary": "Save daily close draft",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/DatePath"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DailyCloseInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/DailyClose"
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "description": "Saves the end-of-day entries without locking the day."
+      }
+    },
+    "/daily-close/{date}/confirm": {
+      "post": {
+        "tags": [
+          "Daily close"
+        ],
+        "summary": "Confirm daily close",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/DatePath"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DailyCloseInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/DailyClose"
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "description": "Saves and locks the day, then emails the daily reports. A failed email does not undo the lock."
+      }
+    },
+    "/daily-close/{date}/reopen": {
+      "post": {
+        "tags": [
+          "Daily close"
+        ],
+        "summary": "Reopen daily close",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/DatePath"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "confirmed"
+                ],
+                "properties": {
+                  "reason": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "confirmed": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/DailyClose"
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "description": "Unlocks a confirmed day so it can be edited again. Director only."
+      }
+    },
+    "/reports/daily/{date}/{hotelId}/{kind}": {
+      "get": {
+        "tags": [
+          "Reports"
+        ],
+        "summary": "Download daily report",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/DatePath"
+          },
+          {
+            "$ref": "#/components/parameters/HotelIdPath"
+          },
+          {
+            "name": "kind",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "task-sheet.pdf",
+                "handover.pdf"
+              ]
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Download"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Pdf"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "description": "Returns the daily task-sheet or handover PDF for one hotel."
+      }
+    },
+    "/reports/daily/{date}/send": {
+      "post": {
+        "tags": [
+          "Reports"
+        ],
+        "summary": "Email daily reports",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/DatePath"
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/ConfirmOnly"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/EmailLog"
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "description": "Sends the day's reports to the configured recipients."
+      }
+    },
+    "/reports/monthly/{month}": {
+      "get": {
+        "tags": [
+          "Reports"
+        ],
+        "summary": "Get monthly statement",
+        "parameters": [
+          {
+            "name": "month",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "2026-11"
+            },
+            "description": "`2026-11` for JSON, `2026-11.pdf` for the PDF"
+          },
+          {
+            "$ref": "#/components/parameters/Download"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Statement (JSON) or PDF",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/pdf": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "description": "Returns the month's service statement (Leistungsnachweis) as JSON, or as a PDF when the month ends in `.pdf`."
+      }
+    },
+    "/reports/monthly/{month}/send": {
+      "post": {
+        "tags": [
+          "Reports"
+        ],
+        "summary": "Email monthly statement",
+        "parameters": [
+          {
+            "name": "month",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "2026-11"
+            }
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/ConfirmOnly"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/EmailLog"
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "description": "Sends the month's service statement to the configured recipients."
+      }
+    },
+    "/reports/emails": {
+      "get": {
+        "tags": [
+          "Reports"
+        ],
+        "summary": "List sent emails",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/EmailLog"
+          }
+        },
+        "description": "Returns the 100 most recent report emails and their delivery status."
+      }
+    },
+    "/settings": {
+      "get": {
+        "tags": [
+          "Settings"
+        ],
+        "summary": "Get settings",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Settings"
+          }
+        },
+        "description": "Returns the property details, prices and email recipients."
+      },
+      "put": {
+        "tags": [
+          "Settings"
+        ],
+        "summary": "Update settings",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaveSettingsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Settings"
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "description": "Saves the property details, prices and email recipients. Director only."
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "sessionCookie": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "hsk_session",
+        "description": "Set automatically by POST /auth/login"
+      }
+    },
+    "parameters": {
+      "Id": {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "HotelIdPath": {
+        "name": "hotelId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer",
+          "enum": [
+            1,
+            2
+          ]
+        },
+        "description": "1 = Novotel, 2 = ibis budget"
+      },
+      "DatePath": {
+        "name": "date",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "DateQuery": {
+        "name": "date",
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "format": "date"
+        },
+        "description": "Defaults to today (Berlin)"
+      },
+      "Download": {
+        "name": "download",
+        "in": "query",
+        "allowEmptyValue": true,
+        "schema": {
+          "type": "string"
+        },
+        "description": "Present = download as attachment instead of inline"
+      }
+    },
+    "requestBodies": {
+      "ConfirmOnly": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "confirmed"
+              ],
+              "properties": {
+                "confirmed": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "example": {
+              "confirmed": true
+            }
+          }
+        }
+      }
+    },
+    "responses": {
+      "Error": {
+        "description": "Error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "User": {
+        "description": "User",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/User"
+            }
+          }
+        }
+      },
+      "Pdf": {
+        "description": "PDF",
+        "content": {
+          "application/pdf": {
+            "schema": {
+              "type": "string",
+              "format": "binary"
+            }
+          }
+        }
+      },
+      "ChecksOverview": {
+        "description": "Checks overview",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ChecksOverview"
+            }
+          }
+        }
+      },
+      "DailyClose": {
+        "description": "Daily close",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "EmailLog": {
+        "description": "Email log entries",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/EmailLogEntry"
+              }
+            }
+          }
+        }
+      },
+      "Settings": {
+        "description": "Settings",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/AppSettings"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          }
+        }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "required": [
+          "username",
+          "password"
+        ],
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string",
+            "format": "password"
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "Director",
+              "Operations"
+            ]
+          }
+        }
+      },
+      "RunStep": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "ReportSummary": {
+        "type": "object",
+        "properties": {
+          "totalTaskSheets": {
+            "type": "integer"
+          },
+          "totalRooms": {
+            "type": "integer"
+          },
+          "departureRooms": {
+            "type": "integer"
+          },
+          "dirtyRooms": {
+            "type": "integer"
+          },
+          "cleanRooms": {
+            "type": "integer"
+          },
+          "totalCredits": {
+            "type": "number"
+          }
+        }
+      },
+      "RoomResult": {
+        "type": "object",
+        "properties": {
+          "roomNo": {
+            "type": "string"
+          },
+          "sheetNo": {
+            "type": "string"
+          },
+          "roomStatus": {
+            "type": "string"
+          },
+          "reservationStatus": {
+            "type": "string"
+          },
+          "arrival": {
+            "type": "string",
+            "nullable": true
+          },
+          "departure": {
+            "type": "string",
+            "nullable": true
+          },
+          "adults": {
+            "type": "integer",
+            "nullable": true
+          },
+          "children": {
+            "type": "integer",
+            "nullable": true
+          },
+          "nights": {
+            "type": "integer",
+            "nullable": true
+          },
+          "colour": {
+            "type": "string",
+            "nullable": true,
+            "enum": [
+              "Red",
+              "Green",
+              "Purple",
+              "Blue",
+              "Gold",
+              null
+            ]
+          },
+          "serviceCode": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "cleaned": {
+            "type": "boolean"
+          }
+        }
+      },
+      "HotelRunResult": {
+        "type": "object",
+        "properties": {
+          "hotelId": {
+            "type": "integer",
+            "nullable": true
+          },
+          "fileName": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "rejectReason": {
+            "type": "string",
+            "nullable": true
+          },
+          "steps": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RunStep"
+            }
+          },
+          "publishedAt": {
+            "type": "string",
+            "nullable": true
+          },
+          "summary": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ReportSummary"
+              }
+            ],
+            "nullable": true
+          },
+          "parsedRooms": {
+            "type": "integer",
+            "nullable": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "rooms": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RoomResult"
+            }
+          },
+          "markedPdfAvailable": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Run": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "reportDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "status": {
+            "type": "string"
+          },
+          "hotels": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HotelRunResult"
+            }
+          }
+        }
+      },
+      "PrePhaseRequest": {
+        "type": "object",
+        "properties": {
+          "hotelId": {
+            "type": "integer",
+            "enum": [
+              1,
+              2
+            ]
+          },
+          "roomNo": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "CARD",
+              "DAILY_FULL",
+              "DAILY_TODAY",
+              "ROOM_SPECIFIC",
+              "SPECIAL"
+            ]
+          },
+          "colour": {
+            "type": "string",
+            "nullable": true,
+            "enum": [
+              "Red",
+              "Green",
+              "Purple",
+              "Blue",
+              "Gold",
+              null
+            ]
+          },
+          "note": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "CleanerAvailability": {
+        "type": "object",
+        "properties": {
+          "hotelId": {
+            "type": "integer",
+            "enum": [
+              1,
+              2
+            ]
+          },
+          "available": {
+            "type": "boolean"
+          }
+        }
+      },
+      "RhythmPeriod": {
+        "type": "object",
+        "properties": {
+          "rhythm": {
+            "type": "string",
+            "enum": [
+              "TwoTages",
+              "ThreeTages",
+              "OneNight"
+            ]
+          },
+          "effectiveFrom": {
+            "type": "string",
+            "format": "date"
+          },
+          "reason": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "HotelRhythm": {
+        "type": "object",
+        "properties": {
+          "hotelId": {
+            "type": "integer"
+          },
+          "active": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RhythmPeriod"
+              }
+            ],
+            "nullable": true
+          },
+          "scheduled": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RhythmPeriod"
+              }
+            ],
+            "nullable": true
+          }
+        }
+      },
+      "SetRhythmRequest": {
+        "type": "object",
+        "required": [
+          "hotelId",
+          "rhythm",
+          "effectiveFrom",
+          "confirmed"
+        ],
+        "properties": {
+          "hotelId": {
+            "type": "integer",
+            "enum": [
+              1,
+              2
+            ]
+          },
+          "rhythm": {
+            "type": "string",
+            "enum": [
+              "TwoTages",
+              "ThreeTages",
+              "OneNight"
+            ]
+          },
+          "effectiveFrom": {
+            "type": "string",
+            "format": "date"
+          },
+          "reason": {
+            "type": "string",
+            "nullable": true
+          },
+          "confirmed": {
+            "type": "boolean"
+          }
+        }
+      },
+      "RhythmHistoryEntry": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "hotelId": {
+            "type": "integer"
+          },
+          "action": {
+            "type": "string"
+          },
+          "rhythm": {
+            "type": "string"
+          },
+          "effectiveFrom": {
+            "type": "string",
+            "format": "date"
+          },
+          "reason": {
+            "type": "string",
+            "nullable": true
+          },
+          "by": {
+            "type": "string"
+          },
+          "at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "StaffMember": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "hotelId": {
+            "type": "integer",
+            "nullable": true
+          },
+          "name": {
+            "type": "string"
+          },
+          "company": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "monthlyCheckLimit": {
+            "type": "integer",
+            "nullable": true
+          },
+          "active": {
+            "type": "boolean"
+          }
+        }
+      },
+      "SaveStaffRequest": {
+        "type": "object",
+        "required": [
+          "name",
+          "confirmed"
+        ],
+        "properties": {
+          "hotelId": {
+            "type": "integer",
+            "nullable": true,
+            "enum": [
+              1,
+              2,
+              null
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "company": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "monthlyCheckLimit": {
+            "type": "integer",
+            "nullable": true
+          },
+          "active": {
+            "type": "boolean"
+          },
+          "confirmed": {
+            "type": "boolean"
+          }
+        }
+      },
+      "NewRoomMove": {
+        "type": "object",
+        "properties": {
+          "hotelId": {
+            "type": "integer",
+            "enum": [
+              1,
+              2
+            ]
+          },
+          "roomNo": {
+            "type": "string"
+          },
+          "toRoomNo": {
+            "type": "string",
+            "nullable": true
+          },
+          "cleanerAvailable": {
+            "type": "boolean"
+          },
+          "cleanedByType": {
+            "type": "string"
+          },
+          "employeeName": {
+            "type": "string",
+            "nullable": true
+          },
+          "note": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "RoomMove": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "hotelId": {
+            "type": "integer"
+          },
+          "roomNo": {
+            "type": "string"
+          },
+          "toRoomNo": {
+            "type": "string",
+            "nullable": true
+          },
+          "cleanerAvailable": {
+            "type": "boolean"
+          },
+          "cleanedByType": {
+            "type": "string"
+          },
+          "employeeName": {
+            "type": "string",
+            "nullable": true
+          },
+          "note": {
+            "type": "string",
+            "nullable": true
+          },
+          "moveDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "cleanDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "status": {
+            "type": "string"
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "NewRoomChecksRequest": {
+        "type": "object",
+        "required": [
+          "hotelId",
+          "role",
+          "confirmed"
+        ],
+        "properties": {
+          "hotelId": {
+            "type": "integer",
+            "enum": [
+              1,
+              2
+            ]
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "nullable": true
+          },
+          "staffId": {
+            "type": "string",
+            "nullable": true
+          },
+          "role": {
+            "type": "string"
+          },
+          "checkedBy": {
+            "type": "string"
+          },
+          "rooms": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "count": {
+            "type": "integer",
+            "nullable": true
+          },
+          "confirmed": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ChecksOverview": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "entries": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "hotelId": {
+                  "type": "integer"
+                },
+                "checkDate": {
+                  "type": "string"
+                },
+                "roomNo": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "role": {
+                  "type": "string"
+                },
+                "staffId": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "checkedBy": {
+                  "type": "string"
+                },
+                "createdAt": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "today": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "hotelId": {
+                  "type": "integer"
+                },
+                "pm": {
+                  "type": "integer"
+                },
+                "apm": {
+                  "type": "integer"
+                },
+                "selbst": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "month": {
+            "type": "object",
+            "properties": {
+              "month": {
+                "type": "string"
+              },
+              "pmUsed": {
+                "type": "integer"
+              },
+              "pmLimit": {
+                "type": "integer",
+                "nullable": true
+              },
+              "apmUsed": {
+                "type": "integer"
+              },
+              "apmLimit": {
+                "type": "integer",
+                "nullable": true
+              },
+              "selbstchecks": {
+                "type": "integer"
+              },
+              "warnings": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "DailyCloseListItem": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "status": {
+            "type": "string"
+          },
+          "confirmedBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "confirmedAt": {
+            "type": "string",
+            "nullable": true
+          },
+          "rooms": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "description": "Keyed by hotel id (\"1\", \"2\")"
+          },
+          "emailed": {
+            "type": "boolean"
+          }
+        }
+      },
+      "DailyCloseInput": {
+        "type": "object",
+        "properties": {
+          "comment": {
+            "type": "string"
+          },
+          "extraReinigungHours": {
+            "type": "number"
+          },
+          "supervisors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "role": {
+                  "type": "string",
+                  "enum": [
+                    "HD",
+                    "HDA",
+                    "FS",
+                    "RPH_FS",
+                    "HM",
+                    "RPH_HM"
+                  ]
+                },
+                "staffId": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "name": {
+                  "type": "string"
+                },
+                "start": {
+                  "type": "string",
+                  "example": "07:00",
+                  "nullable": true
+                },
+                "end": {
+                  "type": "string",
+                  "example": "15:30",
+                  "nullable": true
+                },
+                "pauseHours": {
+                  "type": "number"
+                }
+              }
+            }
+          },
+          "hotels": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "hotelId": {
+                  "type": "integer",
+                  "enum": [
+                    1,
+                    2
+                  ]
+                },
+                "richterStaffName": {
+                  "type": "string"
+                },
+                "flatRateDay": {
+                  "type": "boolean"
+                },
+                "pauschaleChecks": {
+                  "type": "integer"
+                },
+                "sauber": {
+                  "type": "integer"
+                },
+                "abzuege": {
+                  "type": "integer"
+                },
+                "informationen": {
+                  "type": "string"
+                },
+                "cleaners": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "staffId": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "gereinigt": {
+                        "type": "integer"
+                      },
+                      "ns": {
+                        "type": "integer"
+                      },
+                      "rk": {
+                        "type": "integer"
+                      },
+                      "ks": {
+                        "type": "integer"
+                      },
+                      "start": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "end": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "pauseHours": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                },
+                "rooms": {
+                  "type": "object",
+                  "properties": {
+                    "NS": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "RK": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "KS": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "LATE_CHECKOUT": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "LIEGEZIMMER": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "confirmed": {
+            "type": "boolean",
+            "description": "Required (true) for /confirm"
+          }
+        }
+      },
+      "EmailLogEntry": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "DAILY_TASK_SHEET",
+              "DAILY_HANDOVER",
+              "MONTHLY"
+            ]
+          },
+          "period": {
+            "type": "string",
+            "format": "date"
+          },
+          "recipients": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "status": {
+            "type": "string"
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Prices": {
+        "type": "object",
+        "properties": {
+          "roomNovotel": {
+            "type": "number",
+            "nullable": true
+          },
+          "roomIbis": {
+            "type": "number",
+            "nullable": true
+          },
+          "check": {
+            "type": "number",
+            "nullable": true
+          },
+          "hausdame": {
+            "type": "number",
+            "nullable": true
+          },
+          "hausdameAssistenz": {
+            "type": "number",
+            "nullable": true
+          },
+          "floorSupervisor": {
+            "type": "number",
+            "nullable": true
+          },
+          "hausmann": {
+            "type": "number",
+            "nullable": true
+          },
+          "extraReinigung": {
+            "type": "number",
+            "nullable": true
+          },
+          "internalRoom": {
+            "type": "number",
+            "nullable": true
+          }
+        }
+      },
+      "Recipients": {
+        "type": "object",
+        "description": "Email addresses per report kind",
+        "properties": {
+          "DAILY_TASK_SHEET": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "DAILY_HANDOVER": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "MONTHLY": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "AppSettings": {
+        "type": "object",
+        "properties": {
+          "objekt": {
+            "type": "string"
+          },
+          "kostenstelle": {
+            "type": "string"
+          },
+          "pauschaleChecks": {
+            "type": "integer"
+          },
+          "pauschaleLabel": {
+            "type": "string"
+          },
+          "emailEnabled": {
+            "type": "boolean"
+          },
+          "prices": {
+            "$ref": "#/components/schemas/Prices"
+          },
+          "recipients": {
+            "$ref": "#/components/schemas/Recipients"
+          },
+          "emailTransport": {
+            "type": "string"
+          }
+        }
+      },
+      "SaveSettingsRequest": {
+        "type": "object",
+        "required": [
+          "confirmed"
+        ],
+        "properties": {
+          "objekt": {
+            "type": "string"
+          },
+          "kostenstelle": {
+            "type": "string"
+          },
+          "pauschaleChecks": {
+            "type": "integer"
+          },
+          "pauschaleLabel": {
+            "type": "string"
+          },
+          "emailEnabled": {
+            "type": "boolean"
+          },
+          "prices": {
+            "$ref": "#/components/schemas/Prices"
+          },
+          "recipients": {
+            "$ref": "#/components/schemas/Recipients"
+          },
+          "confirmed": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  }
+}
