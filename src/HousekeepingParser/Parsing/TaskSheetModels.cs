@@ -63,4 +63,8 @@ public sealed record TaskSheetReport(
     IReadOnlyList<ParsedSheet> Sheets,
     IReadOnlyList<ParsedRoom> Rooms,
     ReportSummary? Summary,
-    IReadOnlyList<ParseWarning> Warnings);
+    IReadOnlyList<ParseWarning> Warnings)
+{
+    // Final decision: a broken data-page layout is a rejection, unlike a totals mismatch warning.
+    public IReadOnlyList<int> InvalidDataPages { get; init; } = [];
+}

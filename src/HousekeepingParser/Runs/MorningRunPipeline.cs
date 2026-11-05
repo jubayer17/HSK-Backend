@@ -56,12 +56,12 @@ public sealed class MorningRunPipeline(
         {
             extraction = await ExtractWithOneRetryAsync(pdf, file.BlobName, ct);
         }
-        catch (OpenDataLoaderTimeoutException)
+        catch (PdfExtractionTimeoutException)
         {
             return await RejectAsync(file, StepKeys.Read, "READ_TIMEOUT",
                 "Reading this file took too long and was stopped. Please export the task sheet from Opera again.", ct);
         }
-        catch (OpenDataLoaderException)
+        catch (PdfExtractionException)
         {
             return await RejectAsync(file, StepKeys.Read, "READ_FAILED",
                 "This file could not be read as a PDF. Please export the task sheet from Opera again.", ct);
@@ -85,6 +85,10 @@ public sealed class MorningRunPipeline(
         if (report.Header is not { } header)
             return await RejectAsync(file, StepKeys.Check, "NO_HEADER",
                 "The hotel name and print date at the top of the sheet could not be read.", ct);
+        // A changed layout can silently shift fields. Reject it rather than accepting incomplete room data.
+        if (report.InvalidDataPages.Count > 0)
+            return await RejectAsync(file, StepKeys.Check, "LAYOUT_SIGNATURE",
+                $"Required Room Details / Resv Status headings are missing on data page(s): {string.Join(", ", report.InvalidDataPages)}.", ct);
         if (header.HotelId is not { } hotel)
             return await RejectAsync(file, StepKeys.Check, "UNKNOWN_HOTEL",
                 $"The hotel printed on this sheet (\"{RunStore.Trim(header.PrintedHotelName, 60)}\") is not Novotel or ibis budget Münster City.", ct);
@@ -118,7 +122,7 @@ public sealed class MorningRunPipeline(
         {
             return await extractor.ExtractAsync(pdf, blobName, ct);
         }
-        catch (OpenDataLoaderTimeoutException)
+        catch (PdfExtractionTimeoutException)
         {
             log.LogWarning("Reader timed out, retrying once");
             return await extractor.ExtractAsync(pdf, blobName, ct); // runbook: retry once, then refuse
@@ -269,6 +273,13 @@ public sealed class MorningRunPipeline(
         var s = report.Summary!;
         if (report.Rooms.Count != s.TotalRooms)
             yield return ("ROOM_COUNT", $"{report.Rooms.Count} rooms were read, but the totals page says {s.TotalRooms}. Please check the marked PDF.");
+        // Final decision: count/credit discrepancies request manual review but do not block the run.
+        var departures = report.Rooms.Count(r => r.ReservationStatus.Trim().ToLowerInvariant() is "due out" or "dueout" or "departed");
+        if (departures != s.DepartureRooms)
+            yield return ("DEPARTURE_COUNT", $"{departures} Due Out / Departed rooms were read, but the summary says {s.DepartureRooms}. Please review.");
+        var credits = report.Rooms.Sum(r => r.Credits ?? 0m);
+        if (credits != s.TotalCredits)
+            yield return ("CREDITS_TOTAL", $"Room credits total {credits}, but the summary says {s.TotalCredits}. Please review.");
         if (report.Sheets.Count != s.TotalTaskSheets)
             yield return ("SHEET_COUNT", $"{report.Sheets.Count} task sheets were found, but the totals page says {s.TotalTaskSheets}.");
 
@@ -411,7 +422,7 @@ public sealed class MorningRunPipeline(
                 moves.TryAdd(to, new RoomMoveMark(RoomMoveSide.MovedIn, false, m.CleanedByType, false));
         }
 
-        // 1-Night: last 1-Night row per room (completed runs) and yesterday's Liegezimmer.
+        // Waiting belongs to a stayover service request, not to a departure room left uncleaned.
         var last = (await c.QueryAsync<LastRow>(
             """
             SELECT x.RoomNo, x.ReportDate, x.Colour, x.Cleaned FROM (
@@ -422,13 +433,7 @@ public sealed class MorningRunPipeline(
                   AND s.report_date >= DATEADD(DAY, -31, @reportDate) AND f.status = 'completed') x
             WHERE x.rn = 1
             """, p)).ToDictionary(r => r.RoomNo);
-        var liegezimmer = (await c.QueryAsync<string>(
-            """
-            SELECT r.room_no FROM dbo.daily_close_room r JOIN dbo.daily_close d ON d.close_id = r.close_id
-            WHERE d.report_date = @yesterday AND d.status = 'confirmed' AND r.hotel_id = @hotel AND r.category = 'LIEGEZIMMER'
-            """, p)).ToHashSet();
-
-        return new ColourContext(Enum.Parse<RhythmType>(active), available, anyOneNight, moves, last, liegezimmer);
+        return new ColourContext(Enum.Parse<RhythmType>(active), available, anyOneNight, moves, last);
     }
 
     private sealed record ColourContext(
@@ -436,14 +441,12 @@ public sealed class MorningRunPipeline(
         bool CleanerAvailable,
         bool AnyOneNight,
         IReadOnlyDictionary<string, RoomMoveMark> Moves,
-        IReadOnlyDictionary<string, LastRow> LastOneNight,
-        IReadOnlySet<string> Liegezimmer)
+        IReadOnlyDictionary<string, LastRow> LastOneNight)
     {
-        /// <summary>Last 1-Night day was Blue and not cleaned, or Liegezimmer yesterday.</summary>
+        /// <summary>Only unfinished 1-Night stayover service in the same stay creates Waiting.</summary>
         public bool IsPending(string roomNo, DateOnly? arrival)
         {
             if (arrival is null) return false;
-            if (Liegezimmer.Contains(roomNo)) return true;
             return LastOneNight.TryGetValue(roomNo, out var l) && l.ReportDate >= arrival && l.Colour == nameof(ColourName.Blue) && !l.Cleaned;
         }
     }

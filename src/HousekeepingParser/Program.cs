@@ -27,7 +27,8 @@ builder.Services
 var config = builder.Configuration;
 builder.Services.Configure<DatabaseOptions>(config.GetSection(DatabaseOptions.SectionName));
 builder.Services.Configure<StorageOptions>(config.GetSection(StorageOptions.SectionName));
-builder.Services.Configure<OpenDataLoaderOptions>(config.GetSection(OpenDataLoaderOptions.SectionName));
+// Final Phase 1 decision replaces the JVM reader with local .NET Stream/PdfPig extraction.
+builder.Services.Configure<PdfParserOptions>(config.GetSection(PdfParserOptions.SectionName));
 builder.Services.Configure<AuthOptions>(config.GetSection(AuthOptions.SectionName));
 builder.Services.Configure<ValidationOptions>(config.GetSection(ValidationOptions.SectionName));
 builder.Services.Configure<EmailOptions>(config.GetSection(EmailOptions.SectionName));
@@ -38,7 +39,7 @@ builder.Services.AddSingleton<DbMigrator>();
 builder.Services.AddSingleton<IBlobStore, AzureBlobStore>();
 builder.Services.AddSingleton<IAuditLog, SqlAuditLog>();
 builder.Services.AddSingleton<IPdfProcessingAuditSink, SqlPdfProcessingAuditSink>();
-builder.Services.AddSingleton<ICompliantPdfExtractor, CompliantOpenDataLoaderExtractor>();
+builder.Services.AddSingleton<ICompliantPdfExtractor, DotNetPdfExtractor>();
 builder.Services.AddSingleton<IColorRuleService, ColorRuleService>();
 builder.Services.AddSingleton<IPdfMarker, PdfSharpMarker>();
 builder.Services.AddSingleton<IRunReportRenderer, PdfSharpReportRenderer>();

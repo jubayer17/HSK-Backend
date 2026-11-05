@@ -1,6 +1,9 @@
 using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
+using Azure;
+using Azure.Identity;
+using Azure.Communication.Email;
 using HousekeepingParser.Storage;
 using Microsoft.Extensions.Options;
 
@@ -10,7 +13,7 @@ public sealed class EmailOptions
 {
     public const string SectionName = "Email";
 
-    /// <summary>"Outbox" (default): saved as .eml, not sent. "Smtp": sent.</summary>
+    /// <summary>Outbox for local previews, Smtp for compatibility, Azure for final Phase 1 delivery.</summary>
     public string Mode { get; set; } = "Outbox";
 
     public string? Host { get; set; }
@@ -23,8 +26,11 @@ public sealed class EmailOptions
 
     public string From { get; set; } = "housekeeping@example.com";
     public string FromName { get; set; } = "HSK Automation";
+    public string? Endpoint { get; set; }
+    public string? ConnectionString { get; set; }
 
     public bool IsSmtp => string.Equals(Mode, "Smtp", StringComparison.OrdinalIgnoreCase) && !string.IsNullOrWhiteSpace(Host);
+    public bool IsAzure => string.Equals(Mode, "Azure", StringComparison.OrdinalIgnoreCase);
 }
 
 public sealed record EmailAttachment(string FileName, byte[] Bytes);
@@ -33,21 +39,41 @@ public sealed record EmailMessage(IReadOnlyList<string> To, string Subject, stri
 
 public interface IEmailSender
 {
-    /// <summary>"smtp" or "outbox".</summary>
+    /// <summary>"azure", "smtp", or "outbox".</summary>
     string Transport { get; }
 
     Task SendAsync(EmailMessage message, CancellationToken ct);
 }
 
 /// <summary>Sends via SMTP, or saves to an outbox container.</summary>
-public sealed class EmailSender(IOptions<EmailOptions> options, IBlobStore blobs) : IEmailSender
+public sealed class EmailSender(IOptions<EmailOptions> options, IBlobStore blobs, EmailClient? azureClient = null) : IEmailSender
 {
     private readonly EmailOptions _o = options.Value;
 
-    public string Transport => _o.IsSmtp ? "smtp" : "outbox";
+    public string Transport => _o.IsAzure ? "azure" : _o.IsSmtp ? "smtp" : "outbox";
 
     public async Task SendAsync(EmailMessage message, CancellationToken ct)
     {
+        if (_o.IsAzure)
+        {
+            // Explicit Azure mode must fail clearly if unconfigured; silently saving an outbox would hide delivery failures.
+            var client = azureClient ?? (!string.IsNullOrWhiteSpace(_o.ConnectionString)
+                ? new EmailClient(_o.ConnectionString)
+                : !string.IsNullOrWhiteSpace(_o.Endpoint)
+                    ? new EmailClient(new Uri(_o.Endpoint), new DefaultAzureCredential())
+                    : throw new InvalidOperationException("Azure email requires Email:Endpoint or Email:ConnectionString."));
+            var content = new EmailContent(message.Subject) { PlainText = message.Body };
+            var recipients = new EmailRecipients(message.To.Select(address => new EmailAddress(address)));
+            var outgoing = new Azure.Communication.Email.EmailMessage(_o.From, recipients, content);
+            foreach (var attachment in message.Attachments)
+                outgoing.Attachments.Add(new Azure.Communication.Email.EmailAttachment(
+                    attachment.FileName, MediaTypeNames.Application.Pdf, new BinaryData(attachment.Bytes)));
+            // A request being accepted is not enough: wait for the provider's send operation to succeed.
+            var operation = await client.SendAsync(WaitUntil.Completed, outgoing, ct);
+            if (operation.Value.Status != EmailSendStatus.Succeeded)
+                throw new InvalidOperationException("Azure email did not reach a successful send status.");
+            return;
+        }
         using var mail = Build(message);
         if (_o.IsSmtp)
         {

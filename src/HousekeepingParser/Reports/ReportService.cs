@@ -17,7 +17,10 @@ public enum DailyReportKind
 public sealed record EmailLogEntry(Guid Id, ReportKind Kind, DateOnly Period, IReadOnlyList<string> Recipients, string Status, string? Detail, DateTime AtUtc);
 
 /// <summary>The Leistungsnachweis with each day's state.</summary>
-public sealed record MonthlyStatement(MonthlyStatementModel Model, IReadOnlyList<string> DayStatus);
+public sealed record MonthlyStatement(MonthlyStatementModel Model, IReadOnlyList<string> DayStatus)
+{
+    public IReadOnlyList<WeeklyBillingTotal> Weeks { get; init; } = [];
+}
 
 public interface IReportService
 {
@@ -157,6 +160,7 @@ public sealed class ReportService(
         }
 
         var rows = new List<MonthlyRowModel>();
+        var billingDays = new List<BillingDay>();
         var status = new List<string>();
         DateTime? lastConfirmed = null;
         for (var day = 1; day <= 31; day++)
@@ -180,6 +184,7 @@ public sealed class ReportService(
             MonthlyHotelCells Cells(HotelId id)
             {
                 var h = view.Hotel(id);
+                billingDays.Add(new BillingDay(id, date, h.Totals.ChecksActual, h.Input.FlatRateDay ? h.Input.PauschaleChecks : 0));
                 return new MonthlyHotelCells(h.Totals.Gereinigt, h.Totals.ChecksActual, h.Totals.ZuBerechnen, h.Input.Abzuege);
             }
             rows.Add(new MonthlyRowModel(day, true, Cells(HotelId.Novotel), Cells(HotelId.IbisBudget),
@@ -189,14 +194,16 @@ public sealed class ReportService(
         }
 
         var filled = rows.Where(r => r.Novotel is not null).ToList();
-        MonthlyHotelCells Sum(Func<MonthlyRowModel, MonthlyHotelCells?> pick) => new(
-            filled.Sum(r => pick(r)!.Zimmer), filled.Sum(r => pick(r)!.Gecheckt), filled.Sum(r => pick(r)!.ZuBerechnen), filled.Sum(r => pick(r)!.Abzuege));
-        var totals = new MonthlyTotals(Sum(r => r.Novotel), Sum(r => r.Ibis), filled.Sum(r => r.Hausmann ?? 0), filled.Sum(r => r.FloorSupervisor ?? 0),
+        var weeks = WeeklyBillingService.Month(first, billingDays);
+        // Final decision: monthly billable checks come from weekly totals, not a separate formula.
+        MonthlyHotelCells Sum(HotelId hotel, Func<MonthlyRowModel, MonthlyHotelCells?> pick) => new(
+            filled.Sum(r => pick(r)!.Zimmer), filled.Sum(r => pick(r)!.Gecheckt), weeks.Where(w => w.Hotel == hotel).Sum(w => w.BillableChecks), filled.Sum(r => pick(r)!.Abzuege));
+        var totals = new MonthlyTotals(Sum(HotelId.Novotel, r => r.Novotel), Sum(HotelId.IbisBudget, r => r.Ibis), filled.Sum(r => r.Hausmann ?? 0), filled.Sum(r => r.FloorSupervisor ?? 0),
             filled.Sum(r => r.HausdameAssistenz ?? 0), filled.Sum(r => r.Hausdame ?? 0), filled.Sum(r => r.ExtraReinigung ?? 0));
         var complete = filled.Count == days;
         var model = new MonthlyStatementModel(s.Objekt, s.Kostenstelle, first, Zeitraum(first), rows, totals, filled.Count, Berlin.ToLocal(clock.UtcNow),
             complete ? "HSK Automation (alle Tage freigegeben)" : null, complete && lastConfirmed is { } lc ? Berlin.ToLocal(lc) : null);
-        return new MonthlyStatement(model, status);
+        return new MonthlyStatement(model, status) { Weeks = weeks };
     }
 
     public async Task<(byte[] Pdf, string FileName)> MonthlyPdfAsync(DateOnly month, CancellationToken ct)
@@ -244,7 +251,8 @@ public sealed class ReportService(
             try
             {
                 await email.SendAsync(new EmailMessage(to, subject, body, attachments), ct);
-                (status, detail) = email.Transport == "smtp" ? ("sent", null) : ("outbox", "Saved to the outbox: no mail server is set up yet");
+                // Azure is a live transport too; successful Azure sends must not be labelled as local outbox files.
+                (status, detail) = email.Transport is "smtp" or "azure" ? ("sent", null) : ("outbox", "Saved to the outbox: no mail server is set up yet");
             }
             catch (Exception ex) when (ex is not OperationCanceledException)
             {

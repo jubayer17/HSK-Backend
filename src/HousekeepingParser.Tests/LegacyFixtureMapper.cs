@@ -1,7 +1,8 @@
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using HousekeepingParser.Parsing;
 
-namespace HousekeepingParser.Parsing;
+namespace HousekeepingParser.Tests;
 
 /// <summary>
 /// Turns OpenDataLoader's element tree into the pages -> lines -> words contract (C15).
@@ -13,7 +14,8 @@ namespace HousekeepingParser.Parsing;
 /// x position in proportion to its place in the line. Words from all blocks are then grouped into
 /// page lines by their vertical centre. The row parser places words into columns by x position.
 /// </summary>
-public static partial class OdlLayoutMapper
+// Historical JSON remains a regression fixture only; production no longer depends on OpenDataLoader.
+public static partial class LegacyFixtureMapper
 {
     /// <summary>Words whose vertical centres differ by less than this belong to one line (row pitch is ~12.4 pt).</summary>
     private const double SameLineTolerance = 4.0;

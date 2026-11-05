@@ -293,7 +293,11 @@ public sealed class OperationsFunctions(
         var t = model.Totals;
         return new MonthlyStatementDto(model.Month.ToString("yyyy-MM", Inv), model.Objekt, model.Kostenstelle, model.Zeitraum, rows,
             new MonthlyTotalsDto(Cells(t.Novotel)!, Cells(t.Ibis)!, t.Hausmann, t.FloorSupervisor, t.HausdameAssistenz, t.Hausdame, t.ExtraReinigung),
-            model.ConfirmedDays, DateTime.DaysInMonth(model.Month.Year, model.Month.Month), emails);
+            model.ConfirmedDays, DateTime.DaysInMonth(model.Month.Year, model.Month.Month), emails)
+        {
+            Weeks = m.Weeks.Select(w => new WeeklyBillingDto((int)w.Hotel, Date(w.WeekStart), Date(w.From), Date(w.To),
+                w.ConfirmedDays, w.Checks, w.Allowance, w.BillableChecks)).ToList(),
+        };
     }
 
     private static EmailLogEntryDto ToDto(EmailLogEntry e) =>

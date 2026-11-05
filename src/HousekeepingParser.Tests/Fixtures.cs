@@ -23,7 +23,7 @@ public static class Fixtures
     public static IReadOnlyList<PdfPage> Pages(string name)
     {
         using var doc = JsonDocument.Parse(File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "Fixtures", name)));
-        return OdlLayoutMapper.Map(doc.RootElement);
+        return LegacyFixtureMapper.Map(doc.RootElement);
     }
 
     public static TaskSheetReport Report(string name) => TaskSheetParser.Parse(Pages(name));

@@ -38,14 +38,14 @@ public sealed class MemoryBlobStore : IBlobStore
     public Task<int> DeleteOlderThanAsync(string container, DateTimeOffset cutoff, CancellationToken ct) => Task.FromResult(0);
 }
 
-/// <summary>Stands in for the Java reader: returns the fixture named inside the synthetic PDF.</summary>
+/// <summary>Deterministic pipeline reader: returns the fixture named inside a synthetic PDF.</summary>
 public sealed class FixtureExtractor : ICompliantPdfExtractor
 {
     public Task<PdfExtractionResult> ExtractAsync(byte[] pdfBytes, string sourceBlobName, CancellationToken ct)
     {
         var text = Encoding.ASCII.GetString(pdfBytes);
         var at = text.IndexOf("%FIXTURE:", StringComparison.Ordinal);
-        if (at < 0) throw new OpenDataLoaderException("not a fixture");
+        if (at < 0) throw new PdfExtractionException("not a fixture");
         var name = text[(at + 9)..text.IndexOf('\n', at)];
         var pages = Fixtures.Pages(name);
         return Task.FromResult(new PdfExtractionResult(Guid.NewGuid().ToString("N"), pages, pages.Sum(p => p.Lines.Count), TimeSpan.Zero));

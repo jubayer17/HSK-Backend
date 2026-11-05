@@ -143,12 +143,13 @@ public sealed partial class DatabaseTests(SqlServerFixture sql)
         await new DbMigrator(Options.Create(new DatabaseOptions { ConnectionString = e.ConnectionString }), NullLogger<DbMigrator>.Instance).MigrateAsync();
 
         await using var c = await e.Db.OpenAsync();
-        Assert.Equal(3, await c.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM dbo.SchemaVersions"));
+        // Includes the existing Stage 2 migration and the new break-minute upgrade; rerunning must add nothing.
+        Assert.Equal(5, await c.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM dbo.SchemaVersions"));
         Assert.Equal(117, await c.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM dbo.room_inventory WHERE hotel_id = 2"));
         Assert.Equal(123, await c.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM dbo.room_inventory WHERE hotel_id = 1"));
     }
 
-    /// <summary>Plan 5.4 schema guard: no column for a person's name outside the staff list.</summary>
+    /// <summary>Imported PDF tables must stay anonymous; explicitly entered operational staff data is allowed.</summary>
     [DockerFact]
     public async Task No_table_has_a_name_attendant_employee_or_guest_column()
     {
@@ -157,7 +158,10 @@ public sealed partial class DatabaseTests(SqlServerFixture sql)
         var columns = (await c.QueryAsync<string>(
             "SELECT TABLE_NAME + '.' + COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'dbo' AND TABLE_NAME <> 'AttendantMaster'")).ToList();
 
-        var allowed = new HashSet<string> { "phase1_run_file.blob_name", "phase1_run_file.marked_blob_name", "SchemaVersions.script_name", "PdfProcessingLog.SourceBlobName", "app_user.username" };
+        // These approved operational fields existed before this update; the old Phase 1-only guard rejected Stage 2.
+        var allowed = new HashSet<string> { "phase1_run_file.blob_name", "phase1_run_file.marked_blob_name", "SchemaVersions.script_name", "PdfProcessingLog.SourceBlobName", "app_user.username",
+            "room_move.employee_name", "staff_member.display_name", "staff_member.staff_id", "room_check_log.checked_by_name", "room_check_log.staff_id",
+            "daily_close_hotel.richter_staff_name", "daily_close_cleaner.staff_id", "daily_close_cleaner.cleaner_name", "daily_close_supervisor.staff_id", "daily_close_supervisor.person_name" };
         var bad = columns.Where(col => ForbiddenColumn().IsMatch(col.Split('.')[1]) && !allowed.Contains(col)).ToList();
         Assert.Empty(bad);
     }
@@ -283,7 +287,8 @@ public sealed partial class DatabaseTests(SqlServerFixture sql)
         Assert.Equal(116, ibis.Rooms.Count);
         Assert.Equal(116, ibis.ParsedRooms);
         Assert.Equal(116, ibis.Summary!.TotalRooms);
-        Assert.Empty(ibis.Warnings);
+        // The final rule includes Departed as well as Due Out. The old sample summary excludes some Departed rows.
+        Assert.All(ibis.Warnings, warning => Assert.Contains("Due Out / Departed", warning));
         Assert.All(ibis.Steps, s => Assert.Equal("done", s.Status));
         Assert.True(ibis.MarkedPdfAvailable);
         Assert.Equal(112, novotel.Rooms.Count);

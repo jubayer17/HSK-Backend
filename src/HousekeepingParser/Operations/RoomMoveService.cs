@@ -26,7 +26,7 @@ public interface IRoomMoveService
     Task InsertAsync(SqlConnection c, SqlTransaction tx, CurrentUser user, NewRoomMove move, DateOnly date, Guid? runId);
 }
 
-/// <summary>Room moves: the room left is Red (today, or next morning if no cleaner).</summary>
+/// <summary>The moved-out room stays Red; without a cleaner it enters Liegezimmer and is scheduled for tomorrow.</summary>
 public sealed class RoomMoveService(IDbConnectionFactory db, IAuditLog audit, IClock clock) : IRoomMoveService
 {
     public static NewRoomMove Validate(NewRoomMove m)
@@ -77,6 +77,7 @@ public sealed class RoomMoveService(IDbConnectionFactory db, IAuditLog audit, IC
 
     private async Task<Guid> InsertCoreAsync(SqlConnection c, SqlTransaction tx, CurrentUser user, NewRoomMove m, DateOnly date, Guid? runId)
     {
+        // Keep the move day distinct from the cleaning day; DailyCloseService uses this to include today's Liegezimmer.
         var id = Guid.NewGuid();
         await c.ExecuteAsync(
             """
