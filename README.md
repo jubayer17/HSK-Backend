@@ -122,6 +122,9 @@ HSK-Backend/
 | `Auth__SeedUsers__*` | Demo accounts created on start-up |
 | `Auth__SecureCookie` | Set to `true` outside local development |
 | `Validation__EnforceSheetAge` | Only accept sheets printed in the last 24 h. `false` locally (the samples are old), **`true` in production** |
+| `Email__*` | Monthly statement e-mail. `Email__Mode=Outbox` (default) saves `.eml` files instead of sending; `Smtp` sends via `Email__Host` |
+
+Templates: [`local.settings.example.json`](src/HousekeepingParser/local.settings.example.json) and [`.env.example`](.env.example) (local SQL password for `docker compose`).
 
 > 🔐 `local.settings.json` and `.env` contain secrets and are ignored by git.
 

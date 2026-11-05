@@ -15,8 +15,10 @@
     "OpenDataLoader__JavaExecutable": "java",
     "OpenDataLoader__JarPath": "../../../tools/opendataloader/opendataloader-pdf.jar",
     "OpenDataLoader__Timeout": "00:00:30",
+    "OpenDataLoader__MaxHeap": "1g",
 
     "Auth__SecureCookie": "false",
+    "Auth__SessionLifetime": "12:00:00",
     "Auth__SeedUsers__0__Username": "director",
     "Auth__SeedUsers__0__DisplayName": "Hotel Director",
     "Auth__SeedUsers__0__Role": "Director",
@@ -26,7 +28,17 @@
     "Auth__SeedUsers__1__Role": "Operations",
     "Auth__SeedUsers__1__Password": "CHANGE_ME",
 
-    "Validation__EnforceSheetAge": "false"
+    "Validation__EnforceSheetAge": "false",
+    "Validation__MaxSheetAgeHours": "24",
+
+    "Email__Mode": "Outbox",
+    "Email__Host": "",
+    "Email__Port": "587",
+    "Email__EnableSsl": "true",
+    "Email__Username": "",
+    "Email__Password": "",
+    "Email__From": "housekeeping@example.com",
+    "Email__FromName": "HSK Automation"
   },
   "Host": {
     "LocalHttpPort": 7071
