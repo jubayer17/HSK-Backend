@@ -75,6 +75,25 @@ public class BusinessReportPdfTests
             new DateTime(2026, 9, 6, 8, 15, 0), "Maria Richter", new DateTime(2026, 9, 6, 8, 10, 0));
     }
 
+    /// <summary>KW 38/2026: five days confirmed, Saturday a draft, Sunday open; ibis over the 5T/W limit.</summary>
+    public static WeeklyReportModel WeeklySample()
+    {
+        var monday = new DateOnly(2026, 9, 14);
+        var rows = new List<WeeklyRowModel>
+        {
+            new(monday, new(57, 9, 3, 1, 23, -7, 0, 1), new(90, 12, 2, 0, 24, -6, 0, 1), null, null, 8m, 8.75m, null),
+            new(monday.AddDays(1), new(61, 7, 1, 0, 30, 0, 0, 1), new(84, 10, 1, 1, 30, 0, 0, 1), 7.5m, null, 8m, 8.75m, null),
+            new(monday.AddDays(2), new(48, 11, 2, 2, 26, -4, 1, 1), new(77, 8, 0, 0, 22, -8, 0, 1), 7.5m, 6m, 8m, 8.5m, 0m),
+            new(monday.AddDays(3), new(66, 5, 0, 1, 35, 5, 0, 1), new(95, 6, 2, 1, 31, 1, 2, 1), 7.5m, 6m, 8m, 8.75m, 2.5m),
+            new(monday.AddDays(4), new(52, 8, 1, 0, 28, -2, 0, 1), new(70, 9, 1, 0, 30, 0, 0, 1), null, null, 7.25m, 8.75m, null),
+            new(monday.AddDays(5), null, null, null, null, null, null, null),
+            new(monday.AddDays(6), null, null, null, null, null, null, null),
+        };
+        var totals = new WeeklyTotals(new(284, 40, 7, 4, 142, -8, 1, 5), new(416, 45, 6, 2, 137, -13, 2, 6), 22.5m, 12m, 39.25m, 43.5m, 2.5m);
+        return new WeeklyReportModel("Novotel / Ibis Budget Münster", "4900", monday, 2026, 38, rows, totals, 5, "5T/W", 5,
+            new DateTime(2026, 9, 21, 10, 0, 0), null, null);
+    }
+
     private static PdfDocument Open(byte[] pdf, string name)
     {
         Assert.Equal("%PDF", System.Text.Encoding.ASCII.GetString(pdf, 0, 4));
@@ -148,6 +167,17 @@ public class BusinessReportPdfTests
         var model = HandoverSample() with { NoService = Enumerable.Range(0, 150).Select(i => (100 + i).ToString()).ToList() };
         using var doc = Open(Renderer.Handover(model), "handover-overflow.pdf");
         Assert.Equal(2, doc.PageCount);
+    }
+
+    [Fact]
+    public void Weekly_report_is_one_landscape_page()
+    {
+        using var doc = Open(Renderer.WeeklyReport(WeeklySample()), "wochenbericht.pdf");
+
+        Assert.Equal(1, doc.PageCount);
+        Assert.True(doc.Pages[0].Width.Point > doc.Pages[0].Height.Point, "landscape A4");
+        Assert.Contains("Wochenbericht", doc.Info.Title);
+        Assert.Contains("KW 38 2026", doc.Info.Title);
     }
 
     [Fact]

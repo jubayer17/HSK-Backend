@@ -191,6 +191,32 @@ public class DailyCloseMathTests
         Assert.Equal(DateOnly.Parse(monday), DailyCloseMath.WeekStart(DateOnly.Parse(date)));
 
     [Fact]
+    public void Settings_save_keeps_recipients_of_report_kinds_the_request_does_not_mention()
+    {
+        var saved = new Dictionary<ReportKind, IReadOnlyList<string>>
+        {
+            [ReportKind.DAILY_TASK_SHEET] = ["hk@example.com"],
+            [ReportKind.DAILY_HANDOVER] = ["empfang@example.com"],
+            [ReportKind.WEEKLY] = ["leitung@example.com"],
+            [ReportKind.MONTHLY] = ["finanz@example.com"],
+        };
+        // An older client: no WEEKLY key, MONTHLY cleared on purpose, a padded address.
+        var sent = new Dictionary<string, IReadOnlyList<string>>
+        {
+            ["DAILY_TASK_SHEET"] = [" neu@example.com ", ""],
+            ["DAILY_HANDOVER"] = ["empfang@example.com"],
+            ["MONTHLY"] = [],
+        };
+
+        var merged = Functions.OperationsFunctions.MergeRecipients(sent, saved);
+
+        Assert.Equal(["neu@example.com"], merged[ReportKind.DAILY_TASK_SHEET]);
+        Assert.Equal(["leitung@example.com"], merged[ReportKind.WEEKLY]);
+        Assert.Empty(merged[ReportKind.MONTHLY]);
+        Assert.Equal(saved, Functions.OperationsFunctions.MergeRecipients(null, saved)); // no recipients sent: nothing changes
+    }
+
+    [Fact]
     public void Zeitraum_is_written_like_the_paper_form() => Assert.Equal("Sep. 26", ReportService.Zeitraum(new DateOnly(2026, 9, 1)));
 
     [Fact]

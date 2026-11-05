@@ -125,7 +125,7 @@ public sealed class OperationsFunctions(
             var month = OptionalMonth(req.Query["month"]) ?? Berlin.FirstOfMonth(clock.Today());
             var list = await closes.ListAsync(month, req.HttpContext.RequestAborted);
             var emailed = (await reports.EmailLogAsync(null, month, month.AddMonths(1).AddDays(-1), 1000, req.HttpContext.RequestAborted))
-                .Where(e => e.Kind != ReportKind.MONTHLY).Select(e => e.Period).ToHashSet();
+                .Where(e => ReportService.IsDaily(e.Kind) && ReportService.Delivered(e.Status)).Select(e => e.Period).ToHashSet();
             return Api.Ok(list.Select(d => new DailyCloseListItemDto(Date(d.Date), d.Status, d.ConfirmedBy, d.ConfirmedAtUtc is { } c ? Iso(c) : null,
                 d.Rooms.ToDictionary(r => ((int)r.Key).ToString(Inv), r => r.Value), emailed.Contains(d.Date))));
         });
@@ -198,7 +198,7 @@ public sealed class OperationsFunctions(
 
     private async Task<DailyCloseDto> ToDtoAsync(DailyCloseView v, CancellationToken ct)
     {
-        var emails = v.Status == "new" ? [] : (await reports.EmailLogAsync(null, v.Date, v.Date, 20, ct)).Where(e => e.Kind != ReportKind.MONTHLY);
+        var emails = v.Status == "new" ? [] : (await reports.EmailLogAsync(null, v.Date, v.Date, 20, ct)).Where(e => ReportService.IsDaily(e.Kind));
         return new DailyCloseDto(
             Date(v.Date), v.Status, v.Input.Comment, v.Input.ExtraReinigungHours,
             v.Input.Supervisors.Select(s => new CloseSupervisorDto(s.Role, s.StaffId?.ToString(), s.Name, TimeText(s.Start), TimeText(s.End), s.PauseHours)).ToList(),
@@ -243,6 +243,31 @@ public sealed class OperationsFunctions(
         {
             if (!(await Api.ReadJsonAsync<ConfirmOnlyRequest>(req)).Confirmed) throw BusinessRuleException.BadRequest("Sending must be confirmed.");
             return Api.Ok((await reports.SendDailyAsync(RequiredDate(date), user, req.HttpContext.RequestAborted)).Select(ToDto));
+        });
+
+    /// <summary>Any date of the week, e.g. "2026-09-14": data for that Monday–Sunday; "2026-09-14.pdf" returns the PDF.</summary>
+    [Function("ReportWeekly")]
+    public Task<IActionResult> ReportWeekly([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "reports/weekly/{week}")] HttpRequest req, string week) =>
+        api.RunAsync(req, async _ =>
+        {
+            var pdf = week.EndsWith(".pdf", StringComparison.Ordinal);
+            var start = DailyCloseMath.WeekStart(RequiredDate(pdf ? week[..^4] : week));
+            if (pdf)
+            {
+                var (bytes, name) = await reports.WeeklyPdfAsync(start, req.HttpContext.RequestAborted);
+                return Pdf(req, bytes, name);
+            }
+            var w = await reports.WeeklyAsync(start, req.HttpContext.RequestAborted);
+            var emails = (await reports.EmailLogAsync(ReportKind.WEEKLY, start, start, 20, req.HttpContext.RequestAborted)).Select(ToDto).ToList();
+            return Api.Ok(ToDto(w, emails));
+        });
+
+    [Function("ReportWeeklySend")]
+    public Task<IActionResult> ReportWeeklySend([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "reports/weekly/{week}/send")] HttpRequest req, string week) =>
+        api.RunAsync(req, async user =>
+        {
+            if (!(await Api.ReadJsonAsync<ConfirmOnlyRequest>(req)).Confirmed) throw BusinessRuleException.BadRequest("Sending must be confirmed.");
+            return Api.Ok((await reports.SendWeeklyAsync(DailyCloseMath.WeekStart(RequiredDate(week)), user, req.HttpContext.RequestAborted)).Select(ToDto));
         });
 
     /// <summary>"2026-09" returns data; "2026-09.pdf" returns the PDF.</summary>
@@ -296,6 +321,19 @@ public sealed class OperationsFunctions(
             model.ConfirmedDays, DateTime.DaysInMonth(model.Month.Year, model.Month.Month), emails);
     }
 
+    private static WeeklyReportDto ToDto(WeeklyReport w, IReadOnlyList<EmailLogEntryDto> emails)
+    {
+        var m = w.Model;
+        static WeeklyHotelCellsDto? Cells(WeeklyHotelCells? c) =>
+            c is null ? null : new(c.Zimmer, c.Ns, c.Rk, c.Ks, c.Gecheckt, c.ZuBerechnen, c.Abzuege, c.PauschaleDays);
+        var rows = m.Rows.Select((r, i) => new WeeklyRowDto(Date(r.Date), w.DayStatus[i], Cells(r.Novotel), Cells(r.Ibis),
+            r.Hausmann, r.FloorSupervisor, r.HausdameAssistenz, r.Hausdame, r.ExtraReinigung)).ToList();
+        var t = m.Totals;
+        return new WeeklyReportDto(Date(m.WeekStart), Date(m.WeekEnd), m.IsoYear, m.IsoWeek, m.Objekt, m.Kostenstelle, rows,
+            new WeeklyTotalsDto(Cells(t.Novotel)!, Cells(t.Ibis)!, t.Hausmann, t.FloorSupervisor, t.HausdameAssistenz, t.Hausdame, t.ExtraReinigung),
+            m.ConfirmedDays, m.PauschaleDaysAllowed, emails);
+    }
+
     private static EmailLogEntryDto ToDto(EmailLogEntry e) =>
         new(e.Id.ToString(), e.Kind.ToString(), Date(e.Period), e.Recipients, e.Status, e.Detail, Iso(e.AtUtc));
 
@@ -312,13 +350,24 @@ public sealed class OperationsFunctions(
             var b = await Api.ReadJsonAsync<SaveSettingsRequest>(req);
             if (!b.Confirmed) throw BusinessRuleException.BadRequest("The change must be confirmed.");
             var p = b.Prices ?? new PricesDto(null, null, null, null, null, null, null, null, null);
-            var recipients = Enum.GetValues<ReportKind>().ToDictionary(k => k, k =>
-                (IReadOnlyList<string>)(b.Recipients?.GetValueOrDefault(k.ToString()) ?? []).Select(e => e.Trim()).Where(e => e.Length > 0).ToList());
+            var current = await settings.GetAsync(req.HttpContext.RequestAborted);
+            var recipients = MergeRecipients(b.Recipients, current.Recipients);
             var model = new AppSettings(b.Objekt ?? "", b.Kostenstelle ?? "", b.PauschaleChecks, b.PauschaleLabel ?? "", b.EmailEnabled,
                 new Prices(p.RoomNovotel, p.RoomIbis, p.Check, p.Hausdame, p.HausdameAssistenz, p.FloorSupervisor, p.Hausmann, p.ExtraReinigung, p.InternalRoom),
                 recipients);
             return Api.Ok(ToDto(await settings.SaveAsync(user, model, req.HttpContext.RequestAborted)));
         });
+
+    /// <summary>
+    /// A report kind missing from the request keeps its saved recipients, so a client that does not know a newer kind
+    /// (e.g. WEEKLY) cannot wipe it. An empty list clears that kind on purpose.
+    /// </summary>
+    internal static IReadOnlyDictionary<ReportKind, IReadOnlyList<string>> MergeRecipients(
+        IReadOnlyDictionary<string, IReadOnlyList<string>>? sent, IReadOnlyDictionary<ReportKind, IReadOnlyList<string>> saved) =>
+        Enum.GetValues<ReportKind>().ToDictionary(k => k, k =>
+            sent is not null && sent.TryGetValue(k.ToString(), out var list)
+                ? (IReadOnlyList<string>)(list ?? []).Select(e => e.Trim()).Where(e => e.Length > 0).ToList()
+                : saved.GetValueOrDefault(k) ?? []);
 
     private AppSettingsDto ToDto(AppSettings s) => new(
         s.Objekt, s.Kostenstelle, s.PauschaleChecks, s.PauschaleLabel, s.EmailEnabled,
@@ -328,6 +377,31 @@ public sealed class OperationsFunctions(
         email.Transport);
 
     // ---------- timers ----------
+
+    /// <summary>Daily 18:30 Berlin: email today's reports if the day is confirmed and they were not sent yet (Phase 3, step 8).</summary>
+    [Function("DailyReportEmail")]
+    public async Task DailyReportEmail([TimerTrigger("0 30 18 * * *")] TimerInfo timer, FunctionContext ctx)
+    {
+        var today = clock.Today();
+        var result = await reports.AutoSendDailyAsync(today, ctx.CancellationToken);
+        if (result.Count == 0) log.LogInformation("Daily reports for {Date} were already sent", today);
+        foreach (var r in result) log.LogInformation("Daily report {Kind} for {Date}: {Status}", r.Kind, today, r.Status);
+    }
+
+    /// <summary>Monday 10:00 Berlin: send last week's (Monday–Sunday) Wochenbericht once (Phase 3, step 9).</summary>
+    [Function("WeeklyReportEmail")]
+    public async Task WeeklyReportEmail([TimerTrigger("0 0 10 * * 1")] TimerInfo timer, FunctionContext ctx)
+    {
+        var previous = DailyCloseMath.WeekStart(clock.Today()).AddDays(-7);
+        var sent = await reports.EmailLogAsync(ReportKind.WEEKLY, previous, previous, 5, ctx.CancellationToken);
+        if (sent.Any(e => ReportService.Delivered(e.Status)))
+        {
+            log.LogInformation("Wochenbericht for the week of {Week} was already sent", previous);
+            return;
+        }
+        var result = await reports.SendWeeklyAsync(previous, null, ctx.CancellationToken);
+        log.LogInformation("Wochenbericht for the week of {Week}: {Status}", previous, result[0].Status);
+    }
 
     /// <summary>1st of the month, 06:00 Berlin: send last month's Leistungsnachweis.</summary>
     [Function("MonthlyStatementEmail")]

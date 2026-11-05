@@ -6,7 +6,7 @@ using PdfSharp.Pdf;
 
 namespace HousekeepingParser.Reports;
 
-/// <summary>Renders the three business PDFs as typed replicas of the paper forms.</summary>
+/// <summary>Renders the business PDFs: typed replicas of the paper forms, plus the Wochenbericht.</summary>
 public sealed class PdfSharpBusinessReportRenderer : IBusinessReportRenderer
 {
     static PdfSharpBusinessReportRenderer() => InterFontResolver.Register();
@@ -23,6 +23,9 @@ public sealed class PdfSharpBusinessReportRenderer : IBusinessReportRenderer
 
     public byte[] MonthlyStatement(MonthlyStatementModel model) =>
         Save($"Leistungsnachweis · {model.Objekt} · {model.Zeitraum}", doc => new MonthlyStatementWriter(doc, model).Write());
+
+    public byte[] WeeklyReport(WeeklyReportModel model) =>
+        Save($"Wochenbericht · KW {model.IsoWeek} {model.IsoYear} · {model.Objekt}", doc => new WeeklyReportWriter(doc, model).Write());
 
     private static byte[] Save(string title, Action<PdfDocument> write)
     {
@@ -731,4 +734,163 @@ internal sealed class MonthlyStatementWriter(PdfDocument doc, MonthlyStatementMo
         static string H(decimal? v) => v switch { null => "", 0m => "0", { } d => Hours(d) };
         return [N(r.Day), .. Hotel(r.Novotel), .. Hotel(r.Ibis), H(r.Hausmann), H(r.FloorSupervisor), H(r.HausdameAssistenz), H(r.Hausdame), H(r.ExtraReinigung)];
     }
+}
+
+/// <summary>"Wochenbericht": one landscape page, Monday–Sunday, both hotels and staff hours.</summary>
+internal sealed class WeeklyReportWriter(PdfDocument doc, WeeklyReportModel m) : FormWriter(doc, landscape: true, margin: 28)
+{
+    private static readonly XFont Title = Font(18, true), Group = Font(8, true), Head = Font(6.8, true), Cell = Font(8), CellBold = Font(8, true),
+        Note = Font(7.5), NoteBold = Font(7.5, true);
+
+    // Line breaks set by hand: the figure columns are narrow.
+    private static readonly string[] HotelHeads = ["Zimmer", "NS", "RK", "KS", "Ge-\ncheckt", "zu be-\nrechnen", "Abzüge", "Pau-\nschale"];
+    private static readonly string[] StaffHeads = ["Hausmann", "Floor\nSupervisor", "Hausdame\nAssistenz", "Hausdame", "Extra\nReinigung"];
+    private static readonly XColor NovotelFill = Hex("#E06666"), NovotelText = Hex("#2B0A0A"), IbisFill = Hex("#3D85C6");
+    private const double GroupH = 16, HeadH = 26, RowH = 22;
+
+    // Tag, 8 Novotel, 8 ibis, 5 staff columns.
+    private const int NovotelCol = 1, IbisCol = 9, StaffCol = 17, ColCount = 22;
+    private double[] widths = [];
+
+    protected override string FooterLeft =>
+        $"HSK Automation · erstellt {m.GeneratedAtLocal.ToString("dd.MM.yyyy HH:mm", German)} · {m.ConfirmedDays} von 7 Tagen freigegeben";
+
+    public void Write()
+    {
+        // Tag, 16 narrow figure columns, 5 wider hour columns.
+        const double tagW = 58, staffW = 42;
+        var figureW = (ContentW - tagW - 5 * staffW) / 16;
+        widths = [tagW, .. Enumerable.Repeat(figureW, 16), .. Enumerable.Repeat(staffW, 5)];
+
+        StartPage();
+        Table();
+        Notes();
+        Finish();
+    }
+
+    protected override void PageHeader(int pageNo)
+    {
+        Text("Wochenbericht Housekeeping", Title, Margin, 24);
+        (string Label, string Value)[] fields =
+        [
+            ("Objekt", m.Objekt), ("Kostenstelle", m.Kostenstelle),
+            ("Zeitraum", $"KW {m.IsoWeek} · {m.WeekStart.ToString("dd.MM.yyyy", German)} – {m.WeekEnd.ToString("dd.MM.yyyy", German)}"),
+        ];
+        for (var i = 0; i < fields.Length; i++)
+        {
+            var ry = 52 + i * 13;
+            Text(fields[i].Label, Body, Margin, ry, Muted);
+            Text(fields[i].Value, BodyBold, Margin + 72, ry);
+        }
+
+        const double sigW = 190;
+        Signature("Freigabe", PageW - Margin - sigW, sigW, 24, m.ApprovedBy, m.ApprovedAtLocal);
+        y = 104;
+    }
+
+    private double X(int col) => Margin + widths.Take(col).Sum();
+
+    private double W(int col, int span) => widths.Skip(col).Take(span).Sum();
+
+    private void Table()
+    {
+        var top = y;
+
+        // Group row: Novotel red, ibis blue, staff hours grey.
+        (int Col, int Span, string Label, XColor Fill, XColor Text)[] groups =
+        [
+            (NovotelCol, 8, Hotels.PrintedNames[HotelId.Novotel], NovotelFill, NovotelText),
+            (IbisCol, 8, Hotels.PrintedNames[HotelId.IbisBudget], IbisFill, XColors.White),
+            (StaffCol, 5, "Stunden", HeaderGrey, Ink),
+        ];
+        foreach (var g in groups)
+        {
+            var cell = new XRect(X(g.Col), y, W(g.Col, g.Span), GroupH);
+            Fill(cell, g.Fill);
+            CellText(g.Label, Group, cell, 0, 3, g.Text);
+        }
+        y += GroupH;
+        Line(X(NovotelCol), y, Margin + ContentW, y, 0.6);
+
+        string[] heads = ["Tag", .. HotelHeads, .. HotelHeads, .. StaffHeads];
+        for (var i = 0; i < heads.Length; i++)
+        {
+            var lines = Wrap(heads[i], Head, widths[i] - 4).Take(2).ToList();
+            var ly = y + HeadH / 2 - lines.Count * 8.2 / 2 - 0.6;
+            foreach (var l in lines)
+            {
+                TextCentre(l, Head, X(i) + widths[i] / 2, ly);
+                ly += 8.2;
+            }
+        }
+        y += HeadH;
+        Line(Margin, y, Margin + ContentW, y, 0.9);
+
+        // Shade unconfirmed days first: a fill drawn later would cover the rule above it.
+        for (var i = 0; i < m.Rows.Count; i++)
+            if (m.Rows[i].Novotel is null) Fill(new XRect(Margin, y + i * RowH, ContentW, RowH), Shade);
+        foreach (var r in m.Rows)
+        {
+            DrawRow(Cells(r), Cell, RowH);
+            y += RowH;
+            Line(Margin, y, Margin + ContentW, y, 0.35);
+        }
+
+        Line(Margin, y, Margin + ContentW, y, 1.1);
+        var t = m.Totals;
+        string[] totals = ["Gesamt", .. Hotel(t.Novotel, total: true), .. Hotel(t.Ibis, total: true),
+            Hours(t.Hausmann), Hours(t.FloorSupervisor), Hours(t.HausdameAssistenz), Hours(t.Hausdame), Hours(t.ExtraReinigung)];
+        DrawRow(totals, CellBold, RowH + 2);
+        y += RowH + 2;
+
+        // Column lines; heavier between the Tag, Novotel, ibis and staff groups.
+        for (var i = 1; i < ColCount; i++)
+        {
+            var group = i is NovotelCol or IbisCol or StaffCol;
+            Line(X(i), group ? top : top + GroupH, X(i), y, group ? 0.9 : 0.35);
+        }
+        Box(new XRect(Margin, top, ContentW, y - top), 1.2);
+    }
+
+    private void DrawRow(string[] cells, XFont font, double h)
+    {
+        for (var i = 0; i < cells.Length; i++)
+            CellText(cells[i], font, new XRect(X(i), y, widths[i], h), i == 0 ? -1 : 0, i == 0 ? 5 : 3);
+    }
+
+    private void Notes()
+    {
+        y += 16;
+        foreach (var (id, cells) in new[] { (HotelId.Novotel, m.Totals.Novotel), (HotelId.IbisBudget, m.Totals.Ibis) })
+        {
+            var over = cells.PauschaleDays > m.PauschaleDaysAllowed;
+            var label = m.PauschaleLabel.Length > 0 ? $" ({m.PauschaleLabel})" : "";
+            Text($"Pauschale-Tage {Hotels.PrintedNames[id]}: {cells.PauschaleDays} von {m.PauschaleDaysAllowed}{label}" +
+                (over ? " – mehr als vereinbart" : ""), over ? NoteBold : Note, Margin, y);
+            y += 12;
+        }
+        var open = m.Rows.Where(r => r.Novotel is null).Select(r => r.Date.ToString("ddd dd.MM.", German)).ToList();
+        if (open.Count > 0)
+        {
+            foreach (var l in Wrap($"Nicht freigegeben (leer, grau): {string.Join(", ", open)}", Note, ContentW))
+            {
+                Text(l, Note, Margin, y, Muted);
+                y += 11;
+            }
+        }
+    }
+
+    private string[] Cells(WeeklyRowModel r)
+    {
+        static string H(decimal? v) => v switch { null => "", 0m => "0", { } d => Hours(d) };
+        return [r.Date.ToString("ddd dd.MM.", German), .. Hotel(r.Novotel, total: false), .. Hotel(r.Ibis, total: false),
+            H(r.Hausmann), H(r.FloorSupervisor), H(r.HausdameAssistenz), H(r.Hausdame), H(r.ExtraReinigung)];
+    }
+
+    /// <summary>Pauschale: "Ja"/"–" per day, the day count in the total row.</summary>
+    private static string[] Hotel(WeeklyHotelCells? c, bool total) =>
+        c is null
+            ? ["", "", "", "", "", "", "", ""]
+            : [N(c.Zimmer), N(c.Ns), N(c.Rk), N(c.Ks), N(c.Gecheckt), N(c.ZuBerechnen), N(c.Abzuege),
+                total ? N(c.PauschaleDays) : c.PauschaleDays > 0 ? "Ja" : "–"];
 }
