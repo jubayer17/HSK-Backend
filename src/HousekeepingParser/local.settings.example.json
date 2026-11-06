@@ -28,6 +28,8 @@
     "Auth__SeedUsers__1__Role": "Operations",
     "Auth__SeedUsers__1__Password": "CHANGE_ME",
 
+    "Swagger__Enabled": "true",
+
     "Validation__EnforceSheetAge": "false",
     "Validation__MaxSheetAgeHours": "24",
 

@@ -26,6 +26,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\..\migrations\*.sql" LinkBase="Migrations" />
+    <EmbeddedResource Include="Functions\openapi.json" LogicalName="HousekeepingParser.openapi.json" />
     <EmbeddedResource Include="PdfMarking\Fonts\*.ttf" LogicalName="HousekeepingParser.Fonts.%(Filename)%(Extension)" />
   </ItemGroup>
   <ItemGroup>
