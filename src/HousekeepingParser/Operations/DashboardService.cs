@@ -38,7 +38,7 @@ internal static class DashboardMath
 
     /// <summary>PM + APM checks minus flat-rate checks (may be negative).</summary>
     public static int ZuBerechnen(int checksPm, int checksApm, bool flatRateDay, int pauschaleChecks) =>
-        checksPm + checksApm - (flatRateDay ? pauschaleChecks : 0);
+        WeeklyBillingService.DailyAmount(checksPm + checksApm, flatRateDay, pauschaleChecks);
 
     /// <summary>Confirmed day cost; missing prices count as 0.</summary>
     public static decimal ActualCost(int gereinigt, int abzuege, int zuBerechnen, decimal? roomPrice, decimal? checkPrice) =>
@@ -169,6 +169,7 @@ public sealed class DashboardService(IDbConnectionFactory db, ISettingsService s
         var logicServices = Logics.All.ToDictionary(l => l, _ => 0);
         var logicCost = Logics.All.ToDictionary(l => l, _ => 0m);
         var days = new List<DashboardDayDto>();
+        var billingDays = new List<BillingDay>();
 
         for (var d = from; d <= to; d = d.AddDays(1))
         {
@@ -205,7 +206,8 @@ public sealed class DashboardService(IDbConnectionFactory db, ISettingsService s
                     var zu = ch is null ? 0 : DashboardMath.ZuBerechnen(ch.ChecksPm, ch.ChecksApm, ch.FlatRateDay, ch.PauschaleChecks);
                     dayRooms += ch?.Gereinigt ?? 0;
                     dayCost += DashboardMath.ActualCost(ch?.Gereinigt ?? 0, ch?.Abzuege ?? 0, zu, p.Room(h), p.Check);
-                    checksBilled += zu;
+                    if (ch is not null) billingDays.Add(new BillingDay(h, d, ch.ChecksPm + ch.ChecksApm,
+                        ch.FlatRateDay ? ch.PauschaleChecks : 0));
                     liegezimmer += ch?.Liegezimmer ?? 0;
                     anyData = true;
                 }
@@ -241,6 +243,9 @@ public sealed class DashboardService(IDbConnectionFactory db, ISettingsService s
             total += dayCost;
             days.Add(new DashboardDayDto(Iso(d), anyData && pricesSet ? DashboardMath.Round2(dayCost) : null, dayRooms, DashboardMath.DayBasis(anyData, isActual)));
         }
+
+        // The chart keeps signed daily figures; the period check total follows the same weekly ledger as reports.
+        checksBilled = WeeklyBillingService.Aggregate(billingDays).Sum(w => w.BillableChecks);
 
         // ---------- room moves ----------
         var roomMoves = moves.Count(m => m.MoveDate >= from && m.MoveDate <= to);

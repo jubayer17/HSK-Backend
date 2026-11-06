@@ -19,7 +19,7 @@ public class LayoutMapperTests
             """;
         using var doc = JsonDocument.Parse(json);
 
-        var page = OdlLayoutMapper.Map(doc.RootElement).Single();
+        var page = LegacyFixtureMapper.Map(doc.RootElement).Single();
 
         Assert.Equal(["103 DI", "106 DI", "108 CL"], page.Lines.Select(l => l.Text));
         Assert.All(page.Lines, l => Assert.Equal(2, l.Words.Count));
@@ -35,7 +35,7 @@ public class LayoutMapperTests
             """;
         using var doc = JsonDocument.Parse(json);
 
-        var words = OdlLayoutMapper.Map(doc.RootElement).Single().Lines.Single().Words;
+        var words = LegacyFixtureMapper.Map(doc.RootElement).Single().Lines.Single().Words;
 
         Assert.Equal(["Departure", "Rooms", "14"], words.Select(w => w.Text));
         Assert.True(words[0].Left < words[1].Left && words[1].Left < words[2].Left);

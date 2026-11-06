@@ -120,6 +120,20 @@ public static partial class TaskSheetParser
             pagesWithoutLayout);
     }
 
+    /// <summary>Data pages carry "Room Details" and the "Resv Status" column header.</summary>
+    internal static bool HasLayoutSignature(PdfPage page)
+    {
+        var text = string.Join(' ', page.Lines.Select(l => l.Text));
+        var words = page.Lines.SelectMany(l => l.Words).ToList();
+        bool Nearby(string first, string second, double x, double y) => words.Any(a => a.Text.Trim('.', ':').Equals(first, StringComparison.OrdinalIgnoreCase)
+            && words.Any(b => b.Text.Trim('.', ':').Equals(second, StringComparison.OrdinalIgnoreCase)
+                && Math.Abs(a.Left - b.Left) <= x && Math.Abs(a.CentreY - b.CentreY) <= y));
+        // "Room Details" may be split over lines by the .NET reader; "Resv" alone marks the Resv Status column
+        // (Opera wraps it over two header lines, and "Status" also heads Room Status).
+        return (Regex.IsMatch(text, @"\bRoom\s+Details\b", RegexOptions.IgnoreCase) || Nearby("Room", "Details", 45, 15))
+            && words.Any(w => w.Text.Trim('.', ':').Equals("Resv", StringComparison.OrdinalIgnoreCase));
+    }
+
     // ---------- header ----------
 
     private static TaskSheetHeader? ParseHeader(IReadOnlyList<PdfPage> pages, out bool isTaskSheetReport)
@@ -128,23 +142,33 @@ public static partial class TaskSheetParser
         var first = pages.FirstOrDefault(p => p.Lines.Count > 0);
         if (first is null) return null;
 
-        // Two header lines at the top of each page: "<hotel> <dd.mm.yy>" and "Task Sheet Report <hh:mm>".
-        var top = first.Lines.Take(8).ToList();
-        for (var i = 0; i < top.Count - 1; i++)
-        {
-            var hotelLine = HotelLine().Match(top[i].Text);
-            var titleLine = TitleLine().Match(top[i + 1].Text);
-            if (!titleLine.Success) continue;
-            isTaskSheetReport = true;
-            if (!hotelLine.Success) return null;
+        // Opera prints the time slightly above the title. The .NET reader therefore returns
+        // separate lines: recognise the header by position without widening room-row grouping.
+        var top = first.Lines.Take(8).Where(l => l.CentreY >= first.Height - 110).ToList();
+        var title = top.FirstOrDefault(l => TitleLine().IsMatch(l.Text));
+        if (title is null) return null;
+        isTaskSheetReport = true;
 
-            var date = ParseDate(hotelLine.Groups["date"].Value);
-            var time = TimeOnly.ParseExact(titleLine.Groups["time"].Value, "HH:mm", CultureInfo.InvariantCulture);
-            if (date is null) return null;
-            var printed = hotelLine.Groups["hotel"].Value.Trim();
-            return new TaskSheetHeader(printed, Hotels.FromPrintedName(printed), date.Value, date.Value.ToDateTime(time));
+        var hotelLine = top.Select(l => HotelLine().Match(l.Text)).FirstOrDefault(m => m.Success);
+        if (hotelLine is null) return null;
+        var date = ParseDate(hotelLine.Groups["date"].Value);
+        if (date is null) return null;
+
+        var timeText = TitleLine().Match(title.Text).Groups["time"].Value;
+        if (timeText.Length == 0)
+        {
+            // Only accept one nearby, right-hand print time; never borrow a time from the room table.
+            var candidates = top.SelectMany(l => l.Words)
+                .Where(w => w.Left >= title.Right && Math.Abs(w.CentreY - title.CentreY) <= 12
+                    && PrintTime().IsMatch(w.Text)).ToList();
+            if (candidates.Count != 1) return null;
+            timeText = candidates[0].Text;
         }
-        return null;
+        if (!TimeOnly.TryParseExact(timeText, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out var time))
+            return null;
+
+        var printed = hotelLine.Groups["hotel"].Value.Trim();
+        return new TaskSheetHeader(printed, Hotels.FromPrintedName(printed), date.Value, date.Value.ToDateTime(time));
     }
 
     // ---------- sheets ----------
@@ -261,8 +285,10 @@ public static partial class TaskSheetParser
         }
 
         // Opera leaves the Chl column empty when there are no children: one number after the dates is Adl.
+        // A wholly incomplete row (no dates) is not turned into a valid zero.
         var adultCount = Count(adults, "adults");
-        var childCount = children.Length == 0 && adultCount is not null ? 0 : Count(children, "children");
+        var childCount = children.Length == 0 && adultCount is not null && (arrival.Length > 0 || departure.Length > 0)
+            ? 0 : Count(children, "children");
 
         var word = roomWords[0];
         return new ParsedRoom(
@@ -282,11 +308,6 @@ public static partial class TaskSheetParser
 
     private static bool IsBareRoomNumber(ParsedRoom r) =>
         r.RoomStatus.Length == 0 && r.ReservationStatus.Length == 0 && r.Arrival is null && r.Departure is null;
-
-    /// <summary>Data pages carry "Room Details" and the "Resv Status" column header ("Resv" alone; "Status" also heads Room Status).</summary>
-    private static bool HasLayoutSignature(PdfPage page) =>
-        page.Lines.Any(l => l.Text.Contains("Room Details", StringComparison.Ordinal))
-        && page.Lines.Any(l => l.Words.Any(w => w.Text == "Resv"));
 
     /// <summary>
     /// Maps misprinted task codes ("Tasks:GLCL") to the known code they were meant to be. Task codes do not
@@ -411,8 +432,11 @@ public static partial class TaskSheetParser
     [GeneratedRegex(@"^(?<hotel>.+?)\s+(?<date>\d{2}\.\d{2}\.\d{2})$")]
     private static partial Regex HotelLine();
 
-    [GeneratedRegex(@"^Task Sheet Report\s+(?<time>\d{2}:\d{2})$")]
+    [GeneratedRegex(@"^Task\s+Sheet\s+Report(?:\s+(?<time>\d{2}:\d{2}))?$")]
     private static partial Regex TitleLine();
+
+    [GeneratedRegex(@"^\d{2}:\d{2}$")]
+    private static partial Regex PrintTime();
 
     [GeneratedRegex(@"(?<date>\d{2}\.\d{2}\.\d{2})/(?<codes>[A-Z,]+)/(?<no>\d+|FLOAT)\b")]
     private static partial Regex SheetLine();

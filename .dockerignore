@@ -1,0 +1,11 @@
+# Keep real hotel files, local credentials and stale build output out of image build layers.
+.git
+.env
+**/local.settings.json
+**/bin
+**/obj
+**/TestResults
+samples
+**/*.PDF
+**/*.pdf
+tools/opendataloader/*.jar

@@ -1,6 +1,6 @@
 namespace HousekeepingParser.Parsing;
 
-// Result contract of the client's compliant wrapper (OpenDataLoader v2 document).
+// Shared contract for the .NET Stream parser and PdfPig fallback.
 // Coordinates are PDF points measured from the bottom-left corner of the page, so Top > Bottom.
 
 public sealed record PdfExtractionResult(
@@ -8,7 +8,11 @@ public sealed record PdfExtractionResult(
     IReadOnlyList<PdfPage> Pages,
     int TotalLines,
     TimeSpan Duration,
-    long PeakHeapHintBytes = 0);
+    long PeakHeapHintBytes = 0,
+    IReadOnlyList<PdfPageQuality>? Quality = null);
+
+// These are extraction diagnostics, not proof that business fields are correct; acceptance tests do that.
+public sealed record PdfPageQuality(int Page, string Parser, int Tables, double? Accuracy, double? Whitespace, string? FallbackReason);
 
 public sealed record PdfPage(
     int PageNumber,
@@ -35,4 +39,5 @@ public sealed record PdfWord(
     double Bottom)
 {
     public double CentreX => (Left + Right) / 2;
+    public double CentreY => (Top + Bottom) / 2;
 }

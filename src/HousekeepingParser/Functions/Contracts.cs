@@ -146,7 +146,13 @@ public sealed record MonthlyTotalsDto(
 
 public sealed record MonthlyStatementDto(
     string Month, string Objekt, string Kostenstelle, string Zeitraum, IReadOnlyList<MonthlyRowDto> Rows, MonthlyTotalsDto Totals,
-    int ConfirmedDays, int DaysInMonth, IReadOnlyList<EmailLogEntryDto> Emails);
+    int ConfirmedDays, int DaysInMonth, IReadOnlyList<EmailLogEntryDto> Emails)
+{
+    public IReadOnlyList<WeeklyBillingDto> Weeks { get; init; } = [];
+}
+
+public sealed record WeeklyBillingDto(int HotelId, string WeekStart, string From, string To,
+    int ConfirmedDays, int Checks, int Allowance, int BillableChecks);
 
 public sealed record WeeklyHotelCellsDto(int Zimmer, int Ns, int Rk, int Ks, int Gecheckt, int ZuBerechnen, int Abzuege, int PauschaleDays);
 

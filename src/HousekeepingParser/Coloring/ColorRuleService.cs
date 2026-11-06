@@ -105,16 +105,18 @@ public static class RhythmCycles
 /// The priority list from plan 9.5, checked top to bottom; the first rule that fits decides.
 /// Pure: rooms and wishes in, colours out, no database calls.
 /// Decisions D2 (client defaults until confirmed): Arrived / Arrival → Red, Day Use → Red, no guest → no dot.
-/// Room moves rank right after special requests: the room left gets a full clean.
+/// Final Phase 1 decision: room moves rank first and always remain Red.
 /// </summary>
 public sealed class ColorRuleService : IColorRuleService
 {
     public ColourDecision Decide(ColourInput input)
     {
         var oneNight = input.GuestRhythm == RhythmType.OneNight;
+        // A wish must never hide a room move or mark an uncleaned move as completed.
+        if (input.RoomMove is { } move) return RoomMove(input, move);
         if (input.Requests.FirstOrDefault(r => r.Type == RequestType.SPECIAL) is { } special)
         {
-            var baseDecision = input.RoomMove is { } m ? RoomMove(input, m) : oneNight ? OneNight(input) : DecideByStatus(input);
+            var baseDecision = oneNight ? OneNight(input) : DecideByStatus(input);
             return baseDecision with
             {
                 // Special request without a colour: Green in 1-Night, Gold otherwise.
@@ -126,7 +128,6 @@ public sealed class ColorRuleService : IColorRuleService
                 CleanedByType = null,
             };
         }
-        if (input.RoomMove is { } move) return RoomMove(input, move);
 
         return oneNight ? OneNight(input) : Rhythm(input);
     }

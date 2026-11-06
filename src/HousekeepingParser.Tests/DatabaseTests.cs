@@ -143,7 +143,7 @@ public sealed partial class DatabaseTests(SqlServerFixture sql)
         await new DbMigrator(Options.Create(new DatabaseOptions { ConnectionString = e.ConnectionString }), NullLogger<DbMigrator>.Instance).MigrateAsync();
 
         await using var c = await e.Db.OpenAsync();
-        Assert.Equal(5, await c.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM dbo.SchemaVersions"));
+        Assert.Equal(6, await c.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM dbo.SchemaVersions"));
         Assert.Equal(117, await c.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM dbo.room_inventory WHERE hotel_id = 2"));
         Assert.Equal(123, await c.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM dbo.room_inventory WHERE hotel_id = 1"));
     }

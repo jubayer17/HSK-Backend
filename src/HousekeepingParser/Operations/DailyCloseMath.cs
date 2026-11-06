@@ -79,7 +79,7 @@ public static class DailyCloseMath
         var liegezimmer = h.RoomsOf(RoomCategory.LATE_CHECKOUT).Count + h.RoomsOf(RoomCategory.LIEGEZIMMER).Count;
         var actual = checks.Pm + checks.Apm;
         return new CloseTotals(gereinigt, ns, rk, ks, h.Sauber, liegezimmer, gereinigt + ns + rk + ks + h.Sauber + liegezimmer,
-            actual, actual - (h.FlatRateDay ? h.PauschaleChecks : 0));
+            actual, WeeklyBillingService.DailyAmount(actual, h.FlatRateDay, h.PauschaleChecks));
     }
 
     private static readonly IReadOnlyDictionary<RoomCategory, string> Labels = new Dictionary<RoomCategory, string>

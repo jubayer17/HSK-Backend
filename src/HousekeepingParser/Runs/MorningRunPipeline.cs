@@ -56,12 +56,12 @@ public sealed class MorningRunPipeline(
         {
             extraction = await ExtractWithOneRetryAsync(pdf, file.BlobName, ct);
         }
-        catch (OpenDataLoaderTimeoutException)
+        catch (PdfExtractionTimeoutException)
         {
             return await RejectAsync(file, StepKeys.Read, "READ_TIMEOUT",
                 "Reading this file took too long and was stopped. Please export the task sheet from Opera again.", ct);
         }
-        catch (OpenDataLoaderException)
+        catch (PdfExtractionException)
         {
             return await RejectAsync(file, StepKeys.Read, "READ_FAILED",
                 "This file could not be read as a PDF. Please export the task sheet from Opera again.", ct);
@@ -122,7 +122,7 @@ public sealed class MorningRunPipeline(
         {
             return await extractor.ExtractAsync(pdf, blobName, ct);
         }
-        catch (OpenDataLoaderTimeoutException)
+        catch (PdfExtractionTimeoutException)
         {
             log.LogWarning("Reader timed out, retrying once");
             return await extractor.ExtractAsync(pdf, blobName, ct); // runbook: retry once, then refuse
@@ -424,7 +424,7 @@ public sealed class MorningRunPipeline(
                 moves.TryAdd(to, new RoomMoveMark(RoomMoveSide.MovedIn, false, m.CleanedByType, false));
         }
 
-        // 1-Night: last 1-Night row per room (completed runs) and yesterday's Liegezimmer.
+        // Waiting belongs to a stayover service request, not to a departure room left uncleaned.
         var last = (await c.QueryAsync<LastRow>(
             """
             SELECT x.RoomNo, x.ReportDate, x.Colour, x.Cleaned FROM (
@@ -435,13 +435,7 @@ public sealed class MorningRunPipeline(
                   AND s.report_date >= DATEADD(DAY, -31, @reportDate) AND f.status = 'completed') x
             WHERE x.rn = 1
             """, p)).ToDictionary(r => r.RoomNo);
-        var liegezimmer = (await c.QueryAsync<string>(
-            """
-            SELECT r.room_no FROM dbo.daily_close_room r JOIN dbo.daily_close d ON d.close_id = r.close_id
-            WHERE d.report_date = @yesterday AND d.status = 'confirmed' AND r.hotel_id = @hotel AND r.category = 'LIEGEZIMMER'
-            """, p)).ToHashSet();
-
-        return new ColourContext(Enum.Parse<RhythmType>(active), available, anyOneNight, moves, last, liegezimmer);
+        return new ColourContext(Enum.Parse<RhythmType>(active), available, anyOneNight, moves, last);
     }
 
     private sealed record ColourContext(
@@ -449,14 +443,12 @@ public sealed class MorningRunPipeline(
         bool CleanerAvailable,
         bool AnyOneNight,
         IReadOnlyDictionary<string, RoomMoveMark> Moves,
-        IReadOnlyDictionary<string, LastRow> LastOneNight,
-        IReadOnlySet<string> Liegezimmer)
+        IReadOnlyDictionary<string, LastRow> LastOneNight)
     {
-        /// <summary>Last 1-Night day was Blue and not cleaned, or Liegezimmer yesterday.</summary>
+        /// <summary>Only unfinished 1-Night stayover service in the same stay creates Waiting.</summary>
         public bool IsPending(string roomNo, DateOnly? arrival)
         {
             if (arrival is null) return false;
-            if (Liegezimmer.Contains(roomNo)) return true;
             return LastOneNight.TryGetValue(roomNo, out var l) && l.ReportDate >= arrival && l.Colour == nameof(ColourName.Blue) && !l.Cleaned;
         }
     }

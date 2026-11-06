@@ -9,7 +9,7 @@ Built for Novotel & ibis budget Münster City.
 ![.NET](https://img.shields.io/badge/.NET-8-512BD4?logo=dotnet&logoColor=white)
 ![Azure Functions](https://img.shields.io/badge/Azure_Functions-v4-0062AD?logo=azurefunctions&logoColor=white)
 ![SQL Server](https://img.shields.io/badge/Azure_SQL-SQL_Server_2022-CC2927?logo=microsoftsqlserver&logoColor=white)
-![Java](https://img.shields.io/badge/Java-17-ED8B00?logo=openjdk&logoColor=white)
+![PDF](https://img.shields.io/badge/PDF-.NET_Stream_%2B_PdfPig-0F766E)
 ![Docker](https://img.shields.io/badge/Docker-ready-2496ED?logo=docker&logoColor=white)
 
 [Quick start](#-quick-start) · [How it works](#-how-it-works) · [API](#-api-endpoints) · [Tests](#-tests) · [Frontend repo](https://github.com/jubayer17/HSK-Frontend)
@@ -39,7 +39,7 @@ Built for Novotel & ibis budget Münster City.
 | ⚡ App | .NET 8 isolated **Azure Functions** + **Durable Functions** |
 | 🗄️ Database | **Azure SQL** (SQL Server in Docker locally) with Dapper |
 | 📦 File storage | **Azure Blob Storage** (Azurite locally) |
-| 📖 PDF reading | **OpenDataLoader** (Java 17) |
+| 📖 PDF reading | **Camelot Stream + PdfPig fallback** (local .NET) |
 | 🖍️ PDF report & marking | **PDFsharp** with the bundled Inter font (swappable for Syncfusion later) |
 | 🧪 Tests | xUnit + Testcontainers |
 
@@ -50,7 +50,6 @@ Built for Novotel & ibis budget Münster City.
 ### 1. Install the requirements
 
 - [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
-- [Java 17](https://adoptium.net)
 - [Azure Functions Core Tools v4](https://learn.microsoft.com/azure/azure-functions/functions-run-local)
 - [Docker](https://www.docker.com/get-started)
 - Python 3
@@ -118,7 +117,11 @@ HSK-Backend/
 |---|---|
 | `Database__ConnectionString` | Database connection |
 | `Storage__ConnectionString` | File storage connection |
-| `OpenDataLoader__JarPath` | Location of the PDF reader |
+| `PdfParser__Timeout` | Cooperative per-file processing budget; default 30 seconds |
+| `PdfParser__MaxPages` | Maximum pages per file; default 100 |
+| `PdfParser__ForcePdfPigFallback` | Diagnostic switch to test the fallback reader |
+| `Email__Mode` | `Outbox` locally, `Azure` for ACS delivery, or legacy `Smtp` |
+| `Email__Endpoint` / `Email__ConnectionString` | ACS authentication; use managed identity or Key Vault references in Azure |
 | `Auth__SeedUsers__*` | Demo accounts created on start-up |
 | `Auth__SecureCookie` | Set to `true` outside local development |
 | `Validation__EnforceSheetAge` | Only accept sheets printed in the last 24 h. `false` locally (the samples are old), **`true` in production** |
@@ -218,22 +221,24 @@ dotnet test
 | Privacy | – | No staff names survive reading |
 | Colour rules | – | Every rhythm and priority rule |
 | PDF | – | Dots are drawn in the right place |
-| Real reader | Sample PDFs + Java | Reading the real files end to end |
+| Real reader | Private sample PDFs | Stream and forced-PdfPig extraction against all four regression PDFs |
 | Database | Docker | Full runs, rhythm rules, duplicate checks, data safety |
 
 > ⏭️ Tests that need Docker or the sample PDFs are **skipped automatically** when those aren't available.
-> The real-reader tests look for the sample PDFs in the folder **above** this repo.
+> The real-reader tests look in `samples/opera` (or `HSK_SAMPLE_DIR`).
+> The mandatory October sample has a separate strict gate: `powershell -File tools/Test-FinalSample.ps1`.
+> Missing October inputs are explicitly pending in normal runs and fail the strict gate.
 
 ---
 
 ## 🐳 Deployment
 
 ```bash
-tools/get-opendataloader.sh       # download the PDF reader first
 docker build -t hsk-backend .
 ```
 
-The image contains .NET 8, Java 17 and the PDF reader. In Azure, **Azure SQL** and **Azure Storage** replace the local Docker services, and secrets come from **Key Vault**.
+The image contains .NET 8 and the NuGet PDF readers. Java and a JAR download are no longer required.
+See [infra/README.md](infra/README.md) for the Premium EP1 template, Key Vault settings and live-hosting verification.
 
 ---
 
@@ -242,14 +247,17 @@ The image contains .NET 8, Java 17 and the PDF reader. In Azure, **Azure SQL** a
 
 <br>
 
-- **PDF reader output.** OpenDataLoader returns text blocks with positions, not lines and words.
-  `OdlLayoutMapper` converts them, and table rows are rebuilt from the positions.
+- **PDF reader output.** Camelot Stream supplies row bands; PdfPig supplies exact word positions and the page fallback.
+  Diagnostics contain counts and quality scores, never raw PDF text. The archived Camelot `0.0.1-alpha002`
+  package is pinned to compatible PdfPig `0.1.5`: current PdfPig removed an API it needs.
+  These are extraction diagnostics, not proof of field accuracy. The October acceptance gate remains required.
 - **Damaged sample files.** The four sample PDFs had their line endings changed during transfer, which breaks them.
   `PdfBytes.RepairLineEndings` fixes exactly that, and only when needed. Files straight from Opera should be fine.
 - **PDF library.** The client prefers Syncfusion, but its licence isn't settled yet. Drawing goes through
   `IPdfMarker`, so PDFsharp can be swapped out later.
 - **Sign-in.** Simple username and password for now (hashed with PBKDF2). Stage 2 moves to Microsoft Entra ID.
-- **Not in this stage yet:** emails, follow-up bookings, automatic 06:55 start, day console, reports.
+- **Phase 1 update:** report sending supports ACS; daily close, PDF reports and dashboards already exist.
+  Follow-up bookings and an automatic 06:55 morning start are outside this update.
 
 </details>
 
@@ -260,4 +268,28 @@ The image contains .NET 8, Java 17 and the PDF reader. In Azure, **Azure SQL** a
 Real task sheets contain **staff names**. Never commit them. Names are still never read from the Opera PDF.
 Since Stage 2 the Director's staff list, the daily close and the room-check log hold names to print the reports
 (client sign-off pending, see the Next Stage workflow page); a hotel employee's name on a room move is cleared after 30 days.
-PDF files, `.env`, `local.settings.json` and the reader JAR are ignored by git. Test data uses fake names only.
+PDF files, private expected-result manifests, `.env`, `local.settings.json` and historical reader JARs are ignored by Git.
+Committed regression JSON uses fake staff names only.
+
+## Final decision changes (27 October 2026)
+
+See [CHANGELOG.md](CHANGELOG.md) for the file-by-file reasons and verification results.
+Room moves now beat special requests and remain Red; uncleaned move-outs enter Liegezimmer.
+Waiting uses unfinished stayover service only, with no automatic link from yesterday's Liegezimmer.
+
+Billing preserves signed daily results, groups Monday–Sunday and sums those weekly results into monthly totals.
+For a week crossing months, only confirmed dates belonging to the selected month are included. Missing/unconfirmed
+days receive no invented allowance. Daily flat-rate flags continue to determine which days receive the allowance.
+The cleaner table's new `break_minutes` field is authoritative; the existing hours-based API remains compatible.
+
+Windows local setup:
+
+```powershell
+powershell -File tools/Setup-Local.ps1
+docker compose up -d
+dotnet test HousekeepingParser.sln
+Set-Location src/HousekeepingParser
+func start
+```
+
+Local email stays in Outbox until ACS is configured. Cloud provisioning and actual inbox delivery have not been verified.

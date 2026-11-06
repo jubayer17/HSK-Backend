@@ -12,10 +12,11 @@
 
     "Storage__ConnectionString": "UseDevelopmentStorage=true",
 
-    "OpenDataLoader__JavaExecutable": "java",
-    "OpenDataLoader__JarPath": "../../../tools/opendataloader/opendataloader-pdf.jar",
-    "OpenDataLoader__Timeout": "00:00:30",
-    "OpenDataLoader__MaxHeap": "1g",
+    "PdfParser__Timeout": "00:00:30",
+    "PdfParser__MaxPages": "100",
+    "PdfParser__ForcePdfPigFallback": "false",
+
+    "Email__Endpoint": "",
 
     "Auth__SecureCookie": "false",
     "Auth__SessionLifetime": "12:00:00",

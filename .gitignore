@@ -1,4 +1,5 @@
 # Real task sheets contain staff names: never commit them
+samples/opera/*.expected.json
 *.pdf
 *.PDF
 

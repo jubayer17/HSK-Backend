@@ -90,7 +90,7 @@ public sealed class DailyCloseService(IDbConnectionFactory db, IRoomCheckService
     {
         await using var c = await db.OpenAsync(ct);
         await using var tx = (SqlTransaction)await c.BeginTransactionAsync(ct);
-        await WriteAsync(c, tx, user, date, Normalise(input));
+        await WriteAsync(c, tx, user, date, await IncludeUncleanedMovesAsync(c, tx, date, Normalise(input)));
         await tx.CommitAsync(ct);
         return await LoadAsync(c, null, date);
     }
@@ -99,7 +99,7 @@ public sealed class DailyCloseService(IDbConnectionFactory db, IRoomCheckService
     {
         await using var c = await db.OpenAsync(ct);
         await using var tx = (SqlTransaction)await c.BeginTransactionAsync(ct);
-        var closeId = await WriteAsync(c, tx, user, date, Normalise(input));
+        var closeId = await WriteAsync(c, tx, user, date, await IncludeUncleanedMovesAsync(c, tx, date, Normalise(input)));
         var view = await LoadAsync(c, tx, date);
         var blocking = view.Issues.FirstOrDefault(i => i.IsError);
         if (blocking is not null) throw BusinessRuleException.Conflict($"The daily close cannot be confirmed yet: {blocking.Message}");
@@ -228,12 +228,14 @@ public sealed class DailyCloseService(IDbConnectionFactory db, IRoomCheckService
                     Sauber = Math.Max(0, h.Sauber), Abzuege = Math.Max(0, h.Abzuege), info = NullIfEmpty(h.Informationen) }, tx);
             await c.ExecuteAsync(
                 """
-                INSERT INTO dbo.daily_close_cleaner (close_id, hotel_id, line_no, staff_id, cleaner_name, gereinigt, ns, rk, ks, start_time, end_time, pause_hours)
-                VALUES (@closeId, @hotel, @line, @StaffId, @Name, @Gereinigt, @Ns, @Rk, @Ks, @Start, @End, @PauseHours)
+                INSERT INTO dbo.daily_close_cleaner (close_id, hotel_id, line_no, staff_id, cleaner_name, gereinigt, ns, rk, ks, start_time, end_time, pause_hours, break_minutes)
+                VALUES (@closeId, @hotel, @line, @StaffId, @Name, @Gereinigt, @Ns, @Rk, @Ks, @Start, @End, @PauseHours, @BreakMinutes)
                 """, h.Cleaners.Select((x, i) => new
                 {
                     closeId, hotel, line = (short)(i + 1), x.StaffId, x.Name, Gereinigt = Math.Max(0, x.Gereinigt), Ns = Math.Max(0, x.Ns),
                     Rk = Math.Max(0, x.Rk), Ks = Math.Max(0, x.Ks), Start = Time(x.Start), End = Time(x.End), x.PauseHours,
+                    // Preserve the hours-based screen/API while storing the required minute unit in SQL.
+                    BreakMinutes = x.PauseHours * 60m,
                 }), tx);
             await c.ExecuteAsync(
                 "INSERT INTO dbo.daily_close_room (close_id, hotel_id, category, room_no) VALUES (@closeId, @hotel, @cat, @room)",
@@ -307,7 +309,7 @@ public sealed class DailyCloseService(IDbConnectionFactory db, IRoomCheckService
             var cleaners = (await c.QueryAsync<CleanerRow>(
                 """
                 SELECT hotel_id AS HotelId, staff_id AS StaffId, cleaner_name AS Name, gereinigt AS Gereinigt, ns AS Ns, rk AS Rk, ks AS Ks,
-                       start_time AS StartTime, end_time AS EndTime, pause_hours AS PauseHours
+                       start_time AS StartTime, end_time AS EndTime, break_minutes / CAST(60 AS DECIMAL(9,4)) AS PauseHours
                 FROM dbo.daily_close_cleaner WHERE close_id = @id ORDER BY line_no
                 """, new { id = head.CloseId }, tx)).ToLookup(x => (HotelId)x.HotelId);
             var rooms = (await c.QueryAsync<(byte Hotel, string Category, string Room)>(
@@ -330,6 +332,8 @@ public sealed class DailyCloseService(IDbConnectionFactory db, IRoomCheckService
         }
 
         var confirmed = head?.Status == "confirmed";
+        // Uncleaned move-outs belong to today's handover. Confirmed closes remain immutable snapshots.
+        if (!confirmed) input = await IncludeUncleanedMovesAsync(c, tx, date, input);
         var views = new List<CloseHotelView>();
         foreach (var h in input.Hotels)
         {
@@ -353,6 +357,23 @@ public sealed class DailyCloseService(IDbConnectionFactory db, IRoomCheckService
             views.ToDictionary(v => v.Input.Hotel, v => v.OtherFlatRateDays));
 
         return new DailyCloseView(date, head?.Status ?? "new", input, views, issues, head?.UpdatedBy, head?.UpdatedAtUtc, head?.ConfirmedBy, head?.ConfirmedAtUtc);
+    }
+
+    private static async Task<CloseInput> IncludeUncleanedMovesAsync(SqlConnection c, SqlTransaction? tx, DateOnly date, CloseInput input)
+    {
+        var pending = (await c.QueryAsync<(byte Hotel, string Room)>(
+            "SELECT hotel_id, room_no FROM dbo.room_move WHERE move_date = @date AND cleaner_available = 0 AND clean_date > @date",
+            new { date }, tx)).ToLookup(m => (HotelId)m.Hotel);
+        return input with { Hotels = input.Hotels.Select(h =>
+        {
+            var moved = pending[h.Hotel].Select(m => m.Room).ToHashSet();
+            if (moved.Count == 0) return h;
+            // A room can occupy one close category only; the final decision gives the move priority.
+            var rooms = Enum.GetValues<RoomCategory>().ToDictionary(cat => cat, cat => (IReadOnlyList<string>)(cat == RoomCategory.LIEGEZIMMER
+                ? h.RoomsOf(cat).Concat(moved).Distinct().OrderBy(r => r).ToList()
+                : h.RoomsOf(cat).Where(r => !moved.Contains(r)).ToList()));
+            return h with { Rooms = rooms };
+        }).ToList() };
     }
 
     /// <summary>The day's latest completed sheet for the hotel.</summary>

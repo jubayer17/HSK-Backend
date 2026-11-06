@@ -1,4 +1,7 @@
+using System.Security.Cryptography;
+using System.Text.Json;
 using HousekeepingParser.Parsing;
+using HousekeepingParser.Runs;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -7,127 +10,119 @@ using Xunit;
 
 namespace HousekeepingParser.Tests;
 
-/// <summary>
-/// Runs the real reader (Java + OpenDataLoader JAR) through the client's wrapper on the real sample
-/// files. Those files contain staff names and are never committed, so this only runs on a machine
-/// that has them in the repository root and the JAR in server/tools/opendataloader (see README).
-/// </summary>
 public class RealReaderTests
 {
-    private static readonly string Root = FindRepoRoot();
-    private static readonly string Jar = Path.Combine(Root, "server", "tools", "opendataloader", "opendataloader-pdf.jar");
+    public static string SampleDirectory => Environment.GetEnvironmentVariable("HSK_SAMPLE_DIR")
+        ?? Path.Combine(FindRepoRoot(), "samples", "opera");
+    public const string FinalSample = "task_sheet_report_1914628800.PDF";
+    public const string FinalExpected = "task_sheet_report_1914628800.expected.json";
 
-    public static TheoryData<string, int, int> Samples => new()
+    public static TheoryData<string, string> Samples => new()
     {
-        { "task_sheet_report_1909957450.PDF", 103, 6 },
-        { "task_sheet_report_1912057967.PDF", 74, 4 },
-        { "task_sheet_report_1912132626.PDF", 112, 5 },
-        { "task_sheet_report_1912144053.PDF", 116, 4 },
+        { "task_sheet_report_1909957450.PDF", Fixtures.Novotel0710 },
+        { "task_sheet_report_1912057967.PDF", Fixtures.Novotel0828 },
+        { "task_sheet_report_1912132626.PDF", Fixtures.Novotel0830 },
+        { "task_sheet_report_1912144053.PDF", Fixtures.Ibis0830 },
     };
 
     [SampleFileTheory]
     [MemberData(nameof(Samples))]
-    public async Task Real_sample_files_give_the_totals(string file, int rooms, int sheets)
+    public async Task Dotnet_reader_matches_real_report_room_fields(string file, string expected)
     {
-        var path = Path.Combine(Root, file);
-        if (!File.Exists(path) || !File.Exists(Jar)) return; // nothing to check on this machine
-
-        var sink = new MemorySink();
-        var extractor = new CompliantOpenDataLoaderExtractor(
-            Options.Create(new OpenDataLoaderOptions { JavaExecutable = JavaPath(), JarPath = Jar, Timeout = TimeSpan.FromSeconds(90) }),
-            NullLogger<CompliantOpenDataLoaderExtractor>.Instance,
-            new TelemetryClient(new TelemetryConfiguration()),
-            sink);
-
-        var (pdf, _) = PdfBytes.RepairLineEndings(await File.ReadAllBytesAsync(path));
-        var result = await extractor.ExtractAsync(pdf, "fixture.pdf", CancellationToken.None);
-        var report = TaskSheetParser.Parse(result.Pages);
-
-        Assert.Equal(rooms, report.Rooms.Count);
-        Assert.Equal(sheets, report.Sheets.Count);
-        Assert.Equal(rooms, report.Summary!.TotalRooms);
-        Assert.All(result.Pages, p => Assert.True(p.Height > 700, "page sizes come from the PDF"));
-        Assert.Equal("SUCCESS", Assert.Single(sink.Records).Outcome);
-        Assert.False(Directory.EnumerateDirectories(Path.GetTempPath(), "odl-" + result.CorrelationId).Any(), "temp folder is shredded");
+        var (pdf, _) = PdfBytes.RepairLineEndings(await File.ReadAllBytesAsync(Path.Combine(SampleDirectory, file)));
+        var result = await Extractor().ExtractAsync(pdf, "private-fixture.pdf", default);
+        var actual = TaskSheetParser.Parse(result.Pages);
+        var reference = Fixtures.Report(expected);
+        // Room parsing can succeed while the upload is still rejected: verify the complete real-PDF header too.
+        Assert.True(actual.IsTaskSheetReport);
+        Assert.Equal(reference.Header, actual.Header);
+        Assert.Equal(reference.Summary, actual.Summary);
+        Assert.Equal(reference.Rooms.Count, actual.Rooms.Count);
+        Assert.Empty(actual.PagesWithoutLayout);
+        foreach (var room in reference.Rooms)
+        {
+            var parsed = Assert.Single(actual.Rooms, r => r.SheetNo == room.SheetNo && r.RoomNo == room.RoomNo);
+            Assert.Equal((room.RoomStatus, room.Credits, room.ReservationStatus, room.Arrival, room.Departure, room.Adults, room.Children ?? 0),
+                (parsed.RoomStatus, parsed.Credits, parsed.ReservationStatus, parsed.Arrival, parsed.Departure, parsed.Adults, parsed.Children ?? 0));
+        }
+        Assert.NotEmpty(result.Quality!);
+        Assert.Contains(result.Quality!, q => q.Parser == "Camelot.Stream");
     }
 
     [SampleFileTheory]
-    [InlineData("task_sheet_report_1912144053.PDF")]
-    [InlineData("task_sheet_report_1909957450.PDF")]
-    public async Task Real_sample_can_be_marked_without_changing_the_pages(string file)
+    [MemberData(nameof(Samples))]
+    public async Task Pdfpig_fallback_also_reads_real_report(string file, string expected)
     {
-        var path = Path.Combine(Root, file);
-        if (!File.Exists(path) || !File.Exists(Jar)) return;
-
-        var extractor = new CompliantOpenDataLoaderExtractor(
-            Options.Create(new OpenDataLoaderOptions { JavaExecutable = JavaPath(), JarPath = Jar, Timeout = TimeSpan.FromSeconds(90) }),
-            NullLogger<CompliantOpenDataLoaderExtractor>.Instance, new TelemetryClient(new TelemetryConfiguration()), new MemorySink());
-        var (pdf, _) = PdfBytes.RepairLineEndings(await File.ReadAllBytesAsync(path));
-        var report = TaskSheetParser.Parse((await extractor.ExtractAsync(pdf, "fixture.pdf", CancellationToken.None)).Pages);
-        var palette = Enum.GetValues<HousekeepingParser.Core.ColourName>();
-        var dots = report.Rooms.Select((r, i) => new HousekeepingParser.PdfMarking.DotPlacement(
-            r.Position.Page, r.Position.Left, r.Position.Top, r.Position.Bottom, palette[i % palette.Length])).ToList();
-
-        var marked = new HousekeepingParser.PdfMarking.PdfSharpMarker().AddDots(pdf, dots);
-
-        Assert.Equal(PdfPageSizes.Read(pdf).Count, PdfPageSizes.Read(marked).Count);
-        // Optional visual check on a developer machine: HSK_MARK_OUT=/some/folder dotnet test …
-        var outDir = Environment.GetEnvironmentVariable("HSK_MARK_OUT");
-        if (string.IsNullOrEmpty(outDir)) return;
-        await File.WriteAllBytesAsync(Path.Combine(outDir, "marked-" + Path.GetFileNameWithoutExtension(file) + ".pdf"), marked);
-
-        var rule = new HousekeepingParser.Coloring.ColorRuleService();
-        var date = report.Header!.ReportDate;
-        var rooms = report.Rooms.Select(r =>
-        {
-            var d = rule.Decide(new HousekeepingParser.Coloring.ColourInput(r.RoomNo, r.RoomStatus, r.ReservationStatus, r.Arrival, date,
-                HousekeepingParser.Core.RhythmType.TwoTages, []));
-            return new HousekeepingParser.PdfMarking.ReportRoom(r.RoomNo, r.SheetNo, r.RoomStatus, r.ReservationStatus, r.Arrival, r.Departure,
-                r.Adults, r.Children, d.Colour, d.Reason, d.Cleaned);
-        }).ToList();
-        var full = new HousekeepingParser.PdfMarking.PdfSharpReportRenderer().Compose(new HousekeepingParser.PdfMarking.RunReport(
-            report.Header.HotelId!.Value, date, report.Header.PublishedAtLocal, DateTime.Now, HousekeepingParser.Core.RhythmType.TwoTages, report.Summary,
-            report.Sheets.Select(s => new HousekeepingParser.PdfMarking.ReportSheet(s.SheetNo, s.TaskCodes, s.Instructions, s.Totals?.Rooms)).ToList(),
-            rooms, []), marked);
-        await File.WriteAllBytesAsync(Path.Combine(outDir, "report-" + Path.GetFileNameWithoutExtension(file) + ".pdf"), full);
+        var (pdf, _) = PdfBytes.RepairLineEndings(await File.ReadAllBytesAsync(Path.Combine(SampleDirectory, file)));
+        var result = await Extractor(true).ExtractAsync(pdf, "private-fixture.pdf", default);
+        var actual = TaskSheetParser.Parse(result.Pages);
+        Assert.True(actual.IsTaskSheetReport);
+        Assert.Equal(Fixtures.Report(expected).Header, actual.Header);
+        Assert.Equal(Fixtures.Report(expected).Summary, actual.Summary);
+        Assert.Equal(Fixtures.Report(expected).Rooms.Count, actual.Rooms.Count);
+        Assert.All(result.Quality!, q => Assert.Equal("PdfPig.GetWords", q.Parser));
     }
 
-    private static string JavaPath()
+    [FinalSampleFact]
+    public async Task Required_october_sample_matches_independently_verified_fields()
     {
-        var home = Environment.GetEnvironmentVariable("JAVA_HOME");
-        if (!string.IsNullOrEmpty(home) && File.Exists(Path.Combine(home, "bin", "java"))) return Path.Combine(home, "bin", "java");
-        return "java";
+        var path = Path.Combine(SampleDirectory, FinalSample);
+        var expectedPath = Path.Combine(SampleDirectory, FinalExpected);
+        // Strict acceptance fails for missing inputs. Never substitute old PDFs or parser-generated expectations.
+        Assert.True(File.Exists(path), $"Required sample missing: {path}");
+        Assert.True(File.Exists(expectedPath), $"Independently checked expected fields missing: {expectedPath}");
+        var original = await File.ReadAllBytesAsync(path);
+        var expected = JsonSerializer.Deserialize<FinalSampleExpectation>(await File.ReadAllTextAsync(expectedPath),
+            new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
+        Assert.Equal(expected.Sha256.ToUpperInvariant(), Convert.ToHexString(SHA256.HashData(original)));
+        Assert.Equal(56, expected.Rooms.Count);
+        var (pdf, _) = PdfBytes.RepairLineEndings(original);
+        var report = TaskSheetParser.Parse((await Extractor().ExtractAsync(pdf, "required-fixture.pdf", default)).Pages);
+        Assert.Empty(report.PagesWithoutLayout);
+        Assert.Equal(28, report.Rooms.Count(r => r.Position.Page == 2));
+        Assert.Equal(28, report.Rooms.Count(r => r.Position.Page == 4));
+        Assert.Equal(56, report.Rooms.Count);
+        Assert.Equal(109, report.Summary!.TotalRooms);
+        Assert.Equal(expected.Rooms.OrderBy(r => r.Position.Page).ThenBy(r => r.RoomNo),
+            report.Rooms.OrderBy(r => r.Position.Page).ThenBy(r => r.RoomNo));
+        Assert.Contains(MorningRunPipeline.TotalsWarnings(report), w => w.Code == "ROOM_COUNT");
     }
+
+    internal static DotNetPdfExtractor Extractor(bool fallback = false) => new(
+        Options.Create(new PdfParserOptions { Timeout = TimeSpan.FromSeconds(90), ForcePdfPigFallback = fallback }),
+        NullLogger<DotNetPdfExtractor>.Instance, new TelemetryClient(new TelemetryConfiguration()), new MemorySink());
 
     private static string FindRepoRoot()
     {
         var dir = new DirectoryInfo(AppContext.BaseDirectory);
-        while (dir is not null && !Directory.Exists(Path.Combine(dir.FullName, "server", "migrations"))) dir = dir.Parent;
-        return dir?.FullName ?? AppContext.BaseDirectory;
+        while (dir is not null && !File.Exists(Path.Combine(dir.FullName, "HousekeepingParser.sln"))) dir = dir.Parent;
+        return dir?.FullName ?? throw new DirectoryNotFoundException("Backend repository root not found.");
     }
 
+    private sealed record FinalSampleExpectation(string Sha256, IReadOnlyList<ParsedRoom> Rooms);
     private sealed class MemorySink : IPdfProcessingAuditSink
     {
-        public List<PdfProcessingAuditRecord> Records { get; } = [];
-
-        public Task RecordAsync(PdfProcessingAuditRecord record, CancellationToken ct)
-        {
-            Records.Add(record);
-            return Task.CompletedTask;
-        }
+        public Task RecordAsync(PdfProcessingAuditRecord record, CancellationToken ct) => Task.CompletedTask;
     }
 }
 
-/// <summary>Skipped unless the real sample PDFs and the reader JAR are present.</summary>
 public sealed class SampleFileTheoryAttribute : TheoryAttribute
 {
     public SampleFileTheoryAttribute()
     {
-        var dir = new DirectoryInfo(AppContext.BaseDirectory);
-        while (dir is not null && !Directory.Exists(Path.Combine(dir.FullName, "server", "migrations"))) dir = dir.Parent;
-        var ok = dir is not null
-            && File.Exists(Path.Combine(dir.FullName, "server", "tools", "opendataloader", "opendataloader-pdf.jar"))
-            && File.Exists(Path.Combine(dir.FullName, "task_sheet_report_1912144053.PDF"));
-        if (!ok) Skip = "Real sample PDFs or the OpenDataLoader JAR are not on this machine.";
+        var files = new[] { "1909957450", "1912057967", "1912132626", "1912144053" };
+        if (files.Any(n => !File.Exists(Path.Combine(RealReaderTests.SampleDirectory, $"task_sheet_report_{n}.PDF"))))
+            Skip = "Private regression PDFs absent from samples/opera; no real-PDF result is claimed.";
+    }
+}
+
+public sealed class FinalSampleFactAttribute : FactAttribute
+{
+    public FinalSampleFactAttribute()
+    {
+        var strict = Environment.GetEnvironmentVariable("HSK_REQUIRE_FINAL_SAMPLE") == "true";
+        if (!strict && (!File.Exists(Path.Combine(RealReaderTests.SampleDirectory, RealReaderTests.FinalSample))
+            || !File.Exists(Path.Combine(RealReaderTests.SampleDirectory, RealReaderTests.FinalExpected))))
+            Skip = "FINAL ACCEPTANCE PENDING: required October PDF and independently verified fields are missing. Run tools/Test-FinalSample.ps1 for strict acceptance.";
     }
 }
