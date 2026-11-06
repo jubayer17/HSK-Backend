@@ -537,6 +537,12 @@ public sealed partial class DatabaseTests(SqlServerFixture sql)
         Assert.Equal(["leitung@example.com"], message.To);
         Assert.Contains("KW 41", message.Subject);
         Assert.Equal("wochenbericht-2026-kw41.pdf", Assert.Single(message.Attachments).FileName);
+
+        // Monday timer: already sent -> nothing; an empty week -> "skipped", no email.
+        Assert.Null(await reports.AutoSendWeeklyAsync(monday, default));
+        var empty = await reports.AutoSendWeeklyAsync(monday.AddDays(14), default);
+        Assert.Equal("skipped", empty!.Status);
+        Assert.Single(mail.Sent);
     }
 
     private static (string? Colour, string Code) Colour(Functions.HotelRunResultDto hotel, string room)

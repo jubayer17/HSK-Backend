@@ -3,7 +3,7 @@
   "info": {
     "title": "HSK Automation API",
     "version": "1.0.0",
-    "description": "Housekeeping automation API for Novotel and ibis budget Münster City.\n\n**Authentication:** sign in via `POST /auth/login`. The session cookie is then sent automatically with each request.\n\n**Conventions:** hotel `1` = Novotel, `2` = ibis budget · dates `YYYY-MM-DD` · times in UTC · errors return `{ \"error\": \"…\" }`."
+    "description": "Housekeeping automation API for Novotel and ibis budget Münster City.\n\n**Authentication:** sign in via `POST /auth/login`. The session cookie is then sent automatically with each request.\n\n**Conventions:** hotel `1` = ibis budget, `2` = Novotel · dates `YYYY-MM-DD` · times in UTC · errors return `{ \"error\": \"…\" }`."
   },
   "servers": [
     {
@@ -988,6 +988,83 @@
         "description": "Sends the day's reports to the configured recipients."
       }
     },
+    "/reports/weekly/{week}": {
+      "get": {
+        "tags": [
+          "Reports"
+        ],
+        "summary": "Get weekly report",
+        "parameters": [
+          {
+            "name": "week",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "2026-11-02"
+            },
+            "description": "Any date of the week; `2026-11-02.pdf` returns the PDF"
+          },
+          {
+            "$ref": "#/components/parameters/Download"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Report (JSON) or PDF",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WeeklyReport"
+                }
+              },
+              "application/pdf": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "description": "Returns the Monday–Sunday Wochenbericht for the week containing the date, as JSON or as a PDF when the date ends in `.pdf`. Sent automatically on Monday 10:00 for the week before, when at least one day is confirmed."
+      }
+    },
+    "/reports/weekly/{week}/send": {
+      "post": {
+        "tags": [
+          "Reports"
+        ],
+        "summary": "Email weekly report",
+        "parameters": [
+          {
+            "name": "week",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "2026-11-02"
+            },
+            "description": "Any date of the week"
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/ConfirmOnly"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/EmailLog"
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "description": "Sends the week's Wochenbericht to the WEEKLY recipients."
+      }
+    },
     "/reports/monthly/{month}": {
       "get": {
         "tags": [
@@ -1015,7 +1092,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object"
+                  "$ref": "#/components/schemas/MonthlyStatement"
                 }
               },
               "application/pdf": {
@@ -1148,7 +1225,7 @@
             2
           ]
         },
-        "description": "1 = Novotel, 2 = ibis budget"
+        "description": "1 = ibis budget, 2 = Novotel"
       },
       "DatePath": {
         "name": "date",
@@ -2163,6 +2240,7 @@
             "enum": [
               "DAILY_TASK_SHEET",
               "DAILY_HANDOVER",
+              "WEEKLY",
               "MONTHLY"
             ]
           },
@@ -2177,7 +2255,13 @@
             }
           },
           "status": {
-            "type": "string"
+            "type": "string",
+            "enum": [
+              "sent",
+              "outbox",
+              "failed",
+              "skipped"
+            ]
           },
           "detail": {
             "type": "string",
@@ -2232,7 +2316,7 @@
       },
       "Recipients": {
         "type": "object",
-        "description": "Email addresses per report kind",
+        "description": "Email addresses per report kind. A kind left out of a save keeps its saved addresses; an empty list clears it.",
         "properties": {
           "DAILY_TASK_SHEET": {
             "type": "array",
@@ -2241,6 +2325,12 @@
             }
           },
           "DAILY_HANDOVER": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "WEEKLY": {
             "type": "array",
             "items": {
               "type": "string"
@@ -2279,7 +2369,13 @@
             "$ref": "#/components/schemas/Recipients"
           },
           "emailTransport": {
-            "type": "string"
+            "type": "string",
+            "enum": [
+              "azure",
+              "smtp",
+              "outbox"
+            ],
+            "description": "Read-only. `azure` and `smtp` send live; `outbox` only saves a local copy."
           }
         }
       },
@@ -2312,6 +2408,215 @@
           },
           "confirmed": {
             "type": "boolean"
+          }
+        }
+      },
+      "WeeklyBilling": {
+        "type": "object",
+        "description": "Monday–Sunday check billing of one hotel; only confirmed days of the selected month count. Negative balances are kept.",
+        "properties": {
+          "hotelId": {
+            "type": "integer",
+            "enum": [
+              1,
+              2
+            ]
+          },
+          "weekStart": {
+            "type": "string",
+            "format": "date"
+          },
+          "from": {
+            "type": "string",
+            "format": "date"
+          },
+          "to": {
+            "type": "string",
+            "format": "date"
+          },
+          "confirmedDays": {
+            "type": "integer"
+          },
+          "checks": {
+            "type": "integer"
+          },
+          "allowance": {
+            "type": "integer"
+          },
+          "billableChecks": {
+            "type": "integer"
+          }
+        }
+      },
+      "MonthlyStatement": {
+        "type": "object",
+        "description": "Leistungsnachweis data. Monthly `zuBerechnen` totals are the sum of the weekly ledger.",
+        "properties": {
+          "month": {
+            "type": "string",
+            "example": "2026-11"
+          },
+          "objekt": {
+            "type": "string"
+          },
+          "kostenstelle": {
+            "type": "string"
+          },
+          "zeitraum": {
+            "type": "string"
+          },
+          "rows": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "totals": {
+            "type": "object"
+          },
+          "confirmedDays": {
+            "type": "integer"
+          },
+          "daysInMonth": {
+            "type": "integer"
+          },
+          "emails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EmailLogEntry"
+            }
+          },
+          "weeks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WeeklyBilling"
+            }
+          }
+        }
+      },
+      "WeeklyHotelCells": {
+        "type": "object",
+        "properties": {
+          "zimmer": {
+            "type": "integer"
+          },
+          "ns": {
+            "type": "integer"
+          },
+          "rk": {
+            "type": "integer"
+          },
+          "ks": {
+            "type": "integer"
+          },
+          "gecheckt": {
+            "type": "integer"
+          },
+          "zuBerechnen": {
+            "type": "integer"
+          },
+          "abzuege": {
+            "type": "integer"
+          },
+          "pauschaleDays": {
+            "type": "integer"
+          }
+        }
+      },
+      "WeeklyReport": {
+        "type": "object",
+        "description": "Wochenbericht: Monday–Sunday, both hotels. Days that are not confirmed have empty cells.",
+        "properties": {
+          "weekStart": {
+            "type": "string",
+            "format": "date"
+          },
+          "weekEnd": {
+            "type": "string",
+            "format": "date"
+          },
+          "isoYear": {
+            "type": "integer"
+          },
+          "isoWeek": {
+            "type": "integer"
+          },
+          "objekt": {
+            "type": "string"
+          },
+          "kostenstelle": {
+            "type": "string"
+          },
+          "rows": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "date": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "open",
+                    "draft",
+                    "confirmed"
+                  ]
+                },
+                "novotel": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/WeeklyHotelCells"
+                    }
+                  ],
+                  "nullable": true
+                },
+                "ibis": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/WeeklyHotelCells"
+                    }
+                  ],
+                  "nullable": true
+                },
+                "hausmann": {
+                  "type": "number",
+                  "nullable": true
+                },
+                "floorSupervisor": {
+                  "type": "number",
+                  "nullable": true
+                },
+                "hausdameAssistenz": {
+                  "type": "number",
+                  "nullable": true
+                },
+                "hausdame": {
+                  "type": "number",
+                  "nullable": true
+                },
+                "extraReinigung": {
+                  "type": "number",
+                  "nullable": true
+                }
+              }
+            }
+          },
+          "totals": {
+            "type": "object"
+          },
+          "confirmedDays": {
+            "type": "integer"
+          },
+          "pauschaleDaysAllowed": {
+            "type": "integer"
+          },
+          "emails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EmailLogEntry"
+            }
           }
         }
       }

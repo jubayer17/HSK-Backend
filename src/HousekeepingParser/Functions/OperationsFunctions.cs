@@ -392,19 +392,14 @@ public sealed class OperationsFunctions(
         foreach (var r in result) log.LogInformation("Daily report {Kind} for {Date}: {Status}", r.Kind, today, r.Status);
     }
 
-    /// <summary>Monday 10:00 Berlin: send last week's (Monday–Sunday) Wochenbericht once (Phase 3, step 9).</summary>
+    /// <summary>Monday 10:00 Berlin: send last week's (Monday–Sunday) Wochenbericht once, if any day was confirmed (Phase 3, step 9).</summary>
     [Function("WeeklyReportEmail")]
     public async Task WeeklyReportEmail([TimerTrigger("0 0 10 * * 1")] TimerInfo timer, FunctionContext ctx)
     {
         var previous = DailyCloseMath.WeekStart(clock.Today()).AddDays(-7);
-        var sent = await reports.EmailLogAsync(ReportKind.WEEKLY, previous, previous, 5, ctx.CancellationToken);
-        if (sent.Any(e => ReportService.Delivered(e.Status)))
-        {
-            log.LogInformation("Wochenbericht for the week of {Week} was already sent", previous);
-            return;
-        }
-        var result = await reports.SendWeeklyAsync(previous, null, ctx.CancellationToken);
-        log.LogInformation("Wochenbericht for the week of {Week}: {Status}", previous, result[0].Status);
+        var result = await reports.AutoSendWeeklyAsync(previous, ctx.CancellationToken);
+        if (result is null) log.LogInformation("Wochenbericht for the week of {Week} was already sent", previous);
+        else log.LogInformation("Wochenbericht for the week of {Week}: {Status}", previous, result.Status);
     }
 
     /// <summary>1st of the month, 06:00 Berlin: send last month's Leistungsnachweis.</summary>

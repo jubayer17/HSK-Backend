@@ -40,6 +40,9 @@ public interface IReportService
     Task<WeeklyReport> WeeklyAsync(DateOnly week, CancellationToken ct);
     Task<(byte[] Pdf, string FileName)> WeeklyPdfAsync(DateOnly week, CancellationToken ct);
     Task<IReadOnlyList<EmailLogEntry>> SendWeeklyAsync(DateOnly week, CurrentUser? user, CancellationToken ct);
+
+    /// <summary>Monday timer: sends the week's report once; logs "skipped" if no day of the week is confirmed. Null if already sent.</summary>
+    Task<EmailLogEntry?> AutoSendWeeklyAsync(DateOnly week, CancellationToken ct);
     Task<IReadOnlyList<EmailLogEntry>> EmailLogAsync(ReportKind? kind, DateOnly? from, DateOnly? to, int take, CancellationToken ct);
 }
 
@@ -250,9 +253,23 @@ public sealed class ReportService(
         return (renderer.WeeklyReport(w.Model), WeeklyFileName(w.Model));
     }
 
-    public async Task<IReadOnlyList<EmailLogEntry>> SendWeeklyAsync(DateOnly week, CurrentUser? user, CancellationToken ct)
+    public async Task<IReadOnlyList<EmailLogEntry>> SendWeeklyAsync(DateOnly week, CurrentUser? user, CancellationToken ct) =>
+        [await SendWeeklyCoreAsync(await WeeklyAsync(week, ct), user, ct)];
+
+    public async Task<EmailLogEntry?> AutoSendWeeklyAsync(DateOnly week, CancellationToken ct)
     {
-        var w = await WeeklyAsync(week, ct);
+        var start = DailyCloseMath.WeekStart(week);
+        if ((await EmailLogAsync(ReportKind.WEEKLY, start, start, 5, ct)).Any(e => Delivered(e.Status))) return null;
+        var w = await WeeklyAsync(start, ct);
+        if (w.Model.ConfirmedDays > 0) return await SendWeeklyCoreAsync(w, null, ct);
+        // An all-empty report is noise: record why nothing went out. "Send again" still sends it on purpose.
+        var s = await settings.GetAsync(ct);
+        return await LogEmailAsync(ReportKind.WEEKLY, start, s.Recipients.GetValueOrDefault(ReportKind.WEEKLY) ?? [], "skipped",
+            "No day of this week was confirmed, so the Wochenbericht was not sent.", null, ct);
+    }
+
+    private async Task<EmailLogEntry> SendWeeklyCoreAsync(WeeklyReport w, CurrentUser? user, CancellationToken ct)
+    {
         var m = w.Model;
         var s = await settings.GetAsync(ct);
         var span = $"{m.WeekStart.ToString("dd.MM.", CultureInfo.InvariantCulture)}–{m.WeekEnd.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)}";
@@ -265,8 +282,8 @@ public sealed class ReportService(
             Diese E-Mail wurde automatisch von HSK Automation erstellt.
             """;
         var attachment = new EmailAttachment(WeeklyFileName(m), renderer.WeeklyReport(m));
-        return [await DeliverAsync(s, ReportKind.WEEKLY, m.WeekStart, $"Wochenbericht KW {m.IsoWeek} ({span}) – Novotel & ibis budget Münster City", body,
-            [attachment], user, ct)];
+        return await DeliverAsync(s, ReportKind.WEEKLY, m.WeekStart, $"Wochenbericht KW {m.IsoWeek} ({span}) – Novotel & ibis budget Münster City", body,
+            [attachment], user, ct);
     }
 
     // ---------- monthly ----------
