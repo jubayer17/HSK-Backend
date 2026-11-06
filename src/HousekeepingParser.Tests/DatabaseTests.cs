@@ -143,7 +143,7 @@ public sealed partial class DatabaseTests(SqlServerFixture sql)
         await new DbMigrator(Options.Create(new DatabaseOptions { ConnectionString = e.ConnectionString }), NullLogger<DbMigrator>.Instance).MigrateAsync();
 
         await using var c = await e.Db.OpenAsync();
-        Assert.Equal(4, await c.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM dbo.SchemaVersions"));
+        Assert.Equal(5, await c.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM dbo.SchemaVersions"));
         Assert.Equal(117, await c.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM dbo.room_inventory WHERE hotel_id = 2"));
         Assert.Equal(123, await c.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM dbo.room_inventory WHERE hotel_id = 1"));
     }
@@ -426,6 +426,117 @@ public sealed partial class DatabaseTests(SqlServerFixture sql)
 
         Assert.All(view.Hotels, h => Assert.Equal(5, h.OtherFlatRateDays));
         Assert.Contains(view.Issues, i => i.Level == "warning" && i.Hotel == HotelId.Novotel && i.Message.Contains("flat-rate day 6"));
+    }
+
+    private sealed class RecordingEmailSender : HousekeepingParser.Reports.IEmailSender
+    {
+        public List<HousekeepingParser.Reports.EmailMessage> Sent { get; } = [];
+        public string Transport => "smtp";
+
+        public Task SendAsync(HousekeepingParser.Reports.EmailMessage message, CancellationToken ct)
+        {
+            Sent.Add(message);
+            return Task.CompletedTask;
+        }
+    }
+
+    [DockerFact]
+    public async Task Daily_report_timer_skips_an_unconfirmed_day_and_sends_a_confirmed_one_once()
+    {
+        var e = await CreateAsync();
+        var audit = new SqlAuditLog();
+        var closes = new HousekeepingParser.Operations.DailyCloseService(e.Db, new HousekeepingParser.Operations.RoomCheckService(e.Db, audit, e.Clock), audit, e.Clock);
+        var settings = new HousekeepingParser.Operations.SettingsService(e.Db, audit);
+        var s = await settings.GetAsync(default);
+        await settings.SaveAsync(e.Director, s with
+        {
+            EmailEnabled = true,
+            Recipients = new Dictionary<HousekeepingParser.Operations.ReportKind, IReadOnlyList<string>>
+            {
+                [HousekeepingParser.Operations.ReportKind.DAILY_TASK_SHEET] = ["hk@example.com"],
+                [HousekeepingParser.Operations.ReportKind.DAILY_HANDOVER] = ["empfang@example.com"],
+            },
+        }, default);
+        var mail = new RecordingEmailSender();
+        var reports = new HousekeepingParser.Reports.ReportService(e.Db, closes, new HousekeepingParser.Operations.StaffService(e.Db, audit), settings,
+            new HousekeepingParser.Reports.PdfSharpBusinessReportRenderer(), mail, e.Clock, NullLogger<HousekeepingParser.Reports.ReportService>.Instance);
+        var day = new DateOnly(2026, 10, 10);
+
+        // 18:30, nobody confirmed: nothing is sent, the log says why.
+        var skipped = await reports.AutoSendDailyAsync(day, default);
+        Assert.Equal(2, skipped.Count);
+        Assert.All(skipped, r => Assert.Equal("skipped", r.Status));
+        Assert.Empty(mail.Sent);
+
+        // Confirmed later (without the confirm endpoint's email): the next run sends both reports.
+        await closes.ConfirmAsync(e.Operations, day, (await closes.GetAsync(day, default)).Input, default);
+        var sent = await reports.AutoSendDailyAsync(day, default);
+        Assert.Equal(["sent", "sent"], sent.Select(r => r.Status));
+        Assert.Equal(2, mail.Sent.Count);
+        Assert.All(mail.Sent, m => Assert.Equal(2, m.Attachments.Count));
+
+        // Already delivered: no second email.
+        Assert.Empty(await reports.AutoSendDailyAsync(day, default));
+        Assert.Equal(2, mail.Sent.Count);
+    }
+
+    [DockerFact]
+    public async Task Weekly_report_sums_the_confirmed_days_of_monday_to_sunday_and_is_emailed_to_weekly_recipients()
+    {
+        var e = await CreateAsync();
+        var audit = new SqlAuditLog();
+        var closes = new HousekeepingParser.Operations.DailyCloseService(e.Db, new HousekeepingParser.Operations.RoomCheckService(e.Db, audit, e.Clock), audit, e.Clock);
+        var settings = new HousekeepingParser.Operations.SettingsService(e.Db, audit);
+        var s = await settings.GetAsync(default);
+        await settings.SaveAsync(e.Director, s with
+        {
+            EmailEnabled = true,
+            Recipients = new Dictionary<HousekeepingParser.Operations.ReportKind, IReadOnlyList<string>>
+            {
+                [HousekeepingParser.Operations.ReportKind.WEEKLY] = ["leitung@example.com"],
+            },
+        }, default);
+        var mail = new RecordingEmailSender();
+        var reports = new HousekeepingParser.Reports.ReportService(e.Db, closes, new HousekeepingParser.Operations.StaffService(e.Db, audit), settings,
+            new HousekeepingParser.Reports.PdfSharpBusinessReportRenderer(), mail, e.Clock, NullLogger<HousekeepingParser.Reports.ReportService>.Instance);
+
+        async Task<HousekeepingParser.Operations.CloseInput> WithCleaner(DateOnly d, int gereinigt, int ns)
+        {
+            var input = (await closes.GetAsync(d, default)).Input;
+            return input with
+            {
+                Hotels = input.Hotels.Select(h => h.Hotel == HotelId.Novotel
+                    ? h with { Cleaners = [new HousekeepingParser.Operations.CloseCleaner(null, "Asmo I.", gereinigt, ns, 1, 0, null, null, 0m)] }
+                    : h).ToList(),
+            };
+        }
+
+        // Monday and Tuesday confirmed, Wednesday only saved, Sunday of the week before confirmed (must not count).
+        var monday = new DateOnly(2026, 10, 5);
+        await closes.ConfirmAsync(e.Operations, monday, await WithCleaner(monday, 20, 3), default);
+        await closes.ConfirmAsync(e.Operations, monday.AddDays(1), await WithCleaner(monday.AddDays(1), 15, 2), default);
+        await closes.SaveAsync(e.Operations, monday.AddDays(2), await WithCleaner(monday.AddDays(2), 99, 9), default);
+        await closes.ConfirmAsync(e.Operations, monday.AddDays(-1), await WithCleaner(monday.AddDays(-1), 50, 5), default);
+
+        var w = await reports.WeeklyAsync(new DateOnly(2026, 10, 8), default); // a Thursday: same week
+        Assert.Equal(monday, w.Model.WeekStart);
+        Assert.Equal(41, w.Model.IsoWeek);
+        Assert.Equal(["confirmed", "confirmed", "draft", "open", "open", "open", "open"], w.DayStatus);
+        Assert.Equal(2, w.Model.ConfirmedDays);
+        Assert.Equal(35, w.Model.Totals.Novotel.Zimmer);
+        Assert.Equal(5, w.Model.Totals.Novotel.Ns);
+        Assert.Equal(2, w.Model.Totals.Novotel.Rk);
+        Assert.Equal(2, w.Model.Totals.Novotel.PauschaleDays); // Monday–Friday are flat-rate days by default
+        Assert.Equal(0, w.Model.Totals.Ibis.Zimmer);
+        Assert.Null(w.Model.ApprovedBy);
+
+        var sent = await reports.SendWeeklyAsync(monday.AddDays(6), null, default);
+        Assert.Equal("sent", Assert.Single(sent).Status);
+        Assert.Equal(monday, sent[0].Period);
+        var message = Assert.Single(mail.Sent);
+        Assert.Equal(["leitung@example.com"], message.To);
+        Assert.Contains("KW 41", message.Subject);
+        Assert.Equal("wochenbericht-2026-kw41.pdf", Assert.Single(message.Attachments).FileName);
     }
 
     private static (string? Colour, string Code) Colour(Functions.HotelRunResultDto hotel, string room)

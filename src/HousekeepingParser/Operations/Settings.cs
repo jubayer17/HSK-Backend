@@ -13,6 +13,7 @@ public enum ReportKind
 {
     DAILY_TASK_SHEET,
     DAILY_HANDOVER,
+    WEEKLY,
     MONTHLY,
 }
 

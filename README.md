@@ -148,6 +148,8 @@ Each upload starts one **run**. Both files are processed side by side:
 | When | Job |
 |---|---|
 | 00:05 on the 1st of each month | Activates planned rhythm changes |
+| 18:30 every day | Emails today's Task Sheet Report and Übergabe if the daily close is confirmed and they weren't sent yet; otherwise logs "skipped" |
+| 10:00 every Monday | Emails last week's (Monday–Sunday) Wochenbericht (once) |
 | 06:00 on the 1st of each month | Emails the Leistungsnachweis of the month before (once) |
 | 03:30 every day | Deletes old files, logs and expired sessions; clears room-move employee names after 30 days |
 
@@ -190,8 +192,9 @@ Base URL: `http://localhost:7071/api` · Sign-in uses a secure session cookie.
 | `GET` | `/daily-close?month=` · `/daily-close/{date}` | All | Days of a month / one day (pre-filled when new) |
 | `PUT` `POST` | `/daily-close/{date}` · `/confirm` · `/reopen` | All · Director reopens | Save draft, confirm and email, reopen |
 | `GET` | `/reports/daily/{date}/{hotelId}/task-sheet.pdf` · `handover.pdf` | All | Daily PDFs |
+| `GET` | `/reports/weekly/{date}` · `{date}.pdf` | All | Wochenbericht data / PDF for the Monday–Sunday week of that date |
 | `GET` | `/reports/monthly/{yyyy-MM}` · `{yyyy-MM}.pdf` | All | Leistungsnachweis data / PDF |
-| `POST` | `/reports/daily/{date}/send` · `/reports/monthly/{yyyy-MM}/send` | All | Send again |
+| `POST` | `/reports/daily/{date}/send` · `/reports/weekly/{date}/send` · `/reports/monthly/{yyyy-MM}/send` | All | Send again |
 | `GET` `PUT` | `/settings` | Director writes | Prices, Kostenstelle, flat-rate checks, recipients |
 
 #### ❤️ Health

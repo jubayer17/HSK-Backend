@@ -95,9 +95,55 @@ public sealed record MonthlyStatementModel(
     string? ApprovedBy,
     DateTime? ApprovedAtLocal);
 
+/// <summary>Novotel or ibis figures of one day (or the week) on the Wochenbericht.</summary>
+public sealed record WeeklyHotelCells(int Zimmer, int Ns, int Rk, int Ks, int Gecheckt, int ZuBerechnen, int Abzuege, int PauschaleDays);
+
+/// <summary>One day, Monday first. Null cells stay empty (day not confirmed).</summary>
+public sealed record WeeklyRowModel(
+    DateOnly Date,
+    WeeklyHotelCells? Novotel,
+    WeeklyHotelCells? Ibis,
+    decimal? Hausmann,
+    decimal? FloorSupervisor,
+    decimal? HausdameAssistenz,
+    decimal? Hausdame,
+    decimal? ExtraReinigung);
+
+public sealed record WeeklyTotals(
+    WeeklyHotelCells Novotel,
+    WeeklyHotelCells Ibis,
+    decimal Hausmann,
+    decimal FloorSupervisor,
+    decimal HausdameAssistenz,
+    decimal Hausdame,
+    decimal ExtraReinigung);
+
+/// <summary>"Wochenbericht": Monday–Sunday totals for both hotels (Phase 3, step 9).</summary>
+public sealed record WeeklyReportModel(
+    string Objekt,
+    string Kostenstelle,
+    /// <summary>Monday.</summary>
+    DateOnly WeekStart,
+    int IsoYear,
+    int IsoWeek,
+    /// <summary>Always seven rows, Monday to Sunday.</summary>
+    IReadOnlyList<WeeklyRowModel> Rows,
+    WeeklyTotals Totals,
+    int ConfirmedDays,
+    /// <summary>Printed after the flat-rate day count, e.g. "5T/W".</summary>
+    string PauschaleLabel,
+    int PauschaleDaysAllowed,
+    DateTime GeneratedAtLocal,
+    string? ApprovedBy,
+    DateTime? ApprovedAtLocal)
+{
+    public DateOnly WeekEnd => WeekStart.AddDays(6);
+}
+
 public interface IBusinessReportRenderer
 {
     byte[] TaskSheetReport(TaskSheetReportModel model);
     byte[] Handover(HandoverModel model);
     byte[] MonthlyStatement(MonthlyStatementModel model);
+    byte[] WeeklyReport(WeeklyReportModel model);
 }

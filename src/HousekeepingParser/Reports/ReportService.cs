@@ -16,6 +16,9 @@ public enum DailyReportKind
 
 public sealed record EmailLogEntry(Guid Id, ReportKind Kind, DateOnly Period, IReadOnlyList<string> Recipients, string Status, string? Detail, DateTime AtUtc);
 
+/// <summary>The Wochenbericht with each day's state ("open", "draft", "confirmed").</summary>
+public sealed record WeeklyReport(WeeklyReportModel Model, IReadOnlyList<string> DayStatus);
+
 /// <summary>The Leistungsnachweis with each day's state.</summary>
 public sealed record MonthlyStatement(MonthlyStatementModel Model, IReadOnlyList<string> DayStatus);
 
@@ -25,7 +28,15 @@ public interface IReportService
     Task<MonthlyStatement> MonthlyAsync(DateOnly month, CancellationToken ct);
     Task<(byte[] Pdf, string FileName)> MonthlyPdfAsync(DateOnly month, CancellationToken ct);
     Task<IReadOnlyList<EmailLogEntry>> SendDailyAsync(DateOnly date, CurrentUser? user, CancellationToken ct);
+
+    /// <summary>18:30 timer: sends the daily reports not yet delivered; logs "skipped" if the day is not confirmed.</summary>
+    Task<IReadOnlyList<EmailLogEntry>> AutoSendDailyAsync(DateOnly date, CancellationToken ct);
     Task<IReadOnlyList<EmailLogEntry>> SendMonthlyAsync(DateOnly month, CurrentUser? user, CancellationToken ct);
+
+    /// <summary>Monday–Sunday week containing <paramref name="week"/>.</summary>
+    Task<WeeklyReport> WeeklyAsync(DateOnly week, CancellationToken ct);
+    Task<(byte[] Pdf, string FileName)> WeeklyPdfAsync(DateOnly week, CancellationToken ct);
+    Task<IReadOnlyList<EmailLogEntry>> SendWeeklyAsync(DateOnly week, CurrentUser? user, CancellationToken ct);
     Task<IReadOnlyList<EmailLogEntry>> EmailLogAsync(ReportKind? kind, DateOnly? from, DateOnly? to, int take, CancellationToken ct);
 }
 
@@ -107,10 +118,41 @@ public sealed class ReportService(
 
     private static string? Empty(string s) => string.IsNullOrWhiteSpace(s) ? null : s;
 
+    private static readonly ReportKind[] DailyKinds = [ReportKind.DAILY_TASK_SHEET, ReportKind.DAILY_HANDOVER];
+
+    public static bool IsDaily(ReportKind kind) => kind is ReportKind.DAILY_TASK_SHEET or ReportKind.DAILY_HANDOVER;
+
+    /// <summary>Statuses that mean the report reached the mail server or the outbox.</summary>
+    public static bool Delivered(string status) => status is "sent" or "outbox";
+
     public async Task<IReadOnlyList<EmailLogEntry>> SendDailyAsync(DateOnly date, CurrentUser? user, CancellationToken ct)
     {
         var view = await closes.GetAsync(date, ct);
         if (view.Status != "confirmed") throw BusinessRuleException.Conflict("The daily close for this day is not confirmed yet.");
+        return await SendDailyCoreAsync(view, DailyKinds, user, ct);
+    }
+
+    public async Task<IReadOnlyList<EmailLogEntry>> AutoSendDailyAsync(DateOnly date, CancellationToken ct)
+    {
+        // Manual sends (confirm / "Send again") count: each report goes out once.
+        var delivered = (await EmailLogAsync(null, date, date, 100, ct)).Where(e => Delivered(e.Status)).Select(e => e.Kind).ToHashSet();
+        var due = DailyKinds.Where(k => !delivered.Contains(k)).ToList();
+        if (due.Count == 0) return [];
+
+        var view = await closes.GetAsync(date, ct);
+        if (view.Status == "confirmed") return await SendDailyCoreAsync(view, due, null, ct);
+
+        var s = await settings.GetAsync(ct);
+        var results = new List<EmailLogEntry>();
+        foreach (var kind in due)
+            results.Add(await LogEmailAsync(kind, date, s.Recipients.GetValueOrDefault(kind) ?? [], "skipped",
+                "Daily close not confirmed by 18:30. Confirm it to send the report.", null, ct));
+        return results;
+    }
+
+    private async Task<IReadOnlyList<EmailLogEntry>> SendDailyCoreAsync(DailyCloseView view, IReadOnlyList<ReportKind> kinds, CurrentUser? user, CancellationToken ct)
+    {
+        var date = view.Date;
         var s = await settings.GetAsync(ct);
         var dateText = date.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture);
         var results = new List<EmailLogEntry>();
@@ -121,6 +163,7 @@ public sealed class ReportService(
             (DailyReportKind.Handover, ReportKind.DAILY_HANDOVER, $"Übergabe Etage – Empfang {dateText} – Novotel & ibis budget"),
         })
         {
+            if (!kinds.Contains(reportKind)) continue;
             var attachments = new List<EmailAttachment>();
             foreach (var hotel in Order)
             {
@@ -138,6 +181,89 @@ public sealed class ReportService(
             results.Add(await DeliverAsync(s, reportKind, date, subject, body, attachments, user, ct));
         }
         return results;
+    }
+
+    // ---------- weekly ----------
+
+    public async Task<WeeklyReport> WeeklyAsync(DateOnly week, CancellationToken ct)
+    {
+        var start = DailyCloseMath.WeekStart(week);
+        var s = await settings.GetAsync(ct);
+
+        Dictionary<DateOnly, string> statuses;
+        await using (var c = await db.OpenAsync(ct))
+        {
+            statuses = (await c.QueryAsync<(DateOnly Date, string Status)>(
+                "SELECT report_date, status FROM dbo.daily_close WHERE report_date >= @start AND report_date < @next",
+                new { start, next = start.AddDays(7) })).ToDictionary(r => r.Date, r => r.Status);
+        }
+
+        var rows = new List<WeeklyRowModel>();
+        var status = new List<string>();
+        DateTime? lastConfirmed = null;
+        for (var i = 0; i < 7; i++)
+        {
+            var date = start.AddDays(i);
+            var st = statuses.GetValueOrDefault(date);
+            if (st != "confirmed")
+            {
+                rows.Add(new WeeklyRowModel(date, null, null, null, null, null, null, null));
+                status.Add(st is null ? "open" : "draft");
+                continue;
+            }
+            var view = await closes.GetAsync(date, ct);
+            if (lastConfirmed is null || view.ConfirmedAtUtc > lastConfirmed) lastConfirmed = view.ConfirmedAtUtc;
+            WeeklyHotelCells Cells(HotelId id)
+            {
+                var h = view.Hotel(id);
+                return new WeeklyHotelCells(h.Totals.Gereinigt, h.Totals.Ns, h.Totals.Rk, h.Totals.Ks, h.Totals.ChecksActual, h.Totals.ZuBerechnen,
+                    h.Input.Abzuege, h.Input.FlatRateDay ? 1 : 0);
+            }
+            rows.Add(new WeeklyRowModel(date, Cells(HotelId.Novotel), Cells(HotelId.IbisBudget),
+                DailyCloseMath.HoursOf(view.Input, "HM"), DailyCloseMath.HoursOf(view.Input, "FS"), DailyCloseMath.HoursOf(view.Input, "HDA"),
+                DailyCloseMath.HoursOf(view.Input, "HD"), view.Input.ExtraReinigungHours));
+            status.Add("confirmed");
+        }
+
+        var filled = rows.Where(r => r.Novotel is not null).ToList();
+        WeeklyHotelCells Sum(Func<WeeklyRowModel, WeeklyHotelCells?> pick) => new(
+            filled.Sum(r => pick(r)!.Zimmer), filled.Sum(r => pick(r)!.Ns), filled.Sum(r => pick(r)!.Rk), filled.Sum(r => pick(r)!.Ks),
+            filled.Sum(r => pick(r)!.Gecheckt), filled.Sum(r => pick(r)!.ZuBerechnen), filled.Sum(r => pick(r)!.Abzuege), filled.Sum(r => pick(r)!.PauschaleDays));
+        var totals = new WeeklyTotals(Sum(r => r.Novotel), Sum(r => r.Ibis), filled.Sum(r => r.Hausmann ?? 0), filled.Sum(r => r.FloorSupervisor ?? 0),
+            filled.Sum(r => r.HausdameAssistenz ?? 0), filled.Sum(r => r.Hausdame ?? 0), filled.Sum(r => r.ExtraReinigung ?? 0));
+        var complete = filled.Count == 7;
+        var monday = start.ToDateTime(TimeOnly.MinValue);
+        var model = new WeeklyReportModel(s.Objekt, s.Kostenstelle, start, ISOWeek.GetYear(monday), ISOWeek.GetWeekOfYear(monday), rows, totals, filled.Count,
+            s.PauschaleLabel, DailyCloseMath.FlatRateDaysPerWeek, Berlin.ToLocal(clock.UtcNow),
+            complete ? "HSK Automation (alle Tage freigegeben)" : null, complete && lastConfirmed is { } lc ? Berlin.ToLocal(lc) : null);
+        return new WeeklyReport(model, status);
+    }
+
+    private static string WeeklyFileName(WeeklyReportModel m) => $"wochenbericht-{m.IsoYear}-kw{m.IsoWeek:00}.pdf";
+
+    public async Task<(byte[] Pdf, string FileName)> WeeklyPdfAsync(DateOnly week, CancellationToken ct)
+    {
+        var w = await WeeklyAsync(week, ct);
+        return (renderer.WeeklyReport(w.Model), WeeklyFileName(w.Model));
+    }
+
+    public async Task<IReadOnlyList<EmailLogEntry>> SendWeeklyAsync(DateOnly week, CurrentUser? user, CancellationToken ct)
+    {
+        var w = await WeeklyAsync(week, ct);
+        var m = w.Model;
+        var s = await settings.GetAsync(ct);
+        var span = $"{m.WeekStart.ToString("dd.MM.", CultureInfo.InvariantCulture)}–{m.WeekEnd.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)}";
+        var body = $"""
+            Guten Tag,
+
+            anbei der Wochenbericht KW {m.IsoWeek} ({span}) für Novotel Münster City und ibis budget Münster City.
+            {m.ConfirmedDays} von 7 Tagen sind freigegeben.{(m.ConfirmedDays < 7 ? " Nicht freigegebene Tage sind leer." : "")}
+
+            Diese E-Mail wurde automatisch von HSK Automation erstellt.
+            """;
+        var attachment = new EmailAttachment(WeeklyFileName(m), renderer.WeeklyReport(m));
+        return [await DeliverAsync(s, ReportKind.WEEKLY, m.WeekStart, $"Wochenbericht KW {m.IsoWeek} ({span}) – Novotel & ibis budget Münster City", body,
+            [attachment], user, ct)];
     }
 
     // ---------- monthly ----------
@@ -253,6 +379,12 @@ public sealed class ReportService(
             }
         }
 
+        return await LogEmailAsync(kind, period, to, status, detail, user, ct);
+    }
+
+    private async Task<EmailLogEntry> LogEmailAsync(
+        ReportKind kind, DateOnly period, IReadOnlyList<string> to, string status, string? detail, CurrentUser? user, CancellationToken ct)
+    {
         var id = Guid.NewGuid();
         await using var c = await db.OpenAsync(ct);
         await c.ExecuteAsync(

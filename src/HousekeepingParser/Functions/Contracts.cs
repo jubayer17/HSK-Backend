@@ -148,6 +148,19 @@ public sealed record MonthlyStatementDto(
     string Month, string Objekt, string Kostenstelle, string Zeitraum, IReadOnlyList<MonthlyRowDto> Rows, MonthlyTotalsDto Totals,
     int ConfirmedDays, int DaysInMonth, IReadOnlyList<EmailLogEntryDto> Emails);
 
+public sealed record WeeklyHotelCellsDto(int Zimmer, int Ns, int Rk, int Ks, int Gecheckt, int ZuBerechnen, int Abzuege, int PauschaleDays);
+
+public sealed record WeeklyRowDto(
+    string Date, string Status, WeeklyHotelCellsDto? Novotel, WeeklyHotelCellsDto? Ibis,
+    decimal? Hausmann, decimal? FloorSupervisor, decimal? HausdameAssistenz, decimal? Hausdame, decimal? ExtraReinigung);
+
+public sealed record WeeklyTotalsDto(
+    WeeklyHotelCellsDto Novotel, WeeklyHotelCellsDto Ibis, decimal Hausmann, decimal FloorSupervisor, decimal HausdameAssistenz, decimal Hausdame, decimal ExtraReinigung);
+
+public sealed record WeeklyReportDto(
+    string WeekStart, string WeekEnd, int IsoYear, int IsoWeek, string Objekt, string Kostenstelle, IReadOnlyList<WeeklyRowDto> Rows, WeeklyTotalsDto Totals,
+    int ConfirmedDays, int PauschaleDaysAllowed, IReadOnlyList<EmailLogEntryDto> Emails);
+
 public sealed record PricesDto(
     decimal? RoomNovotel, decimal? RoomIbis, decimal? Check, decimal? Hausdame, decimal? HausdameAssistenz, decimal? FloorSupervisor,
     decimal? Hausmann, decimal? ExtraReinigung, decimal? InternalRoom);
