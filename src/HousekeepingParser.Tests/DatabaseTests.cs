@@ -545,6 +545,73 @@ public sealed partial class DatabaseTests(SqlServerFixture sql)
         Assert.Single(mail.Sent);
     }
 
+    /// <summary>Dashboard hotel filter: Novotel (2) and ibis budget (1) figures must never swap or leak into each other.</summary>
+    [DockerFact]
+    public async Task Dashboard_hotel_filter_shows_only_that_hotels_figures()
+    {
+        var e = await CreateAsync();
+        var audit = new SqlAuditLog();
+        var checks = new HousekeepingParser.Operations.RoomCheckService(e.Db, audit, e.Clock);
+        var closes = new HousekeepingParser.Operations.DailyCloseService(e.Db, checks, audit, e.Clock);
+        var moves = new HousekeepingParser.Operations.RoomMoveService(e.Db, audit, e.Clock);
+        var settings = new HousekeepingParser.Operations.SettingsService(e.Db, audit);
+        var s = await settings.GetAsync(default);
+        await settings.SaveAsync(e.Director, s with
+        {
+            Prices = new HousekeepingParser.Operations.Prices(RoomNovotel: 10m, RoomIbis: 5m, Check: 1m, Hausdame: null, HausdameAssistenz: null,
+                FloorSupervisor: null, Hausmann: null, ExtraReinigung: null, InternalRoom: null),
+        }, default);
+        var dashboard = new HousekeepingParser.Operations.DashboardService(e.Db, settings, checks, e.Clock);
+        var day = e.Clock.Today();
+        string[] Rooms(HotelId h, int n) => HousekeepingParser.Core.RoomInventory.Rooms(h).Take(n).ToArray();
+
+        // Novotel: 3 PM checks, 1 room move. ibis: 1 PM check, 2 room moves.
+        await checks.AddAsync(e.Operations, new(HotelId.Novotel, day, null, "ProjectManager", "PM", Rooms(HotelId.Novotel, 3), null), default);
+        await checks.AddAsync(e.Operations, new(HotelId.IbisBudget, day, null, "ProjectManager", "PM", Rooms(HotelId.IbisBudget, 1), null), default);
+        await moves.AddAsync(e.Operations, new(HotelId.Novotel, Rooms(HotelId.Novotel, 1)[0], null, true, "External", null, null), default);
+        foreach (var room in Rooms(HotelId.IbisBudget, 2))
+            await moves.AddAsync(e.Operations, new(HotelId.IbisBudget, room, null, true, "External", null, null), default);
+
+        // Novotel cleaners clean 20 rooms, ibis cleaners 7.
+        var input = (await closes.GetAsync(day, default)).Input;
+        input = input with
+        {
+            Hotels = input.Hotels.Select(h => h with
+            {
+                FlatRateDay = false,
+                Cleaners = [new HousekeepingParser.Operations.CloseCleaner(null, "A.", h.Hotel == HotelId.Novotel ? 20 : 7, 0, 0, 0, null, null, 0m)],
+            }).ToList(),
+        };
+        await closes.ConfirmAsync(e.Operations, day, input, default);
+
+        var novotel = await dashboard.GetAsync(HousekeepingParser.Operations.DashboardTimeframe.Daily, HotelId.Novotel, day, default);
+        var ibis = await dashboard.GetAsync(HousekeepingParser.Operations.DashboardTimeframe.Daily, HotelId.IbisBudget, day, default);
+        var both = await dashboard.GetAsync(HousekeepingParser.Operations.DashboardTimeframe.Daily, null, day, default);
+
+        Assert.Equal((object)2, novotel.Hotel);
+        Assert.Equal((object)1, ibis.Hotel);
+        Assert.Equal((object)"all", both.Hotel);
+
+        Assert.Equal(20, novotel.Financials.ExternalRoomsCleaned);
+        Assert.Equal(7, ibis.Financials.ExternalRoomsCleaned);
+        Assert.Equal(27, both.Financials.ExternalRoomsCleaned);
+
+        Assert.Equal(3, novotel.Financials.ChecksBilled);
+        Assert.Equal(1, ibis.Financials.ChecksBilled);
+        Assert.Equal(4, both.Financials.ChecksBilled);
+        Assert.Equal(3, novotel.Qa.RangePm);
+        Assert.Equal(1, ibis.Qa.RangePm);
+
+        // Price per room follows the hotel: Novotel 20 x 10 + 3 checks; ibis 7 x 5 + 1 check.
+        Assert.Equal(203m, novotel.Financials.ExternalBilling);
+        Assert.Equal(36m, ibis.Financials.ExternalBilling);
+        Assert.Equal(239m, both.Financials.ExternalBilling);
+
+        Assert.Equal(1, novotel.Workload.RoomMoves);
+        Assert.Equal(2, ibis.Workload.RoomMoves);
+        Assert.Equal(3, both.Workload.RoomMoves);
+    }
+
     private static (string? Colour, string Code) Colour(Functions.HotelRunResultDto hotel, string room)
     {
         var r = hotel.Rooms.Single(x => x.RoomNo == room);
